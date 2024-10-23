@@ -12,7 +12,7 @@ def load_output_json(file_path: Path) -> Dict[str, Any]:
         with open(file_path) as f:
             return json.load(f)
     except json.JSONDecodeError as e:
-        f"Error parsing JSON file {file_path}: {e}"
+        print(f"Error parsing JSON file {file_path}: {e}")
         sys.exit(1)
 
 
@@ -33,7 +33,7 @@ def run_kauma(input_file: Path) -> dict:
         print(f"Unexpected error:")
         print(f"Error type: {type(e).__name__}")
         print(f"Error: {str(e)}")
-        raise
+        sys.exit(1)
 
 
 def main():

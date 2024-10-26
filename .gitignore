@@ -1,10 +1,30 @@
-# Python cache files
 __pycache__/
 *.py[cod]
 *$py.class
+**/__pycache__/
+*.pyc
+.pytest_cache/
 
-# PyCharm files
+venv/
+env/
+ENV/
+
 .idea/
 *.iml
 *.iws
 .idea_modules/
+
+.vscode/
+
+dist/
+build/
+*.egg-info/
+
+.ipynb_checkpoints
+
+htmlcov/
+.coverage
+.coverage.*
+.cache
+coverage.xml
+*.cover

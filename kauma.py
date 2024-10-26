@@ -12,13 +12,13 @@ from sea128 import sea_encrypt, sea_decrypt
 from fde import encrypt_fde, decrypt_fde
 
 
-def poly2block(arguments: Dict[str, Any]) -> Dict[str, Any]:
+def poly2block_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     coefficients = arguments["coefficients"]
     result = Coefficients(coefficients)
     return {"block": result.get_b64_block()}
 
 
-def block2poly(arguments: Dict[str, Any]) -> Dict[str, Any]:
+def block2poly_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     block = arguments["block"]
     result = B64Block(block)
     return {"coefficients": result.get_coefficients()}
@@ -69,8 +69,8 @@ def xex_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 ACTION_PROCESSORS = {
-    "poly2block": poly2block,
-    "block2poly": block2poly,
+    "poly2block": poly2block_action,
+    "block2poly": block2poly_action,
     "gfmul": gfmul_action,
     "sea128": sea128_action,
     "xex": xex_action

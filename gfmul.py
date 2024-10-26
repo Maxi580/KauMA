@@ -16,8 +16,8 @@ def gfmul(a_block: bytes, b_block: bytes) -> bytes:
         raise ValueError(f"Inputs must be non-negative integers less than 2^{FIELD_SIZE}")
 
     result = 0
-    # Normally FIELD_SIZE, but len b should work as well, because if b only has 0s nothing should happen
-    for i in range(len(bin(b_poly)[2:])):
+
+    for i in range(b_poly.bit_length()):
         if b_poly & (1 << i):
             result ^= a_poly
 

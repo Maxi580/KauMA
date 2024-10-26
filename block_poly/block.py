@@ -8,7 +8,7 @@ class Block(Base):
         self._block: bytes = block
         self._b64_block: str = base64.b64encode(self._block).decode()
         self._poly: int = int.from_bytes(self._block, byteorder='little')
-        self._coefficients: list[int] = [i for i in range(len(bin(self._poly)[2:])) if self._poly & (1 << i)]
+        self._coefficients: list[int] = [i for i in range(self._poly.bit_length()) if self._poly & (1 << i)]
 
     def get_b64_block(self) -> str:
         return self._b64_block

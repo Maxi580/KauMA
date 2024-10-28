@@ -5,17 +5,17 @@ class Base(ABC):
     BYTE_LEN = 16
 
     @abstractmethod
-    def get_coefficients(self) -> list[int]:
+    def coefficients(self) -> list[int]:
         pass
 
     @abstractmethod
-    def get_poly(self) -> int:
+    def poly(self) -> int:
         pass
 
     @abstractmethod
-    def get_block(self) -> bytes:
+    def block(self) -> bytes:
         pass
 
     @abstractmethod
-    def get_b64_block(self) -> str:
+    def b64_block(self) -> str:
         pass

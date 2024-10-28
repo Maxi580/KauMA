@@ -18,7 +18,7 @@ def encrypt_fde(key: bytes, tweak: bytes, plaintext: bytes):
     key1, key2 = split_key(key)
 
     xor = sea_encrypt(key2, tweak)
-    alpha = Poly(1 << 1).get_block()
+    alpha = Poly(1 << 1).block
 
     ciphertext = bytearray()
     for i in range(0, len(plaintext), 16):
@@ -41,7 +41,7 @@ def decrypt_fde(key: bytes, tweak: bytes, ciphertext: bytes):
     key1, key2 = split_key(key)
 
     xor = sea_encrypt(key2, tweak)
-    alpha = Poly(1 << 1).get_block()
+    alpha = Poly(1 << 1).block
 
     plaintext = bytearray()
     for i in range(0, len(ciphertext), 16):

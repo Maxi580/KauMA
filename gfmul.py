@@ -10,8 +10,9 @@ REDUCTION_POLYNOM = (1 << 128) | (1 << 7) | (1 << 2) | (1 << 1) | 1
 def _gfmul(a_poly: int, b_poly: int) -> int:
     """Does bit multiplication, but reduces carry if it is bigger than the Reduction Polynom of gf128, so that
        the result can never be bigger than the Reduction Polynom."""
-    if not (0 <= a_poly < (1 << FIELD_SIZE)) or not (0 <= b_poly < (1 << FIELD_SIZE)):
-        raise ValueError(f"Inputs must be non-negative integers less than 2^{FIELD_SIZE}")
+
+    assert (0 <= a_poly < (1 << FIELD_SIZE)) or not (0 <= b_poly < (1 << FIELD_SIZE)), \
+        "Inputs must be non-negative integers less than 2^{FIELD_SIZE}"
 
     result = 0
 
@@ -24,8 +25,7 @@ def _gfmul(a_poly: int, b_poly: int) -> int:
         else:
             a_poly <<= 1
 
-    if not (0 <= result < (1 << FIELD_SIZE)):
-        raise ValueError(f"Result must be non-negative integers less than 2^{FIELD_SIZE}")
+    assert (0 <= result < (1 << FIELD_SIZE)), "Result must be non-negative integers less than 2^{FIELD_SIZE}"
 
     return result
 

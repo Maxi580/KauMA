@@ -9,8 +9,9 @@ from block_poly.b64_block import B64Block
 
 
 from gfmul import xex_gfmul
-from sea128 import sea_encrypt, sea_decrypt
-from fde import encrypt_fde, decrypt_fde
+from sea128 import sea_encrypt, sea_decrypt, aes_encrypt, aes_decrypt
+from xex import encrypt_xex, decrypt_xex
+from gcm import gcm_encrypt
 
 
 def test_poly_2_block():
@@ -74,7 +75,7 @@ def test_fde_encrypt():
     byte_tweak = B64Block(tweak).block
     byte_input = B64Block(input).block
 
-    solution = encrypt_fde(byte_key, byte_tweak, byte_input)
+    solution = encrypt_xex(byte_key, byte_tweak, byte_input)
     b64_solution = Block(solution).b64_block
 
     assert b64_solution == "mHAVhRCKPAPx0BcufG5BZ4+/CbneMV/gRvqK5rtLe0OJgpDU5iT7z2P0R7gEeRDO"
@@ -89,7 +90,7 @@ def test_fde_decrypt():
     byte_tweak = B64Block(tweak).block
     byte_input = B64Block(input).block
 
-    solution = decrypt_fde(byte_key, byte_tweak, byte_input)
+    solution = decrypt_xex(byte_key, byte_tweak, byte_input)
     b64_solution = Block(solution).b64_block
 
     assert b64_solution == "SGV5IHdpZSBrcmFzcyBkYXMgZnVua3Rpb25pZXJ0IGphIG9mZmVuYmFyIGVjaHQu"
@@ -119,4 +120,43 @@ def test_gcm_xex_semantic():
     assert poly_gcm.b64_block == poly_xex.b64_block
     assert poly_gcm.xex_coefficients == poly_xex.xex_coefficients
     assert poly_gcm.gcm_coefficients == poly_xex.gcm_coefficients
+
+
+def test_gcm_encrypt():
+    key = "Xjq/GkpTSWoe3ZH0F+tjrQ=="
+    nonce = "4gF+BtR3ku/PUQci"
+    plaintext = "RGFzIGlzdCBlaW4gVGVzdA=="
+    ad = "QUQtRGF0ZW4="
+
+    byte_key = B64Block(key).block
+    byte_nonce = B64Block(nonce).block
+    byte_plaintext = B64Block(plaintext).block
+    byte_ad = B64Block(ad).block
+
+    ciphertext, tag, L, H = gcm_encrypt(
+        byte_nonce,
+        byte_key,
+        byte_plaintext,
+        byte_ad,
+        aes_encrypt
+    )
+
+    assert Block(ciphertext).b64_block == "ET3RmvH/Hbuxba63EuPRrw=="
+    assert Block(tag).b64_block == "Mp0APJb/ZIURRwQlMgNN/w=="
+    assert Block(L).b64_block == "AAAAAAAAAEAAAAAAAAAAgA=="
+    assert Block(H).b64_block == "Bu6ywbsUKlpmZXMQyuGAng=="
+
+    ciphertext, tag, L, H = gcm_encrypt(
+        byte_nonce,
+        byte_key,
+        byte_plaintext,
+        byte_ad,
+        sea_encrypt
+    )
+
+    assert Block(ciphertext).b64_block == "0cI/Wg4R3URfrVFZ0hw/vg=="
+    assert Block(tag).b64_block == "ysDdzOSnqLH0MQ+Mkb23gw=="
+    assert Block(L).b64_block == "AAAAAAAAAEAAAAAAAAAAgA=="
+    assert Block(H).b64_block == "xhFcAUT66qWIpYz+Ch5ujw=="""
+
 

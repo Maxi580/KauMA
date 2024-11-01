@@ -5,14 +5,13 @@ from block_poly.xex_poly import XEX_Poly
 
 
 def split_key(key: bytes) -> (bytes, bytes):
-    if len(key) % 2 != 0:
-        raise ValueError("Key length must be even")
+    assert len(key) % 2 != 0, "Key length must be even"
 
     middle = len(key) // 2
     return key[:middle], key[middle:]
 
 
-def encrypt_fde(key: bytes, tweak: bytes, plaintext: bytes):
+def encrypt_xex(key: bytes, tweak: bytes, plaintext: bytes):
     key1, key2 = split_key(key)
 
     xor = sea_encrypt(key2, tweak)
@@ -35,7 +34,7 @@ def encrypt_fde(key: bytes, tweak: bytes, plaintext: bytes):
     return bytes(ciphertext)
 
 
-def decrypt_fde(key: bytes, tweak: bytes, ciphertext: bytes):
+def decrypt_xex(key: bytes, tweak: bytes, ciphertext: bytes):
     key1, key2 = split_key(key)
 
     xor = sea_encrypt(key2, tweak)

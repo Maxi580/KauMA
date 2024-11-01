@@ -5,23 +5,23 @@ from typing import Dict, Any
 
 from block_poly.b64_block import B64Block
 from block_poly.block import Block
-from block_poly.coefficients import Coefficients
+from block_poly.xex_coefficients import XEX_Coefficients
 
-from gfmul import gfmul
+from gfmul import xex_gfmul, gcm_gfmul
 from sea128 import sea_encrypt, sea_decrypt
 from fde import encrypt_fde, decrypt_fde
 
 
 def poly2block_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     coefficients = arguments["coefficients"]
-    result = Coefficients(coefficients)
+    result = XEX_Coefficients(coefficients)
     return {"block": result.b64_block}
 
 
 def block2poly_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     block = arguments["block"]
     result = B64Block(block)
-    return {"coefficients": result.coefficients}
+    return {"coefficients": result.xex_coefficients}
 
 
 def gfmul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -31,7 +31,7 @@ def gfmul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     a_block = B64Block(a).block
     b_block = B64Block(b).block
 
-    result = gfmul(a_block, b_block)
+    result = xex_gfmul(a_block, b_block)
 
     return {"product": Block(result).b64_block}
 

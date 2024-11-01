@@ -1,22 +1,28 @@
 from block_poly.block import Block
-from block_poly.coefficients import Coefficients
+from block_poly.xex_coefficients import XEX_Coefficients
+from block_poly.xex_poly import XEX_Poly
+from block_poly.gcm_coefficients import GCM_Coefficients
+from block_poly.gcm_poly import GCM_Poly
+
+
 from block_poly.b64_block import B64Block
 
-from gfmul import gfmul
+
+from gfmul import xex_gfmul
 from sea128 import sea_encrypt, sea_decrypt
 from fde import encrypt_fde, decrypt_fde
 
 
 def test_poly_2_block():
     coefficients = [12, 127, 9, 0]
-    result = Coefficients(coefficients)
+    result = XEX_Coefficients(coefficients)
     assert result.b64_block == "ARIAAAAAAAAAAAAAAAAAgA=="
 
 
 def test_block_2_poly():
     b64_block = "ARIAAAAAAAAAAAAAAAAAgA=="
     result = B64Block(b64_block)
-    assert result.coefficients == [0, 9, 12, 127]
+    assert result.xex_coefficients == [0, 9, 12, 127]
 
 
 def test_gfmul():
@@ -26,7 +32,7 @@ def test_gfmul():
     a_poly = B64Block(a).block
     b_poly = B64Block(b).block
 
-    result = gfmul(a_poly, b_poly)
+    result = xex_gfmul(a_poly, b_poly)
 
     b64_result = Block(result).b64_block
 
@@ -87,3 +93,30 @@ def test_fde_decrypt():
     b64_solution = Block(solution).b64_block
 
     assert b64_solution == "SGV5IHdpZSBrcmFzcyBkYXMgZnVua3Rpb25pZXJ0IGphIG9mZmVuYmFyIGVjaHQu"
+
+
+def test_gcm_xex_semantic():
+    coefficients = [12, 127, 9, 0]
+
+    coeff_xex = XEX_Coefficients(coefficients)
+
+    gcm_coefficients = coeff_xex.gcm_coefficients
+    coeff_gcm = GCM_Coefficients(gcm_coefficients)
+
+    assert coeff_xex.block == coeff_gcm.block
+    assert coeff_xex.b64_block == coeff_gcm.b64_block
+    assert coeff_gcm.xex_coefficients == coeff_xex.xex_coefficients
+    assert coeff_gcm.gcm_coefficients == coeff_gcm.gcm_coefficients
+
+    poly = 1 << 127 | 1 << 12 | 1 << 9 | 1
+
+    poly_xex = XEX_Poly(poly)
+
+    gcm_poly = poly_xex.gcm_poly
+    poly_gcm = GCM_Poly(gcm_poly)
+
+    assert poly_gcm.block == poly_xex.block
+    assert poly_gcm.b64_block == poly_xex.b64_block
+    assert poly_gcm.xex_coefficients == poly_xex.xex_coefficients
+    assert poly_gcm.gcm_coefficients == poly_xex.gcm_coefficients
+

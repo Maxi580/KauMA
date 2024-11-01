@@ -1,9 +1,7 @@
 from sea128 import sea_encrypt, sea_decrypt
-from gfmul import gfmul
+from gfmul import xex_gfmul
 
-from block_poly.b64_block import B64Block
-from block_poly.block import Block
-from block_poly.poly import Poly
+from block_poly.xex_poly import XEX_Poly
 
 
 def split_key(key: bytes) -> (bytes, bytes):
@@ -18,7 +16,7 @@ def encrypt_fde(key: bytes, tweak: bytes, plaintext: bytes):
     key1, key2 = split_key(key)
 
     xor = sea_encrypt(key2, tweak)
-    alpha = Poly(1 << 1).block
+    alpha = XEX_Poly(1 << 1).block
 
     ciphertext = bytearray()
     for i in range(0, len(plaintext), 16):
@@ -32,7 +30,7 @@ def encrypt_fde(key: bytes, tweak: bytes, plaintext: bytes):
 
         ciphertext.extend(xor_ciphertext_block)
 
-        xor = gfmul(alpha, xor)
+        xor = xex_gfmul(alpha, xor)
 
     return bytes(ciphertext)
 
@@ -41,7 +39,7 @@ def decrypt_fde(key: bytes, tweak: bytes, ciphertext: bytes):
     key1, key2 = split_key(key)
 
     xor = sea_encrypt(key2, tweak)
-    alpha = Poly(1 << 1).block
+    alpha = XEX_Poly(1 << 1).block
 
     plaintext = bytearray()
     for i in range(0, len(ciphertext), 16):
@@ -55,6 +53,6 @@ def decrypt_fde(key: bytes, tweak: bytes, ciphertext: bytes):
 
         plaintext.extend(xor_plaintext_block)
 
-        xor = gfmul(alpha, xor)
+        xor = xex_gfmul(alpha, xor)
 
     return bytes(plaintext)

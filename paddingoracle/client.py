@@ -1,21 +1,31 @@
 import socket
-from block_poly.b64_block import B64Block
 
 
 class Client:
-    def __init__(self, hostname, port):
-        self.hostname = hostname
+    def __init__(self, host, port):
+        self.host = host
         self.port = port
-        self.sock = None
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.connect((self.host, self.port))
 
-    def connect(self):
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.sock.connect((self.hostname, self.port))
+    def send_q_blocks(self, q_blocks: list[bytes]) -> bytes:
+        length_bytes = len(q_blocks).to_bytes(2, "little")
+        sent = self.socket.send(length_bytes)
+        if sent != 2:
+            raise RuntimeError("Failed to send length bytes")
 
-    def disconnect(self):
-        if self.sock:
-            self.sock.close()
-            self.sock = None
+        for q_block in q_blocks:
+            self.socket.send(q_block)
 
-    def send_data(self, data):
-        pass
+        response = self.socket.recv(len(q_blocks))
+        if not response:
+            raise RuntimeError("Server closed connection")
+
+        return response
+
+    def send_ciphertext(self, ciphertext: bytes):
+        print(f"Sending Ciphertext: {ciphertext}")
+        self.socket.send(ciphertext)
+
+    def close(self):
+        self.socket.close()

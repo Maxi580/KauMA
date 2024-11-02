@@ -14,22 +14,23 @@ class EncryptionStrategy(Protocol):
 BLOCK_SIZE = 16
 
 
-def apply_key_stream(nonce: bytes, key: bytes, plaintext: bytes, encryption_function: EncryptionStrategy) -> bytes:
-    ciphertext = bytearray()
+def apply_key_stream(nonce: bytes, key: bytes, xor_data: bytes, encryption_function: EncryptionStrategy) -> bytes:
+    """Encrypts/ Decrypts"""
+    result = bytearray()
 
     ctr = 2
-    for i in range(0, len(plaintext), BLOCK_SIZE):
-        yi = nonce + ctr.to_bytes(4, byteorder='big')
+    for i in range(0, len(xor_data), BLOCK_SIZE):
+        yi = nonce[-12:] + ctr.to_bytes(4, byteorder='big')
 
         encrypted_y = encryption_function(key, yi)
 
-        plaintext_block = plaintext[i:i + BLOCK_SIZE]
+        plaintext_block = xor_data[i:i + BLOCK_SIZE]
 
-        ciphertext.extend(bytes(x ^ y for x, y in zip(encrypted_y, plaintext_block)))
+        result.extend(bytes(x ^ y for x, y in zip(encrypted_y[:len(plaintext_block)], plaintext_block)))
 
         ctr += 1
 
-    return ciphertext
+    return result
 
 
 def get_auth_key(key: bytes, encryption_function: EncryptionStrategy):
@@ -40,7 +41,7 @@ def get_auth_key(key: bytes, encryption_function: EncryptionStrategy):
 
 def get_j(key: bytes, nonce: bytes, encryption_function: EncryptionStrategy) -> bytes:
     ctr = 1
-    y0 = nonce + ctr.to_bytes(4, byteorder='big')
+    y0 = nonce[-12:] + ctr.to_bytes(4, byteorder='big')
 
     return encryption_function(key, y0)
 
@@ -54,18 +55,27 @@ def get_l(ad: bytes, ciphertext: bytes):
     return L
 
 
+def pad_to_block(data: bytes) -> bytes:
+    if len(data) % BLOCK_SIZE == 0:
+        return data
+    padding_length = BLOCK_SIZE - (len(data) % BLOCK_SIZE)
+    return data + bytes(padding_length)
+
+
 def get_ghash(associated_data: bytes, ciphertext: bytes, auth_key: bytes, L: bytes) -> bytes:
     X = bytes(BLOCK_SIZE)
 
-    for i in range(0, len(associated_data), BLOCK_SIZE):
-        ad_block = associated_data[i:i + BLOCK_SIZE]
+    padded_associated_data = pad_to_block(associated_data)
+    padded_ciphertext = pad_to_block(ciphertext)
+    for i in range(0, len(padded_associated_data), BLOCK_SIZE):
+        ad_block = padded_associated_data[i:i + BLOCK_SIZE]
 
         X = bytes(x ^ y for x, y in zip(X, ad_block))
 
         X = gcm_gfmul(X, auth_key)
 
-    for i in range(0, len(ciphertext), BLOCK_SIZE):
-        ciphertext_block = ciphertext[i:i + BLOCK_SIZE]
+    for i in range(0, len(padded_ciphertext), BLOCK_SIZE):
+        ciphertext_block = padded_ciphertext[i:i + BLOCK_SIZE]
 
         X = bytes(x ^ y for x, y in zip(X, ciphertext_block))
 
@@ -95,7 +105,6 @@ def gcm_encrypt(nonce: bytes, key: bytes, plaintext: bytes, ad: bytes, encryptio
 def gcm_decrypt(nonce: bytes, key: bytes, ciphertext: bytes, ad: bytes, tag: bytes,
                 encryption_function: EncryptionStrategy):
     plaintext = apply_key_stream(nonce, key, ciphertext, encryption_function)
-
 
     auth_key = get_auth_key(key, encryption_function)
     L = get_l(ad, ciphertext)

@@ -158,27 +158,10 @@ def test_gcm_encrypt():
     assert Block(H).b64_block == "xhFcAUT66qWIpYz+Ch5ujw=="""
 
 
-def test_gcm_roundtrip():
-    key = "Xjq/GkpTSWoe3ZH0F+tjrQ=="
-    nonce = "4gF+BtR3ku/PUQci"
-    plaintext = "RGFzIGlzdCBlaW4gVGVzdA=="
-
-    byte_key = B64Block(key).block
-    byte_nonce = B64Block(nonce).block
-    byte_plaintext = B64Block(plaintext).block
-
-    ciphertext = apply_key_stream(byte_nonce, byte_key, byte_plaintext, aes_encrypt)
-
-    decrypted = apply_key_stream(byte_nonce, byte_key, ciphertext, aes_encrypt)
-
-    assert decrypted == byte_plaintext
-    assert Block(decrypted).b64_block == plaintext
-
-
 def test_gcm_decrypt():
     key = "Xjq/GkpTSWoe3ZH0F+tjrQ=="
     nonce = "4gF+BtR3ku/PUQci"
-    ciphertext = "RGFzIGlzdCBlaW4gVGVzdA=="
+    ciphertext = "0cI/Wg4R3URfrVFZ0hw/vg=="
     ad = "QUQtRGF0ZW4="
     tag = "ysDdzOSnqLH0MQ+Mkb23gw=="
 
@@ -197,6 +180,32 @@ def test_gcm_decrypt():
         aes_encrypt
     )
 
+    print(B64Block("RGFzIGlzdCBlaW4gVGVzdA==").block)
+
     assert Block(plaintext).b64_block == "RGFzIGlzdCBlaW4gVGVzdA=="
     assert authentic is True
+
+    key = "ByMrTiLP7isfBDL7vsKkOQ=="
+    nonce = "VOkKCCnH4EYE1z4L"
+    ciphertext = "UdpDzPAafM+y"
+    ad = "UknNF3AKBaF/8GUnFUw="
+    tag = "sN0+1fG+WSOHMswF7IBnZA=="
+
+    byte_key = B64Block(key).block
+    byte_nonce = B64Block(nonce).block
+    byte_ciphertext = B64Block(ciphertext).block
+    byte_ad = B64Block(ad).block
+    byte_tag = B64Block(tag).block
+
+    plaintext, authentic = gcm_decrypt(
+        byte_nonce,
+        byte_key,
+        byte_ciphertext,
+        byte_ad,
+        byte_tag,
+        sea_encrypt
+    )
+
+    assert Block(plaintext).b64_block == "AxSiKm93Gr2+"
+    assert authentic is False
 

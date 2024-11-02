@@ -10,7 +10,7 @@ from block_poly.xex_coefficients import XEX_Coefficients
 from gfmul import xex_gfmul, gcm_gfmul
 from sea128 import sea_encrypt, sea_decrypt, aes_decrypt, aes_encrypt
 from xex import encrypt_xex, decrypt_xex
-from gcm import gcm_encrypt
+from gcm import gcm_encrypt, gcm_decrypt
 
 
 def poly2block_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -52,26 +52,6 @@ def sea128_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     return {"output": Block(result).b64_block}  #
 
 
-def gcm_encrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    algorithm = arguments["algorithm"]
-    nonce = B64Block(arguments["nonce"]).block
-    key = B64Block(arguments["key"]).block
-    plaintext = B64Block(arguments["plaintext"]).block
-    ad = B64Block(arguments["ad"]).block
-
-    if algorithm == "aes128":
-        encrypt_function = aes_encrypt
-    elif algorithm == "sea128":
-        encrypt_function = sea_encrypt
-    else:
-        raise ValueError(f"Unknown GCM algorithm: {algorithm}")
-
-    ciphertext, tag, L, H = gcm_encrypt(nonce, key, plaintext, ad, encrypt_function)
-
-    return {"ciphertext": Block(ciphertext).b64_block, "tag": Block(tag).b64_block, "L": Block(L).b64_block,
-            "H": Block(H).b64_block}
-
-
 def xex_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     mode = arguments["mode"]
     key = B64Block(arguments["key"]).block
@@ -88,13 +68,44 @@ def xex_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     return {"output": Block(result).b64_block}
 
 
+def gcm_encrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    algorithm = arguments["algorithm"]
+    nonce = B64Block(arguments["nonce"]).block
+    key = B64Block(arguments["key"]).block
+    plaintext = B64Block(arguments["plaintext"]).block
+    ad = B64Block(arguments["ad"]).block
+
+    encrypt_function = aes_encrypt if algorithm == "aes128" else sea128_action
+
+    ciphertext, tag, L, H = gcm_encrypt(nonce, key, plaintext, ad, encrypt_function)
+
+    return {"ciphertext": Block(ciphertext).b64_block, "tag": Block(tag).b64_block, "L": Block(L).b64_block,
+            "H": Block(H).b64_block}
+
+
+def gcm_decrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    algorithm = arguments["algorithm"]
+    nonce = B64Block(arguments["nonce"]).block
+    key = B64Block(arguments["key"]).block
+    ciphertext = B64Block(arguments["ciphertext"]).block
+    ad = B64Block(arguments["ad"]).block
+    tag = B64Block(arguments["tag"]).block
+
+    encrypt_function = aes_encrypt if algorithm == "aes128" else sea128_action
+
+    plaintext, authentic = gcm_decrypt(nonce, key, ciphertext, ad, tag, encrypt_function)
+
+    return {"plaintext": Block(plaintext).b64_block, "authentic": Block(authentic).b64_block}
+
+
 ACTION_PROCESSORS = {
     "poly2block": poly2block_action,
     "block2poly": block2poly_action,
     "gfmul": gfmul_action,
     "sea128": sea128_action,
     "xex": xex_action,
-    "gcm_encrypt": gcm_encrypt_action
+    "gcm_encrypt": gcm_encrypt_action,
+    "gcm_decrypt": gcm_decrypt_action
 }
 
 

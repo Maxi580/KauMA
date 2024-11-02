@@ -4,14 +4,12 @@ from block_poly.xex_poly import XEX_Poly
 from block_poly.gcm_coefficients import GCM_Coefficients
 from block_poly.gcm_poly import GCM_Poly
 
-
 from block_poly.b64_block import B64Block
-
 
 from gfmul import xex_gfmul
 from sea128 import sea_encrypt, sea_decrypt, aes_encrypt, aes_decrypt
 from xex import encrypt_xex, decrypt_xex
-from gcm import gcm_encrypt
+from gcm import gcm_encrypt, gcm_decrypt, apply_key_stream
 
 
 def test_poly_2_block():
@@ -159,4 +157,46 @@ def test_gcm_encrypt():
     assert Block(L).b64_block == "AAAAAAAAAEAAAAAAAAAAgA=="
     assert Block(H).b64_block == "xhFcAUT66qWIpYz+Ch5ujw=="""
 
+
+def test_gcm_roundtrip():
+    key = "Xjq/GkpTSWoe3ZH0F+tjrQ=="
+    nonce = "4gF+BtR3ku/PUQci"
+    plaintext = "RGFzIGlzdCBlaW4gVGVzdA=="
+
+    byte_key = B64Block(key).block
+    byte_nonce = B64Block(nonce).block
+    byte_plaintext = B64Block(plaintext).block
+
+    ciphertext = apply_key_stream(byte_nonce, byte_key, byte_plaintext, aes_encrypt)
+
+    decrypted = apply_key_stream(byte_nonce, byte_key, ciphertext, aes_encrypt)
+
+    assert decrypted == byte_plaintext
+    assert Block(decrypted).b64_block == plaintext
+
+
+def test_gcm_decrypt():
+    key = "Xjq/GkpTSWoe3ZH0F+tjrQ=="
+    nonce = "4gF+BtR3ku/PUQci"
+    ciphertext = "RGFzIGlzdCBlaW4gVGVzdA=="
+    ad = "QUQtRGF0ZW4="
+    tag = "ysDdzOSnqLH0MQ+Mkb23gw=="
+
+    byte_key = B64Block(key).block
+    byte_nonce = B64Block(nonce).block
+    byte_ciphertext = B64Block(ciphertext).block
+    byte_ad = B64Block(ad).block
+    byte_tag = B64Block(tag).block
+
+    plaintext, authentic = gcm_decrypt(
+        byte_nonce,
+        byte_key,
+        byte_ciphertext,
+        byte_ad,
+        byte_tag,
+        aes_encrypt
+    )
+
+    assert Block(plaintext).b64_block == "RGFzIGlzdCBlaW4gVGVzdA=="
+    assert authentic is True
 

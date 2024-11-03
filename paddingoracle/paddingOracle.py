@@ -39,7 +39,7 @@ class PaddingOracle:
         bruteforce_messages = []
 
         for i in range(256):
-            bruteforce_value = i.to_bytes(1)
+            bruteforce_value = i.to_bytes(1, 'big')
             new_message = bytearray(self.crafted_message)
             new_message[self.position] = bruteforce_value[0]
 
@@ -64,17 +64,20 @@ class PaddingOracle:
 
         print(f"DC: {dc}")
 
+        print(f"Ciphertext: {self.ciphertext}")
+
         original_iv = self.ciphertext[self.position - 1].to_bytes(1, 'big')
 
         print(f"Original IV: {original_iv}")
 
-        print(f"Result {bytes(a ^ b for a, b in zip(dc, original_iv))}")
+        plaintext = bytes(a ^ b for a, b in zip(dc, original_iv))
+        print(f"Result {plaintext}")
 
-        return bytes(a ^ b for a, b in zip(dc, original_iv))
+        return plaintext
 
     def prepare_next_round(self, successful_message):
         """Increases Padding by 1, position goes left"""
-        self.padding_value = (int.from_bytes(self.padding_value) + 1).to_bytes(1, 'big')
+        self.padding_value = (int.from_bytes(self.padding_value, 'big') + 1).to_bytes(1, 'big')
 
         c = successful_message[self.position].to_bytes(1, 'big')
         dc = bytes(a ^ b for a, b in zip(self.padding_value, c))
@@ -118,7 +121,10 @@ class PaddingOracle:
             self.client.close()
 
 
-ciphertext = b'V\x0c\x91\x1f\xa8\xcf\xd3\xfa\xc3\xbbM\x9f\x97\xd04d'
+ciphertext = B64Block('UHiPfbICIlExsKUclM9Hxg==').block
+plaintext = B64Block("VGhpcyB0aGluZyB3b3Jrcw==").block
+
+print(f"Plaintext: {plaintext}")
 
 client = Client('localhost', 9999)
 pd = PaddingOracle(ciphertext, client)

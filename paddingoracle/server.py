@@ -1,5 +1,7 @@
 import socket
 import secrets
+
+from block_poly.b64_block import B64Block
 from sea128 import aes_decrypt
 import cryptography.hazmat.primitives.padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
@@ -26,12 +28,12 @@ class Server:
     def __init__(self, host='localhost', port=9999):
         self.block_size = 16
         self.key = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-        self.iv = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
         self.cipher = Cipher(
             algorithms.AES(self.key),
-            modes.CBC(self.iv),
+            modes.ECB(),
             backend=default_backend()
         )
+
         self.ciphertext = None
         self.plaintext = None
 
@@ -39,7 +41,7 @@ class Server:
         self.port = port
         self.timeout: float = DEFAULT_TIMEOUT
 
-    def decrypt_cbc(self, data):
+    def decrypt_ecb(self, data):
         decryptor = self.cipher.decryptor()
         return decryptor.update(data) + decryptor.finalize()
 
@@ -48,7 +50,7 @@ class Server:
             self.ciphertext = client_socket.recv(self.block_size)
             print(f"Got Ciphertext: {self.ciphertext}")
 
-            self.plaintext = self.decrypt_cbc(self.ciphertext)
+            self.plaintext = self.decrypt_ecb(self.ciphertext)
             print(f"Plaintext: {self.plaintext}")
 
             while True:
@@ -67,9 +69,12 @@ class Server:
                 for _ in range(length):
                     q = client_socket.recv(self.block_size)
 
-                    decrypted_q = self.decrypt_cbc(q)
+                    plaintext_xor = xor_bytes(q, self.plaintext)
 
-                    is_valid = check_pkcs7_padding(decrypted_q)
+                    is_valid = check_pkcs7_padding(plaintext_xor)
+
+                    if is_valid:
+                        print(f"VALID FOUND: {q}")
 
                     responses.append(b'\x01' if is_valid else b'\x00')
 

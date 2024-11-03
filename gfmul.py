@@ -46,4 +46,3 @@ def gcm_gfmul(a_block: bytes, b_block: bytes) -> bytes:
     result = _gfmul(a_poly, b_poly)
 
     return GCM_Poly(result).block
-

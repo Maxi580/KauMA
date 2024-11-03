@@ -5,6 +5,7 @@ from typing import Dict, Any
 
 from block_poly.b64_block import B64Block
 from block_poly.block import Block
+from block_poly.gcm_coefficients import GCM_Coefficients
 from block_poly.xex_coefficients import XEX_Coefficients
 
 from gfmul import xex_gfmul, gcm_gfmul
@@ -12,17 +13,32 @@ from sea128 import sea_encrypt, sea_decrypt, aes_decrypt, aes_encrypt
 from xex import encrypt_xex, decrypt_xex
 from gcm import gcm_encrypt, gcm_decrypt
 
+ENCRYPT_MODE = "encrypt"
+DECRYPT_MODE = "decrypt"
+AES_128_ALGORITHM = "aes128"
+XEX_SEMANTIC = "xex"
 
 def poly2block_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     coefficients = arguments["coefficients"]
-    result = XEX_Coefficients(coefficients)
+    semantic = arguments["semantic"]
+
+    if semantic == XEX_SEMANTIC:
+        result = XEX_Coefficients(coefficients)
+    else:
+        result = GCM_Coefficients(coefficients)
     return {"block": result.b64_block}
 
 
 def block2poly_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     block = arguments["block"]
-    result = B64Block(block)
-    return {"coefficients": result.xex_coefficients}
+    semantic = arguments["semantic"]
+
+    if semantic == XEX_SEMANTIC:
+        result = B64Block(block).xex_coefficients
+    else:
+        result = B64Block(block).gcm_coefficients
+
+    return {"coefficients": result}
 
 
 def gfmul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -42,9 +58,9 @@ def sea128_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     key = B64Block(arguments["key"]).block
     input_data = B64Block(arguments["input"]).block
 
-    if mode == "encrypt":
+    if mode == ENCRYPT_MODE:
         result = sea_encrypt(key, input_data)
-    elif mode == "decrypt":
+    elif mode == DECRYPT_MODE:
         result = sea_decrypt(key, input_data)
     else:
         raise ValueError(f"Unknown SEA-128 mode: {mode}")
@@ -58,9 +74,9 @@ def xex_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     tweak = B64Block(arguments["tweak"]).block
     input_data = B64Block(arguments["input"]).block
 
-    if mode == "encrypt":
+    if mode == ENCRYPT_MODE:
         result = encrypt_xex(key, tweak, input_data)
-    elif mode == "decrypt":
+    elif mode == DECRYPT_MODE:
         result = decrypt_xex(key, tweak, input_data)
     else:
         raise ValueError(f"Unknown XEX mode: {mode}")
@@ -75,7 +91,7 @@ def gcm_encrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     plaintext = B64Block(arguments["plaintext"]).block
     ad = B64Block(arguments["ad"]).block
 
-    encrypt_function = aes_encrypt if algorithm == "aes128" else sea128_action
+    encrypt_function = aes_encrypt if algorithm == AES_128_ALGORITHM else sea128_action
 
     ciphertext, tag, L, H = gcm_encrypt(nonce, key, plaintext, ad, encrypt_function)
 
@@ -91,7 +107,7 @@ def gcm_decrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     ad = B64Block(arguments["ad"]).block
     tag = B64Block(arguments["tag"]).block
 
-    encrypt_function = aes_encrypt if algorithm == "aes128" else sea128_action
+    encrypt_function = aes_encrypt if algorithm == AES_128_ALGORITHM else sea128_action
 
     plaintext, authentic = gcm_decrypt(nonce, key, ciphertext, ad, tag, encrypt_function)
 

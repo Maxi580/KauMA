@@ -177,10 +177,8 @@ def test_gcm_decrypt():
         byte_ciphertext,
         byte_ad,
         byte_tag,
-        aes_encrypt
+        sea_encrypt
     )
-
-    print(B64Block("RGFzIGlzdCBlaW4gVGVzdA==").block)
 
     assert Block(plaintext).b64_block == "RGFzIGlzdCBlaW4gVGVzdA=="
     assert authentic is True

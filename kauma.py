@@ -112,7 +112,7 @@ def gcm_decrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     plaintext, authentic = gcm_decrypt(nonce, key, ciphertext, ad, tag, encrypt_function)
 
-    return {"plaintext": Block(plaintext).b64_block, "authentic": Block(authentic).b64_block}
+    return {"plaintext": Block(plaintext).b64_block, "authentic": authentic}
 
 
 ACTION_PROCESSORS = {
@@ -138,7 +138,7 @@ def process_testcases(input_json):
             func = ACTION_PROCESSORS[action]
             responses[test_id] = func(arguments)
 
-    return {"responses ": responses}
+    return {"responses": responses}
 
 
 def main():

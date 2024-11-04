@@ -65,7 +65,7 @@ def sea128_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     else:
         raise ValueError(f"Unknown SEA-128 mode: {mode}")
 
-    return {"output": Block(result).b64_block}  #
+    return {"output": Block(result).b64_block}
 
 
 def xex_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -91,7 +91,7 @@ def gcm_encrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     plaintext = B64Block(arguments["plaintext"]).block
     ad = B64Block(arguments["ad"]).block
 
-    encrypt_function = aes_encrypt if algorithm == AES_128_ALGORITHM else sea128_action
+    encrypt_function = aes_encrypt if algorithm == AES_128_ALGORITHM else sea_encrypt
 
     ciphertext, tag, L, H = gcm_encrypt(nonce, key, plaintext, ad, encrypt_function)
 

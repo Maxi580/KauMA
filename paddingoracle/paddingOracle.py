@@ -52,12 +52,11 @@ class PaddingOracle:
         return dc
 
     def _increase_padding(self):
-        print(f"DC in in increase Padding: {self.found_dc}")
-        for i in range(1, self.padding_value + 1):
-            print(f"Increased Padding: {self.padding_value + 1}")
-            self.crafted_message[-i] = self.found_dc[-i] ^ (self.padding_value + 1)
-
         self.padding_value += 1
+        print(f"DC in in increase Padding: {self.found_dc}")
+        for i in range(1, self.padding_value):
+            print(f"Increased Padding: {self.padding_value}")
+            self.crafted_message[-i] = self.found_dc[-i] ^ self.padding_value
 
     def attack_block(self):
         try:
@@ -83,7 +82,7 @@ class PaddingOracle:
 
                 successful_message = successful_messages[0]
                 self.found_dc[self.position] = self._calculate_dc(successful_message)
-                print(f"Found Dc: {self.found_dc}")
+                print(f"Found Dc: {self.found_dc[self.position]}")
 
                 self._increase_padding()
                 print(f"Crafted Message: {self.crafted_message}")

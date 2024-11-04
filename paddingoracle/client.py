@@ -24,7 +24,6 @@ class Client:
         return response
 
     def send_ciphertext(self, ciphertext: bytes):
-        print(f"Sending Ciphertext: {ciphertext}")
         self.socket.send(ciphertext)
 
     def close(self):

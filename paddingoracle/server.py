@@ -1,13 +1,11 @@
 import socket
-import secrets
 
-from block_poly.b64_block import B64Block
-from sea128 import aes_decrypt
 import cryptography.hazmat.primitives.padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
 DEFAULT_TIMEOUT: float = 10.0
+BLOCK_SIZE = 16
 
 
 def xor_bytes(a: bytes, b: bytes) -> bytes:
@@ -25,9 +23,8 @@ def check_pkcs7_padding(pt):
 
 
 class Server:
-    def __init__(self, host='localhost', port=9999):
-        self.block_size = 16
-        self.key = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+    def __init__(self, host, port, key):
+        self.key = key
         self.cipher = Cipher(
             algorithms.AES(self.key),
             modes.ECB(),
@@ -47,7 +44,7 @@ class Server:
 
     def handle_client(self, client_socket):
         try:
-            self.ciphertext = client_socket.recv(self.block_size)
+            self.ciphertext = client_socket.recv(BLOCK_SIZE)
             self.plaintext = self.decrypt_ecb(self.ciphertext)
 
             while True:
@@ -64,14 +61,11 @@ class Server:
 
                 responses = []
                 for _ in range(length):
-                    q = client_socket.recv(self.block_size)
+                    q = client_socket.recv(BLOCK_SIZE)
 
                     plaintext_xor = xor_bytes(q, self.plaintext)
 
                     is_valid = check_pkcs7_padding(plaintext_xor)
-
-                    if is_valid:
-                        print(plaintext_xor.hex())
 
                     responses.append(b'\x01' if is_valid else b'\x00')
 
@@ -89,16 +83,12 @@ class Server:
         server.bind((self.host, self.port))
         server.listen(1)
 
-        print(f"Server started on {self.host}:{self.port}")
-        print(f"Using key: {self.key.hex()}")
-
         try:
             while True:
                 try:
                     client, addr = server.accept()
-                    print(f"Accepted connection from {addr}")
                     self.handle_client(client)
-                    print(f"Closed connection from {addr}")
+
                 except socket.timeout:
                     continue
                 except Exception as e:
@@ -107,10 +97,4 @@ class Server:
         except KeyboardInterrupt:
             print("\nShutting down server")
         finally:
-            print("Closing server")
             server.close()
-
-
-if __name__ == '__main__':
-    server = Server()
-    server.run()

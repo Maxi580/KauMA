@@ -12,6 +12,7 @@ from gfmul import xex_gfmul, gcm_gfmul
 from sea128 import sea_encrypt, sea_decrypt, aes_decrypt, aes_encrypt
 from xex import encrypt_xex, decrypt_xex
 from gcm import gcm_encrypt, gcm_decrypt
+from paddingoracle.paddingOracle import get_plaintext
 
 ENCRYPT_MODE = "encrypt"
 DECRYPT_MODE = "decrypt"
@@ -45,11 +46,15 @@ def block2poly_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 def gfmul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     a = arguments["a"]
     b = arguments["b"]
+    semantic = arguments["semantic"]
 
     a_block = B64Block(a).block
     b_block = B64Block(b).block
 
-    result = xex_gfmul(a_block, b_block)
+    if semantic == XEX_SEMANTIC:
+        result = xex_gfmul(a_block, b_block)
+    else:
+        result = gcm_gfmul(a_block, b_block)
 
     return {"product": Block(result).b64_block}
 
@@ -115,6 +120,17 @@ def gcm_decrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     return {"plaintext": Block(plaintext).b64_block, "authentic": authentic}
 
 
+def padding_oracle_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    hostname = arguments["hostname"]
+    port = arguments["port"]
+    iv = B64Block(arguments["iv"]).block
+    ciphertext = B64Block(arguments["ciphertext"]).block
+
+    plaintext = get_plaintext(ciphertext, iv, hostname, port)
+
+    return {"plaintext": Block(plaintext).b64_block}
+
+
 ACTION_PROCESSORS = {
     "poly2block": poly2block_action,
     "block2poly": block2poly_action,
@@ -122,7 +138,8 @@ ACTION_PROCESSORS = {
     "sea128": sea128_action,
     "xex": xex_action,
     "gcm_encrypt": gcm_encrypt_action,
-    "gcm_decrypt": gcm_decrypt_action
+    "gcm_decrypt": gcm_decrypt_action,
+    "padding_oracle": padding_oracle_action
 }
 
 

@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Dict, Any
 import subprocess
 from datetime import datetime
+import pytest
 
 
 def load_output_json(file_path: Path) -> Dict[str, Any]:
@@ -36,7 +37,7 @@ def run_kauma(input_file: Path) -> dict:
         sys.exit(1)
 
 
-def main():
+def run_json_tests():
     test_dir = Path("testcases")
     if not test_dir.exists():
         print("Error: testcases directory not found")
@@ -45,7 +46,7 @@ def main():
     total_tests = 0
     failed_tests = []
 
-    print(f"\nStarting tests at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"\nStarting JSON tests at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("-" * 50)
 
     for input_file in test_dir.glob("*_input.json"):
@@ -71,7 +72,7 @@ def main():
             failed_tests.append(test_name)
 
     print("\n" + "=" * 50)
-    print(f"Test Summary:")
+    print(f"JSON Test Summary:")
     print(f"Total tests: {total_tests}")
     print(f"Passed: {total_tests - len(failed_tests)}")
     print(f"Failed: {len(failed_tests)}")
@@ -80,10 +81,28 @@ def main():
         print("\nFailed tests:")
         for test in failed_tests:
             print(f"- {test}")
+        return False
+    return True
+
+
+def run_randomized_tests():
+    print(f"\nStarting randomized tests at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print("-" * 50)
+
+    result = pytest.main(['-v', 'randomized_test.py'])
+
+    return result == 0
+
+
+def main():
+    json_tests_passed = run_json_tests()
+    pytest_tests_passed = run_randomized_tests()
+
+    if not (json_tests_passed and pytest_tests_passed):
         sys.exit(1)
-    else:
-        print("\nAll tests passed! 🎉")
-        sys.exit(0)
+
+    print("\nAll test suites passed! 🎉")
+    sys.exit(0)
 
 
 if __name__ == "__main__":

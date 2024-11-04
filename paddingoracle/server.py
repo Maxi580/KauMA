@@ -70,6 +70,9 @@ class Server:
 
                     is_valid = check_pkcs7_padding(plaintext_xor)
 
+                    if is_valid:
+                        print(plaintext_xor.hex())
+
                     responses.append(b'\x01' if is_valid else b'\x00')
 
                 client_socket.sendall(b''.join(responses))
@@ -109,7 +112,5 @@ class Server:
 
 
 if __name__ == '__main__':
-    b64_iv = "dxTwbO/hhIeycOTbTnp8QQ=="
-
     server = Server()
     server.run()

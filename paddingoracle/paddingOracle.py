@@ -2,6 +2,8 @@ from block_poly.b64_block import B64Block
 from paddingoracle.client import Client
 import secrets
 
+BLOCK_SIZE = 16
+
 
 def invert_second_last_byte(successful_padding_messages: list[bytes]):
     inverted_messages = []
@@ -23,14 +25,15 @@ def get_messages_with_correct_padding(bruteforce_messages: list[bytes], server_r
 
 
 class PaddingOracle:
-    def __init__(self, ciphertext, client: Client):
+    def __init__(self, ciphertext: bytes, iv: bytes, client: Client):
         self.ciphertext = ciphertext
+        self.iv = iv
 
         self.client = client
 
-        self.crafted_message: bytearray = bytearray(len(self.ciphertext))
-        self.found_dc: bytearray = bytearray(len(self.ciphertext))
-        self.position = len(self.ciphertext) - 1
+        self.crafted_message: bytearray = bytearray(BLOCK_SIZE)
+        self.found_dc: bytearray = bytearray(BLOCK_SIZE)
+        self.position = BLOCK_SIZE - 1
         self.padding_value = 1
 
     def _generate_bruteforce_messages(self) -> list[bytes]:
@@ -46,65 +49,64 @@ class PaddingOracle:
 
     def _calculate_dc(self, successful_padding_message: bytes) -> int:
         q = successful_padding_message[self.position]
-
         dc = self.padding_value ^ q
 
         return dc
 
     def _increase_padding(self):
         self.padding_value += 1
-        print(f"DC in in increase Padding: {self.found_dc}")
         for i in range(1, self.padding_value):
-            print(f"Increased Padding: {self.padding_value}")
             self.crafted_message[-i] = self.found_dc[-i] ^ self.padding_value
 
     def attack_block(self):
-        try:
-            self.client.send_ciphertext(self.ciphertext)
+        self.client.send_ciphertext(self.ciphertext)
 
-            for i in range(len(ciphertext), 0, -1):
-                bruteforce_messages = self._generate_bruteforce_messages()
-                print(f"bruteforce messages: {bruteforce_messages}")
+        for i in range(len(ciphertext), 0, -1):
+            bruteforce_messages = self._generate_bruteforce_messages()
 
-                response = self.client.send_q_blocks(bruteforce_messages)
-                print(f"response: {response}")
+            response = self.client.send_q_blocks(bruteforce_messages)
 
-                successful_messages = get_messages_with_correct_padding(bruteforce_messages, response)
-                print(f"Successful messages: {successful_messages}")
+            successful_messages = get_messages_with_correct_padding(bruteforce_messages, response)
 
-                # In the first iteration if there are more than one correct paddings, invert second last byte
-                if len(successful_messages) > 1:
-                    inverted_messages = invert_second_last_byte(successful_messages)
-                    response = self.client.send_q_blocks(inverted_messages)
-                    successful_messages = get_messages_with_correct_padding(inverted_messages, response)
-                elif len(successful_messages) == 0:
-                    raise Exception("No correct Paddings found")
+            # In the first iteration if there are more than one correct paddings, invert second last byte
+            if len(successful_messages) > 1:
+                inverted_messages = invert_second_last_byte(successful_messages)
+                response = self.client.send_q_blocks(inverted_messages)
+                successful_messages = get_messages_with_correct_padding(inverted_messages, response)
+            elif len(successful_messages) == 0:
+                raise Exception("No correct Paddings found")
 
-                successful_message = successful_messages[0]
-                self.found_dc[self.position] = self._calculate_dc(successful_message)
-                print(f"Found Dc: {self.found_dc[self.position]}")
+            successful_message = successful_messages[0]
+            self.found_dc[self.position] = self._calculate_dc(successful_message)
 
-                self._increase_padding()
-                print(f"Crafted Message: {self.crafted_message}")
+            self._increase_padding()
 
-                self.position -= 1
+            self.position -= 1
 
-            plaintext = bytes(x ^ y for x, y in zip(self.found_dc, self.ciphertext))
-            print(f"Plaintext: {plaintext}")
+        q = iv + self.ciphertext[:len(ciphertext)]
+        plaintext = bytes(x ^ y for x, y in zip(self.found_dc, q))
 
-        finally:
-            print("Closing Connection")
-            self.client.close()
+        self.client.close()
+        return plaintext
+
+
+def attack_ciphertext(ciphertext: bytes, iv: bytes, host: str, port: int):
+    plaintext = bytearray()
+
+    for i in range(0, len(ciphertext), BLOCK_SIZE):
+        current_block = ciphertext[i:i + BLOCK_SIZE]
+        previous_byte = iv if i == 0 else ciphertext[i - 1]
+
+        client = Client(host, port)
+        pd = PaddingOracle(current_block, previous_byte, client)
+        plaintext.extend(pd.attack_block())
+
+    return plaintext
 
 
 ciphertext = B64Block('UHiPfbICIlExsKUclM9Hxg==').block
 plaintext = B64Block("VGhpcyB0aGluZyB3b3Jrcw==").block
 iv = B64Block("dxTwbO/hhIeycOTbTnp8QQ==").block
 
+print(attack_ciphertext(ciphertext, iv, 'localhost', 9999))
 
-print(f"Plaintext: {plaintext}")
-
-client = Client('localhost', 9999)
-pd = PaddingOracle(ciphertext, client)
-
-pd.attack_block()

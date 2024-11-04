@@ -18,6 +18,7 @@ DECRYPT_MODE = "decrypt"
 AES_128_ALGORITHM = "aes128"
 XEX_SEMANTIC = "xex"
 
+
 def poly2block_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     coefficients = arguments["coefficients"]
     semantic = arguments["semantic"]
@@ -107,7 +108,7 @@ def gcm_decrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     ad = B64Block(arguments["ad"]).block
     tag = B64Block(arguments["tag"]).block
 
-    encrypt_function = aes_encrypt if algorithm == AES_128_ALGORITHM else sea128_action
+    encrypt_function = aes_encrypt if algorithm == AES_128_ALGORITHM else sea_encrypt
 
     plaintext, authentic = gcm_decrypt(nonce, key, ciphertext, ad, tag, encrypt_function)
 

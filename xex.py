@@ -5,8 +5,6 @@ from block_poly.xex_poly import XEX_Poly
 
 
 def split_key(key: bytes) -> (bytes, bytes):
-    assert len(key) % 2 != 0, "Key length must be even"
-
     middle = len(key) // 2
     return key[:middle], key[middle:]
 

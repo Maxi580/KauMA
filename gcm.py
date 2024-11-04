@@ -14,7 +14,7 @@ class EncryptionStrategy(Protocol):
 BLOCK_SIZE = 16
 
 
-def apply_key_stream(nonce: bytes, key: bytes, xor_data: bytes, encryption_function: EncryptionStrategy) -> bytes:
+def _apply_key_stream(nonce: bytes, key: bytes, xor_data: bytes, encryption_function: EncryptionStrategy) -> bytes:
     """Encrypts/ Decrypts"""
     result = bytearray()
 
@@ -33,20 +33,20 @@ def apply_key_stream(nonce: bytes, key: bytes, xor_data: bytes, encryption_funct
     return result
 
 
-def get_auth_key(key: bytes, encryption_function: EncryptionStrategy):
+def _get_auth_key(key: bytes, encryption_function: EncryptionStrategy):
     zero_block = bytes(BLOCK_SIZE)
 
     return encryption_function(key, zero_block)
 
 
-def get_j(key: bytes, nonce: bytes, encryption_function: EncryptionStrategy) -> bytes:
+def _get_j(key: bytes, nonce: bytes, encryption_function: EncryptionStrategy) -> bytes:
     ctr = 1
     y0 = nonce[-12:] + ctr.to_bytes(4, byteorder='big')
 
     return encryption_function(key, y0)
 
 
-def get_l(ad: bytes, ciphertext: bytes):
+def _get_l(ad: bytes, ciphertext: bytes):
     ad_length = len(ad) * 8
     cipher_length = len(ciphertext) * 8
 
@@ -55,18 +55,18 @@ def get_l(ad: bytes, ciphertext: bytes):
     return L
 
 
-def pad_to_block(data: bytes) -> bytes:
+def _pad_to_block(data: bytes) -> bytes:
     if len(data) % BLOCK_SIZE == 0:
         return data
     padding_length = BLOCK_SIZE - (len(data) % BLOCK_SIZE)
     return data + bytes(padding_length)
 
 
-def get_ghash(associated_data: bytes, ciphertext: bytes, auth_key: bytes, L: bytes) -> bytes:
+def _get_ghash(associated_data: bytes, ciphertext: bytes, auth_key: bytes, L: bytes) -> bytes:
     X = bytes(BLOCK_SIZE)
 
-    padded_associated_data = pad_to_block(associated_data)
-    padded_ciphertext = pad_to_block(ciphertext)
+    padded_associated_data = _pad_to_block(associated_data)
+    padded_ciphertext = _pad_to_block(ciphertext)
     for i in range(0, len(padded_associated_data), BLOCK_SIZE):
         ad_block = padded_associated_data[i:i + BLOCK_SIZE]
 
@@ -91,12 +91,12 @@ def get_auth_tag(j: bytes, ghash: bytes):
 
 
 def gcm_encrypt(nonce: bytes, key: bytes, plaintext: bytes, ad: bytes, encryption_function: EncryptionStrategy):
-    ciphertext = apply_key_stream(nonce, key, plaintext, encryption_function)
+    ciphertext = _apply_key_stream(nonce, key, plaintext, encryption_function)
 
-    auth_key = get_auth_key(key, encryption_function)
-    L = get_l(ad, ciphertext)
-    j = get_j(key, nonce, encryption_function)
-    ghash = get_ghash(ad, ciphertext, auth_key, L)
+    auth_key = _get_auth_key(key, encryption_function)
+    L = _get_l(ad, ciphertext)
+    j = _get_j(key, nonce, encryption_function)
+    ghash = _get_ghash(ad, ciphertext, auth_key, L)
     auth_tag = get_auth_tag(j, ghash)
 
     return ciphertext, auth_tag, L, auth_key
@@ -104,12 +104,12 @@ def gcm_encrypt(nonce: bytes, key: bytes, plaintext: bytes, ad: bytes, encryptio
 
 def gcm_decrypt(nonce: bytes, key: bytes, ciphertext: bytes, ad: bytes, tag: bytes,
                 encryption_function: EncryptionStrategy):
-    plaintext = apply_key_stream(nonce, key, ciphertext, encryption_function)
+    plaintext = _apply_key_stream(nonce, key, ciphertext, encryption_function)
 
-    auth_key = get_auth_key(key, encryption_function)
-    L = get_l(ad, ciphertext)
-    j = get_j(key, nonce, encryption_function)
-    ghash = get_ghash(ad, ciphertext, auth_key, L)
+    auth_key = _get_auth_key(key, encryption_function)
+    L = _get_l(ad, ciphertext)
+    j = _get_j(key, nonce, encryption_function)
+    ghash = _get_ghash(ad, ciphertext, auth_key, L)
     calculated_auth_tag = get_auth_tag(j, ghash)
     authentic = calculated_auth_tag == tag
 

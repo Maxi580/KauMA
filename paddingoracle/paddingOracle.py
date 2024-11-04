@@ -26,16 +26,14 @@ class PaddingOracle:
     def __init__(self, ciphertext, client: Client):
         self.ciphertext = ciphertext
 
-        self.len_ciphertext = len(self.ciphertext)
-
         self.client = client
 
-        self.crafted_message: bytearray = bytearray(self.len_ciphertext)
-        self.calculated_dc: bytearray = bytearray(self.len_ciphertext)
-        self.position = self.len_ciphertext - 1
-        self.padding_value = (self.len_ciphertext - self.position).to_bytes(1, "big")
+        self.crafted_message: bytearray = bytearray(len(self.ciphertext))
+        self.found_dc: bytearray = bytearray(len(self.ciphertext))
+        self.position = len(self.ciphertext) - 1
+        self.padding_value = 1
 
-    def generate_bruteforce_messages(self) -> list[bytes]:
+    def _generate_bruteforce_messages(self) -> list[bytes]:
         bruteforce_messages = []
 
         for i in range(256):
@@ -43,59 +41,30 @@ class PaddingOracle:
             new_message = bytearray(self.crafted_message)
             new_message[self.position] = bruteforce_value[0]
 
-            if len(new_message) != self.len_ciphertext:
-                raise ValueError(f"{new_message} is not {self.len_ciphertext} Bytes")
-
             bruteforce_messages.append(bytes(new_message))
         return bruteforce_messages
 
-    def calculate_plaintext(self, successful_padding_message: bytes) -> bytes:
-        print("\n\n Calculating Plaintext...")
+    def _calculate_dc(self, successful_padding_message: bytes) -> int:
+        q = successful_padding_message[self.position]
 
-        print(f"Successful Padding Message: {successful_padding_message}")
+        dc = self.padding_value ^ q
 
-        q = successful_padding_message[self.position].to_bytes(1, 'big')
+        return dc
 
-        print(f"Q: {q}")
+    def _increase_padding(self):
+        print(f"DC in in increase Padding: {self.found_dc}")
+        for i in range(1, self.padding_value + 1):
+            print(f"Increased Padding: {self.padding_value + 1}")
+            self.crafted_message[-i] = self.found_dc[-i] ^ (self.padding_value + 1)
 
-        print(f"Padding Value: {self.padding_value}")
-
-        dc = bytes(a ^ b for a, b in zip(self.padding_value, q))
-
-        print(f"DC: {dc}")
-
-        print(f"Ciphertext: {self.ciphertext}")
-
-        original_iv = self.ciphertext[self.position - 1].to_bytes(1, 'big')
-
-        print(f"Original IV: {original_iv}")
-
-        plaintext = bytes(a ^ b for a, b in zip(dc, original_iv))
-        print(f"Result {plaintext}")
-
-        return plaintext
-
-    def prepare_next_round(self, successful_message):
-        """Increases Padding by 1, position goes left"""
-        self.padding_value = (int.from_bytes(self.padding_value, 'big') + 1).to_bytes(1, 'big')
-
-        c = successful_message[self.position].to_bytes(1, 'big')
-        dc = bytes(a ^ b for a, b in zip(self.padding_value, c))
-        self.calculated_dc[self.position] = dc[0]
-
-        for pos in range(self.position, self.len_ciphertext):
-            dc = self.calculated_dc[pos].to_bytes(1, 'big')
-            new_c = bytes(a ^ b for a, b in zip(self.padding_value, dc))
-            self.crafted_message[pos] = new_c[0]
-
-        self.position -= 1
+        self.padding_value += 1
 
     def attack_block(self):
         try:
             self.client.send_ciphertext(self.ciphertext)
 
-            for i in range(1, len(ciphertext) + 1):
-                bruteforce_messages = self.generate_bruteforce_messages()
+            for i in range(len(ciphertext), 0, -1):
+                bruteforce_messages = self._generate_bruteforce_messages()
                 print(f"bruteforce messages: {bruteforce_messages}")
 
                 response = self.client.send_q_blocks(bruteforce_messages)
@@ -113,9 +82,17 @@ class PaddingOracle:
                     raise Exception("No correct Paddings found")
 
                 successful_message = successful_messages[0]
-                plaintext_byte = self.calculate_plaintext(successful_message)
-                print(f"Plaintext Byte: {plaintext_byte}")
-                self.prepare_next_round(successful_message)
+                self.found_dc[self.position] = self._calculate_dc(successful_message)
+                print(f"Found Dc: {self.found_dc}")
+
+                self._increase_padding()
+                print(f"Crafted Message: {self.crafted_message}")
+
+                self.position -= 1
+
+            plaintext = bytes(x ^ y for x, y in zip(self.found_dc, self.ciphertext))
+            print(f"Plaintext: {plaintext}")
+
         finally:
             print("Closing Connection")
             self.client.close()
@@ -123,6 +100,8 @@ class PaddingOracle:
 
 ciphertext = B64Block('UHiPfbICIlExsKUclM9Hxg==').block
 plaintext = B64Block("VGhpcyB0aGluZyB3b3Jrcw==").block
+iv = B64Block("dxTwbO/hhIeycOTbTnp8QQ==").block
+
 
 print(f"Plaintext: {plaintext}")
 

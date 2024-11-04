@@ -48,10 +48,7 @@ class Server:
     def handle_client(self, client_socket):
         try:
             self.ciphertext = client_socket.recv(self.block_size)
-            print(f"Got Ciphertext: {self.ciphertext}")
-
             self.plaintext = self.decrypt_ecb(self.ciphertext)
-            print(f"Plaintext: {self.plaintext}")
 
             while True:
                 length_bytes = client_socket.recv(2)
@@ -73,12 +70,8 @@ class Server:
 
                     is_valid = check_pkcs7_padding(plaintext_xor)
 
-                    if is_valid:
-                        print(f"VALID FOUND: {q}")
-
                     responses.append(b'\x01' if is_valid else b'\x00')
 
-                print(f"Responses: {responses}\n\n")
                 client_socket.sendall(b''.join(responses))
 
         except Exception as e:

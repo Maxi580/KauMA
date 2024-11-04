@@ -9,7 +9,7 @@ from block_poly.b64_block import B64Block
 from gfmul import xex_gfmul
 from sea128 import sea_encrypt, sea_decrypt, aes_encrypt, aes_decrypt
 from xex import encrypt_xex, decrypt_xex
-from gcm import gcm_encrypt, gcm_decrypt, apply_key_stream
+from gcm import gcm_encrypt, gcm_decrypt, _apply_key_stream
 
 
 def test_poly_2_block():

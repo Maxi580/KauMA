@@ -1,6 +1,5 @@
 import threading
 import time
-import pytest
 import secrets
 import random
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes

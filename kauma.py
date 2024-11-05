@@ -12,7 +12,7 @@ from gfmul import xex_gfmul, gcm_gfmul
 from sea128 import sea_encrypt, sea_decrypt, aes_decrypt, aes_encrypt
 from xex import encrypt_xex, decrypt_xex
 from gcm import gcm_encrypt, gcm_decrypt
-from paddingoracle.paddingOracleBlock import get_plaintext
+from paddingoracle.paddingOracle import get_plaintext
 
 ENCRYPT_MODE = "encrypt"
 DECRYPT_MODE = "decrypt"

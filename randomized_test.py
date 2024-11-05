@@ -6,7 +6,7 @@ import random
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
-from paddingoracle.paddingOracleBlock import get_plaintext
+from paddingoracle.paddingOracle import get_plaintext
 from paddingoracle.server import Server
 
 BLOCK_SIZE = 16

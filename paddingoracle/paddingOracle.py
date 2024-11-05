@@ -1,3 +1,4 @@
+from block_poly.b64_block import B64Block
 from paddingoracle.client import Client
 
 BLOCK_SIZE = 16
@@ -113,3 +114,12 @@ def get_plaintext(ciphertext: bytes, iv: bytes, host: str, port: int):
         plaintext.extend(plaintext_block)
 
     return bytes(plaintext)
+
+
+iv = B64Block("dxTwbO/hhIeycOTbTnp8QQ==").block
+ciphertext = B64Block("+OHPcnJd8SYMGqma/+ItAQ==").block
+plaintext = B64Block("VGhpcyB0cmlja2llcjoCIQ==").block
+
+result = get_plaintext(ciphertext, iv, 'localhost', 4200)
+print(plaintext)
+print(result)

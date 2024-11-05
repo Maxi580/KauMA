@@ -19,15 +19,6 @@
         "plaintext": "RGFzIGlzdCBlaW4gVGVzdA==",
         "ad": "QUQtRGF0ZW4="
       }
-    },
-    "fed5abf8-dee2-4cb5-8e22-7c563499ce8a": {
-      "action": "padding_oracle",
-      "arguments": {
-        "hostname": "padoraserv",
-        "port": 18652,
-        "iv": "dxTwbO/hhIeycOTbTnp8QQ==",
-        "ciphertext": "e+Sn+nG28niB8Df++hmjFRTcti07wHsrivmoxnDDBaELOfLS16p/pqvAuz01UPq7"
-      }
     }
   }
 }

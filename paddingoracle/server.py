@@ -38,14 +38,14 @@ class Server:
         self.port = port
         self.timeout: float = DEFAULT_TIMEOUT
 
-    def decrypt_ecb(self, data):
+    def _decrypt_ecb(self, data):
         decryptor = self.cipher.decryptor()
         return decryptor.update(data) + decryptor.finalize()
 
-    def handle_client(self, client_socket):
+    def _handle_client(self, client_socket):
         try:
             self.ciphertext = client_socket.recv(BLOCK_SIZE)
-            self.plaintext = self.decrypt_ecb(self.ciphertext)
+            self.plaintext = self._decrypt_ecb(self.ciphertext)
 
             while True:
                 length_bytes = client_socket.recv(2)
@@ -87,7 +87,7 @@ class Server:
             while True:
                 try:
                     client, addr = server.accept()
-                    self.handle_client(client)
+                    self._handle_client(client)
 
                 except socket.timeout:
                     continue

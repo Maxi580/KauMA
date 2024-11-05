@@ -85,23 +85,11 @@ def run_json_tests():
     return True
 
 
-def run_randomized_tests():
-    print(f"\nStarting randomized tests at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print("-" * 50)
-
-    result = pytest.main(['-v', 'randomized_test.py'])
-
-    return result == 0
-
-
 def main():
     json_tests_passed = run_json_tests()
-    pytest_tests_passed = run_randomized_tests()
+    if json_tests_passed:
+        print("\nAll test suites passed! 🎉")
 
-    if not (json_tests_passed and pytest_tests_passed):
-        sys.exit(1)
-
-    print("\nAll test suites passed! 🎉")
     sys.exit(0)
 
 

@@ -10,12 +10,10 @@ class Client:
 
     def send_q_blocks(self, q_blocks: list[bytes]) -> bytes:
         length_bytes = len(q_blocks).to_bytes(2, "little")
-        sent = self.socket.send(length_bytes)
-        if sent != 2:
-            raise RuntimeError("Failed to send length bytes")
+        self.socket.sendall(length_bytes)
 
         for q_block in q_blocks:
-            self.socket.send(q_block)
+            self.socket.sendall(q_block)
 
         response = self.socket.recv(len(q_blocks))
         if not response:

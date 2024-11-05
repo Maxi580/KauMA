@@ -2,7 +2,7 @@ from block_poly.b64_block import B64Block
 from paddingoracle.client import Client
 
 BLOCK_SIZE = 16
-BRUTEFORCE_CHUNK_SIZE = 32
+BRUTEFORCE_CHUNK_SIZE = 16
 
 
 def invert_second_last_byte(successful_padding_messages: list[bytes]) -> list[bytes]:

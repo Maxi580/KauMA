@@ -16,13 +16,11 @@ class Client:
             self.socket.sendall(q_block)
 
         response = self.socket.recv(len(q_blocks))
-        if not response:
-            raise RuntimeError("Server closed connection")
 
         return response
 
     def send_ciphertext(self, ciphertext: bytes):
-        self.socket.send(ciphertext)
+        self.socket.sendall(ciphertext)
 
     def close(self):
         self.socket.close()

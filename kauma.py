@@ -144,7 +144,6 @@ ACTION_PROCESSORS = {
 
 
 def process_testcases(input_json):
-    """Process all test cases and return results"""
     responses = {}
 
     for test_id, test_data in input_json["testcases"].items():

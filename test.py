@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Dict, Any
 import subprocess
 from datetime import datetime
-import pytest
+from kauma import process_testcases
 
 
 def load_output_json(file_path: Path) -> Dict[str, Any]:
@@ -19,16 +19,12 @@ def load_output_json(file_path: Path) -> Dict[str, Any]:
 
 def run_kauma(input_file: Path) -> dict:
     try:
-        cmd = ['./kauma', str(input_file)]
+        with open(input_file) as f:
+            input_data = json.load(f)
 
-        result = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            check=False
-        )
+        results = process_testcases(input_data)
 
-        return json.loads(result.stdout)
+        return results
 
     except Exception as e:
         print(f"Unexpected error:")

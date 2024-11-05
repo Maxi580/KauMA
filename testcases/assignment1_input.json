@@ -3,12 +3,14 @@
     "55f74969-b33c-4356-9973-ca86c5b9861f": {
       "action": "poly2block",
       "arguments": {
+        "semantic": "xex",
         "coefficients": [12, 127, 9, 0]
       }
     },
     "77803358-e5c0-43af-9b63-949b07129129": {
       "action": "block2poly",
       "arguments": {
+        "semantic": "xex",
         "block": "ARIAAAAAAAAAAAAAAAAAgA=="
       }
     },

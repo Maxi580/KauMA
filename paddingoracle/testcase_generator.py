@@ -1,8 +1,8 @@
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
-
 from block_poly.b64_block import B64Block
-from server import check_pkcs7_padding
+from block_poly.block import Block
+import secrets
 
 
 def pkcs7_pad(data: bytes, block_size: int = 16) -> bytes:
@@ -11,10 +11,10 @@ def pkcs7_pad(data: bytes, block_size: int = 16) -> bytes:
     return data + padding
 
 
-plaintext = pkcs7_pad(b'Hello There Does it Really Really Work?')
+plaintext = pkcs7_pad(b'Hello')
 
-key = bytearray(16)
-iv = B64Block("dxTwbO/hhIeycOTbTnp8QQ==").block
+key = b'\xeeH\xe0\xf4\xd0c\xeb\xd8\xb87\x16\xd3\t\xfe\x87\xce'
+iv = secrets.token_bytes(16)
 
 cipher = Cipher(
     algorithms.AES(key),
@@ -25,10 +25,10 @@ cipher = Cipher(
 encryptor = cipher.encryptor()
 ciphertext = encryptor.update(plaintext) + encryptor.finalize()
 
-print(f"Plaintext: {plaintext}")
-print(f"Key: {key}")
-print(f"IV: {iv}")
-print(f"Ciphertext: {ciphertext}")
+print(f"Plaintext: {Block(plaintext).b64_block}")
+print(f"Key: {Block(key).b64_block}")
+print(f"IV: {Block(iv).b64_block}")
+print(f"Ciphertext: {Block(ciphertext).b64_block}")
 
 
 decryptor = cipher.decryptor()

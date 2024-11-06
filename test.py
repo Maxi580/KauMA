@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 import json
 import sys
+import threading
+import time
 from pathlib import Path
 from typing import Dict, Any
-import subprocess
 from datetime import datetime
+
 from kauma import process_testcases
+from paddingoracle.server import Server
 
 
 def load_output_json(file_path: Path) -> Dict[str, Any]:
@@ -81,7 +84,26 @@ def run_json_tests():
     return True
 
 
+def run_server(server):
+    try:
+        server.run()
+    except Exception as e:
+        print(f"Server error: {e}")
+
+
 def main():
+    host = 'localhost'
+    port = 9999
+    key = b'\xeeH\xe0\xf4\xd0c\xeb\xd8\xb87\x16\xd3\t\xfe\x87\xce'
+
+    server = Server(host, port, key)
+
+    server_thread = threading.Thread(target=run_server, args=(server,))
+    server_thread.daemon = True
+    server_thread.start()
+
+    time.sleep(1)
+
     json_tests_passed = run_json_tests()
     if json_tests_passed:
         print("\nAll test suites passed! 🎉")

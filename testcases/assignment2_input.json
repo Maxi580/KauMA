@@ -19,6 +19,33 @@
         "plaintext": "RGFzIGlzdCBlaW4gVGVzdA==",
         "ad": "QUQtRGF0ZW4="
       }
+    },
+    "3d509ba8-21b6-416c-85ae-d947814057e3": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "cPdyATy4f0nEkz90Pbbgow==",
+        "ciphertext": "ulF+k/CZUJfcUPkfneP6f+uiG/d21xetySEsoOvRnKCh4Fib/suYPPL7dmbtUwi5"
+      }
+    },
+    "10f0ee2b-1f93-41dc-9308-e844f8c74b50": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "JJ8C+W8n/qY5r5zbJgu5Yw==",
+        "ciphertext": "d8StT8rIOBN+tH007F7vTg=="
+      }
+    },
+    "5f6b8338-c4fd-405e-acef-b4d2723588f2": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "ScKwBsgnO5SIY/Y8uG91Rw==",
+        "ciphertext": "xr2tx0HPN84xkpCh6gFEoQ=="
+      }
     }
   }
 }

@@ -1,4 +1,3 @@
-from block_poly.b64_block import B64Block
 from paddingoracle.client import Client
 
 BLOCK_SIZE = 16
@@ -93,8 +92,6 @@ class PaddingOracleBlock:
             self.position -= 1
 
         plaintext = bytes(x ^ y for x, y in zip(self.found_dc, self.iv))
-
-        self.client.close()
         return plaintext
 
 

@@ -98,7 +98,3 @@ class Server:
             print("\nShutting down server")
         finally:
             server.close()
-
-if __name__ == '__main__':
-    server = Server('localhost', 4200, bytearray(16))
-    server.run()

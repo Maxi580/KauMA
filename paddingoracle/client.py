@@ -21,8 +21,8 @@ class Client:
         length_bytes = len(q_blocks).to_bytes(2, "little")
         self.socket.sendall(length_bytes)
 
-        for q_block in q_blocks:
-            self.socket.sendall(q_block)
+        concatenated_blocks = b''.join(q_blocks)
+        self.socket.sendall(concatenated_blocks)
 
         return self._receive_exact(len(q_blocks))
 

@@ -7,6 +7,7 @@ from sea128 import aes_encrypt
 
 
 class EncryptionStrategy(Protocol):
+    """Interface for passed encryption functions"""
     def __call__(self, key: bytes, data: bytes) -> bytes:
         ...
 
@@ -86,7 +87,7 @@ def _get_ghash(associated_data: bytes, ciphertext: bytes, auth_key: bytes, L: by
     return gcm_gfmul(X, auth_key)
 
 
-def get_auth_tag(j: bytes, ghash: bytes):
+def _get_auth_tag(j: bytes, ghash: bytes):
     return bytes(x ^ y for x, y in zip(j, ghash))
 
 
@@ -97,7 +98,7 @@ def gcm_encrypt(nonce: bytes, key: bytes, plaintext: bytes, ad: bytes, encryptio
     L = _get_l(ad, ciphertext)
     j = _get_j(key, nonce, encryption_function)
     ghash = _get_ghash(ad, ciphertext, auth_key, L)
-    auth_tag = get_auth_tag(j, ghash)
+    auth_tag = _get_auth_tag(j, ghash)
 
     return ciphertext, auth_tag, L, auth_key
 
@@ -110,7 +111,7 @@ def gcm_decrypt(nonce: bytes, key: bytes, ciphertext: bytes, ad: bytes, tag: byt
     L = _get_l(ad, ciphertext)
     j = _get_j(key, nonce, encryption_function)
     ghash = _get_ghash(ad, ciphertext, auth_key, L)
-    calculated_auth_tag = get_auth_tag(j, ghash)
+    calculated_auth_tag = _get_auth_tag(j, ghash)
     authentic = calculated_auth_tag == tag
 
     return plaintext, authentic

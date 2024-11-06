@@ -12,7 +12,7 @@ from gfmul import xex_gfmul, gcm_gfmul
 from sea128 import sea_encrypt, sea_decrypt, aes_decrypt, aes_encrypt
 from xex import encrypt_xex, decrypt_xex
 from gcm import gcm_encrypt, gcm_decrypt
-from paddingoracle.paddingOracle import get_plaintext
+from paddingoracle.paddingOracle import padding_oracle_attack
 
 ENCRYPT_MODE = "encrypt"
 DECRYPT_MODE = "decrypt"
@@ -126,7 +126,7 @@ def padding_oracle_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     iv = B64Block(arguments["iv"]).block
     ciphertext = B64Block(arguments["ciphertext"]).block
 
-    plaintext = get_plaintext(ciphertext, iv, hostname, port)
+    plaintext = padding_oracle_attack(ciphertext, iv, hostname, port)
 
     return {"plaintext": Block(plaintext).b64_block}
 

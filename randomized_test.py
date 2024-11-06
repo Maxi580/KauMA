@@ -5,7 +5,7 @@ import random
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
-from paddingoracle.paddingOracle import get_plaintext
+from paddingoracle.paddingOracle import padding_oracle_attack
 from paddingoracle.server import Server
 
 BLOCK_SIZE = 16
@@ -56,7 +56,7 @@ def test_padding_oracle():
             ciphertext = encryptor.update(padded_plaintext) + encryptor.finalize()
 
             start_time = time.time()
-            padded_result = get_plaintext(ciphertext, iv, host, port)
+            padded_result = padding_oracle_attack(ciphertext, iv, host, port)
             end_time = time.time()
 
             execution_time = end_time - start_time

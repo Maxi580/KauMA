@@ -4,7 +4,7 @@ BLOCK_SIZE = 16
 BRUTEFORCE_CHUNK_SIZE = 16
 
 
-def invert_second_last_byte(successful_padding_messages: list[bytes]) -> list[bytes]:
+def _invert_second_last_byte(successful_padding_messages: list[bytes]) -> list[bytes]:
     inverted_messages = []
     for successful_padding_message in successful_padding_messages:
         inverted_message = bytearray(successful_padding_message)
@@ -13,7 +13,7 @@ def invert_second_last_byte(successful_padding_messages: list[bytes]) -> list[by
     return inverted_messages
 
 
-def get_messages_with_correct_padding(bruteforce_messages: list[bytes], server_response: bytes):
+def _get_messages_with_correct_padding(bruteforce_messages: list[bytes], server_response: bytes):
     successful_padding_messages = []
     for idx, response in enumerate(server_response):
         if response == 0x01:
@@ -21,7 +21,7 @@ def get_messages_with_correct_padding(bruteforce_messages: list[bytes], server_r
     return successful_padding_messages
 
 
-class PaddingOracleBlock:
+class PaddingOracleBlockDecryption:
     def __init__(self, ciphertext: bytes, iv: bytes, client: Client):
         self.ciphertext = ciphertext
         self.iv = iv
@@ -69,19 +69,19 @@ class PaddingOracleBlock:
 
                     response = self.client.send_q_blocks(bruteforce_chunk)
 
-                    successful_messages = get_messages_with_correct_padding(bruteforce_chunk, response)
+                    successful_messages = _get_messages_with_correct_padding(bruteforce_chunk, response)
                     if len(successful_messages) > 0:
                         break
 
             else:
                 response = self.client.send_q_blocks(bruteforce_messages)
 
-                successful_messages = get_messages_with_correct_padding(bruteforce_messages, response)
+                successful_messages = _get_messages_with_correct_padding(bruteforce_messages, response)
 
                 if len(successful_messages) > 1:
-                    inverted_messages = invert_second_last_byte(successful_messages)
+                    inverted_messages = _invert_second_last_byte(successful_messages)
                     response = self.client.send_q_blocks(inverted_messages)
-                    successful_messages = get_messages_with_correct_padding(inverted_messages, response)
+                    successful_messages = _get_messages_with_correct_padding(inverted_messages, response)
 
             [successful_message] = successful_messages
 
@@ -96,7 +96,7 @@ class PaddingOracleBlock:
         return plaintext
 
 
-def get_plaintext(ciphertext: bytes, iv: bytes, host: str, port: int):
+def padding_oracle_attack(ciphertext: bytes, iv: bytes, host: str, port: int):
     plaintext = bytearray()
 
     blocks = [iv] + [ciphertext[i:i + BLOCK_SIZE] for i in range(0, len(ciphertext), BLOCK_SIZE)]
@@ -106,7 +106,7 @@ def get_plaintext(ciphertext: bytes, iv: bytes, host: str, port: int):
         iv = blocks[i - 1]
 
         client = Client(host, port)
-        pd = PaddingOracleBlock(current_block, iv, client)
+        pd = PaddingOracleBlockDecryption(current_block, iv, client)
 
         plaintext_block = pd.get_plaintext_block()
         plaintext.extend(plaintext_block)

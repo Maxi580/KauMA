@@ -91,6 +91,7 @@ class PaddingOracleBlock:
 
             self.position -= 1
 
+        self.client.close()
         plaintext = bytes(x ^ y for x, y in zip(self.found_dc, self.iv))
         return plaintext
 

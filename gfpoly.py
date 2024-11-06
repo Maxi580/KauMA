@@ -3,6 +3,8 @@ from block_poly.block import Block
 from block_poly.gcm_poly import GCM_Poly
 from gfmul import gcm_gfmul
 
+FIELD_SIZE = 128
+
 
 def gfpoly_add(a: list[bytes], b: list[bytes]) -> list[bytes]:
     max_len = max(len(a), len(b))
@@ -45,3 +47,17 @@ def gfpoly_pow(a: list[bytes], k: int) -> list[bytes]:
         return gfpoly_mul(squared, a)
     else:
         return squared
+
+
+def gfdiv(a: bytes, b: bytes) -> bytes:
+    """Math Summary: Fermat: b^(2^128 - 1) = 1 => b * b^(2^128 - 2) = 1 => Inverse of b is b^(2^128 - 2)
+       q = a/b => q * b = a => b^-1 * b * q = a * b^-1 => q = a * b^-1
+       Therefore we calculate inverse of b and multiply it with a"""
+
+    power = (1 << FIELD_SIZE) - 2
+
+    b_inv = gfpoly_pow([b], power)
+
+    q = gcm_gfmul(a, b_inv[0])
+    return q
+

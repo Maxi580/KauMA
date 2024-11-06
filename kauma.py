@@ -9,7 +9,7 @@ from block_poly.gcm_coefficients import GCM_Coefficients
 from block_poly.xex_coefficients import XEX_Coefficients
 
 from gfmul import xex_gfmul, gcm_gfmul
-from gfpoly import gfpoly_add, gfpoly_mul, gfpoly_pow
+from gfpoly import gfpoly_add, gfpoly_mul, gfpoly_pow, gfdiv
 from sea128 import sea_encrypt, sea_decrypt, aes_decrypt, aes_encrypt
 from xex import encrypt_xex, decrypt_xex
 from gcm import gcm_encrypt, gcm_decrypt
@@ -173,6 +173,15 @@ def gfpoly_pow_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     return {"Z": result}
 
 
+def gfdiv_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    a = B64Block(arguments["a"]).block
+    b = B64Block(arguments["b"]).block
+
+    q = gfdiv(a, b)
+
+    return {"q": Block(q).b64_block}
+
+
 ACTION_PROCESSORS = {
     "poly2block": poly2block_action,
     "block2poly": block2poly_action,
@@ -184,7 +193,8 @@ ACTION_PROCESSORS = {
     "padding_oracle": padding_oracle_action,
     "gfpoly_add": gfpoly_add_action,
     "gfpoly_mul": gfpoly_mul_action,
-    "gfpoly_pow": gfpoly_pow_action
+    "gfpoly_pow": gfpoly_pow_action,
+    "gfdiv": gfdiv_action,
 }
 
 

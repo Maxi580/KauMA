@@ -1,0 +1,51 @@
+{
+  "testcases": {
+    "34427414-d128-42c9-8ebb-8ad627e21c0c": {
+      "action": "gfpoly_add",
+      "arguments": {
+        "A": [
+              "NeverGonnaGiveYouUpAAA==",
+              "NeverGonnaLetYouDownAA==",
+              "NeverGonnaRunAroundAAA==",
+              "AndDesertYouAAAAAAAAAA=="
+        ],
+        "B": [
+              "KryptoanalyseAAAAAAAAA==",
+              "DHBWMannheimAAAAAAAAAA=="
+        ]
+      }
+    },
+    "e6dde5c7-2a1e-4bd0-8a72-e52ed75103fc": {
+      "action": "gfpoly_mul",
+      "arguments": {
+        "A": [
+              "JAAAAAAAAAAAAAAAAAAAAA==",
+              "wAAAAAAAAAAAAAAAAAAAAA==",
+              "ACAAAAAAAAAAAAAAAAAAAA=="
+        ],
+        "B": [
+              "0AAAAAAAAAAAAAAAAAAAAA==",
+              "IQAAAAAAAAAAAAAAAAAAAA=="
+        ]
+      }
+    },
+      "43f49100-0bf9-450f-9616-41e674ca403c": {
+      "action": "gfpoly_pow",
+      "arguments": {
+        "A": [
+              "JAAAAAAAAAAAAAAAAAAAAA==",
+              "wAAAAAAAAAAAAAAAAAAAAA==",
+              "ACAAAAAAAAAAAAAAAAAAAA=="
+        ],
+        "k": 3
+      }
+    },
+    "fca85fb8-8e1b-4a27-a4fa-d835dbd7c053": {
+      "action": "gfdiv",
+      "arguments": {
+        "a": "JAAAAAAAAAAAAAAAAAAAAA==",
+        "b": "wAAAAAAAAAAAAAAAAAAAAA=="
+      }
+    }
+  }
+}

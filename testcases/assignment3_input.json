@@ -28,6 +28,17 @@
               "IQAAAAAAAAAAAAAAAAAAAA=="
         ]
       }
+    },
+      "43f49100-0bf9-450f-9616-41e674ca403c": {
+      "action": "gfpoly_pow",
+      "arguments": {
+        "A": [
+              "JAAAAAAAAAAAAAAAAAAAAA==",
+              "wAAAAAAAAAAAAAAAAAAAAA==",
+              "ACAAAAAAAAAAAAAAAAAAAA=="
+        ],
+        "k": 3
+      }
     }
   }
 }

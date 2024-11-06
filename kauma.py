@@ -9,7 +9,7 @@ from block_poly.gcm_coefficients import GCM_Coefficients
 from block_poly.xex_coefficients import XEX_Coefficients
 
 from gfmul import xex_gfmul, gcm_gfmul
-from gfpoly_add import gfpoly_add, gfpoly_mul
+from gfpoly import gfpoly_add, gfpoly_mul, gfpoly_pow
 from sea128 import sea_encrypt, sea_decrypt, aes_decrypt, aes_encrypt
 from xex import encrypt_xex, decrypt_xex
 from gcm import gcm_encrypt, gcm_decrypt
@@ -160,6 +160,19 @@ def gfpoly_mul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     return {"P": result}
 
 
+def gfpoly_pow_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    A = arguments["A"]
+    k = arguments["k"]
+
+    A_bytes = [B64Block(poly).block for poly in A]
+
+    Z = gfpoly_pow(A_bytes, k)
+
+    result = [Block(poly).b64_block for poly in Z]
+
+    return {"Z": result}
+
+
 ACTION_PROCESSORS = {
     "poly2block": poly2block_action,
     "block2poly": block2poly_action,
@@ -170,7 +183,8 @@ ACTION_PROCESSORS = {
     "gcm_decrypt": gcm_decrypt_action,
     "padding_oracle": padding_oracle_action,
     "gfpoly_add": gfpoly_add_action,
-    "gfpoly_mul": gfpoly_mul_action
+    "gfpoly_mul": gfpoly_mul_action,
+    "gfpoly_pow": gfpoly_pow_action
 }
 
 

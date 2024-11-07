@@ -3,7 +3,7 @@ import base64
 from functools import cached_property
 
 
-class GCM_Coefficients(Base):
+class GcmCoefficients(Base):
     def __init__(self, coefficients: list[int]):
         self._gcm_coefficients: list[int] = coefficients
 
@@ -17,8 +17,7 @@ class GCM_Coefficients(Base):
 
     @cached_property
     def xex_poly(self) -> int:
-        return (
-            self._calculate_poly_from_coefficients(self.xex_coefficients))
+        return self._calculate_poly_from_coefficients(self.xex_coefficients)
 
     @cached_property
     def gcm_poly(self) -> int:

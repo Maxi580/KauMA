@@ -3,7 +3,7 @@ import base64
 from functools import cached_property
 
 
-class GCM_Poly(Base):
+class GcmPoly(Base):
     def __init__(self, poly: int):
         self._poly: int = poly
 

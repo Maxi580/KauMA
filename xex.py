@@ -1,7 +1,7 @@
 from sea128 import sea_encrypt, sea_decrypt
 from gfmul import xex_gfmul
 
-from block_poly.xex_poly import XEX_Poly
+from block_poly.xexpoly import XexPoly
 
 
 def split_key(key: bytes) -> (bytes, bytes):
@@ -13,7 +13,7 @@ def encrypt_xex(key: bytes, tweak: bytes, plaintext: bytes):
     key1, key2 = split_key(key)
 
     xor = sea_encrypt(key2, tweak)
-    alpha = XEX_Poly(1 << 1).block
+    alpha = XexPoly(1 << 1).block
 
     ciphertext = bytearray()
     for i in range(0, len(plaintext), 16):
@@ -36,7 +36,7 @@ def decrypt_xex(key: bytes, tweak: bytes, ciphertext: bytes):
     key1, key2 = split_key(key)
 
     xor = sea_encrypt(key2, tweak)
-    alpha = XEX_Poly(1 << 1).block
+    alpha = XexPoly(1 << 1).block
 
     plaintext = bytearray()
     for i in range(0, len(ciphertext), 16):

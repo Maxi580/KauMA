@@ -1,6 +1,6 @@
 from block_poly.b64_block import B64Block
 from block_poly.block import Block
-from block_poly.gcm_poly import GCM_Poly
+from block_poly.gcmpoly import GcmPoly
 from gfmul import gcm_gfmul
 
 FIELD_SIZE = 128
@@ -38,7 +38,7 @@ def gfpoly_mul(a: list[bytes], b: list[bytes]) -> list[bytes]:
 
 def gfpoly_pow(a: list[bytes], k: int) -> list[bytes]:
     if k == 0:
-        return [GCM_Poly(1).block]
+        return [GcmPoly(1).block]
 
     half = gfpoly_pow(a, k // 2)
     squared = gfpoly_mul(half, half)

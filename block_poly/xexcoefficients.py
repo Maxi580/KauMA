@@ -5,7 +5,7 @@ import base64
 from functools import cached_property
 
 
-class XEX_Coefficients(Base):
+class XexCoefficients(Base):
     def __init__(self, coefficients: list[int]):
         self._xex_coefficients: list[int] = coefficients
 

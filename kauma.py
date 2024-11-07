@@ -5,8 +5,8 @@ from typing import Dict, Any
 
 from block_poly.b64_block import B64Block
 from block_poly.block import Block
-from block_poly.gcm_coefficients import GCM_Coefficients
-from block_poly.xex_coefficients import XEX_Coefficients
+from block_poly.gcmcoefficients import GcmCoefficients
+from block_poly.xexcoefficients import XexCoefficients
 
 from gfmul import xex_gfmul, gcm_gfmul
 from gfpoly import gfpoly_add, gfpoly_mul, gfpoly_pow, gfdiv
@@ -26,9 +26,9 @@ def poly2block_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     semantic = arguments["semantic"]
 
     if semantic == XEX_SEMANTIC:
-        result = XEX_Coefficients(coefficients)
+        result = XexCoefficients(coefficients)
     else:
-        result = GCM_Coefficients(coefficients)
+        result = GcmCoefficients(coefficients)
     return {"block": result.b64_block}
 
 

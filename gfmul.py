@@ -1,7 +1,7 @@
 from block_poly.b64_block import B64Block
 from block_poly.block import Block
-from block_poly.gcm_poly import GCM_Poly
-from block_poly.xex_poly import XEX_Poly
+from block_poly.gcmpoly import GcmPoly
+from block_poly.xexpoly import XexPoly
 
 FIELD_SIZE = 128
 REDUCTION_POLYNOM = (1 << 128) | (1 << 7) | (1 << 2) | (1 << 1) | 1
@@ -36,7 +36,7 @@ def xex_gfmul(a_block: bytes, b_block: bytes) -> bytes:
 
     result = _gfmul(a_poly, b_poly)
 
-    return XEX_Poly(result).block
+    return XexPoly(result).block
 
 
 def gcm_gfmul(a_block: bytes, b_block: bytes) -> bytes:
@@ -45,4 +45,4 @@ def gcm_gfmul(a_block: bytes, b_block: bytes) -> bytes:
 
     result = _gfmul(a_poly, b_poly)
 
-    return GCM_Poly(result).block
+    return GcmPoly(result).block

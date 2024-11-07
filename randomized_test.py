@@ -38,7 +38,7 @@ def test_padding_oracle():
 
     try:
         cntr = 0
-        while cntr < 1:
+        while cntr < 100:
             plaintext_length = random.randint(1, 100)
             plaintext = secrets.token_bytes(plaintext_length)
 

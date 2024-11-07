@@ -6,6 +6,7 @@ class Client:
         self.host = host
         self.port = port
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         self.socket.connect((self.host, self.port))
 
     def _receive_exact(self, n: int) -> bytes:

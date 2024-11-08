@@ -12,7 +12,7 @@ from galoisfield.galoisfieldelement import GaloisFieldElement
 from crypto_algorithms.sea128 import sea_encrypt, sea_decrypt, aes_encrypt
 from crypto_algorithms.xex import encrypt_xex, decrypt_xex
 from crypto_algorithms.gcm import gcm_encrypt, gcm_decrypt
-from galoisfield.galoisfieldpoly import GaloisFieldPolynomial
+from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from paddingoracle.paddingOracle import padding_oracle_attack
 
 ENCRYPT_MODE = "encrypt"

@@ -89,27 +89,30 @@ def _get_auth_tag(j: bytes, ghash: bytes):
     return bytes(x ^ y for x, y in zip(j, ghash))
 
 
-def gcm_encrypt(nonce: bytes, key: bytes, plaintext: bytes, ad: bytes, encryption_function: EncryptionStrategy):
-    ciphertext = _apply_key_stream(nonce, key, plaintext, encryption_function)
-
+def _compute_gcm_auth_parameters(nonce: bytes, key: bytes, ciphertext: bytes, ad: bytes,
+                                 encryption_function: EncryptionStrategy):
     auth_key = _get_auth_key(key, encryption_function)
     L = _get_l(ad, ciphertext)
     j = _get_j(key, nonce, encryption_function)
     ghash = _get_ghash(ad, ciphertext, auth_key, L)
     auth_tag = _get_auth_tag(j, ghash)
 
+    return auth_tag, L, auth_key
+
+
+def gcm_encrypt(nonce: bytes, key: bytes, plaintext: bytes, ad: bytes, encryption_function: EncryptionStrategy):
+    ciphertext = _apply_key_stream(nonce, key, plaintext, encryption_function)
+
+    auth_tag, L, auth_key = _compute_gcm_auth_parameters(nonce, key, ciphertext, ad, encryption_function)
+
     return ciphertext, auth_tag, L, auth_key
 
 
-def gcm_decrypt(nonce: bytes, key: bytes, ciphertext: bytes, ad: bytes, tag: bytes,
+def gcm_decrypt(nonce: bytes, key: bytes, ciphertext: bytes, ad: bytes, provided_auth_tag: bytes,
                 encryption_function: EncryptionStrategy):
     plaintext = _apply_key_stream(nonce, key, ciphertext, encryption_function)
 
-    auth_key = _get_auth_key(key, encryption_function)
-    L = _get_l(ad, ciphertext)
-    j = _get_j(key, nonce, encryption_function)
-    ghash = _get_ghash(ad, ciphertext, auth_key, L)
-    calculated_auth_tag = _get_auth_tag(j, ghash)
-    authentic = calculated_auth_tag == tag
+    calculated_auth_tag, _, _ = _compute_gcm_auth_parameters(nonce, key, ciphertext, ad, encryption_function)
 
+    authentic = calculated_auth_tag == provided_auth_tag
     return plaintext, authentic

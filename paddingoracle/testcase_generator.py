@@ -1,6 +1,5 @@
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
-from block_poly.b64_block import B64Block
 from block_poly.block import Block
 import secrets
 

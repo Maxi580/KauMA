@@ -3,17 +3,26 @@ import base64
 from functools import cached_property
 
 
-class GcmPoly(Base):
-    def __init__(self, poly: int):
-        self._poly: int = poly
+class Poly(Base):
+    def __init__(self, xex_poly: int, gcm_poly: int):
+        self._xex_poly: int = xex_poly
+        self._gcm_poly: int = gcm_poly
+
+    @classmethod
+    def from_xex_semantic(cls, xex_poly: int):
+        return cls(xex_poly, cls._gcm_bit_inverse(xex_poly))
+
+    @classmethod
+    def from_gcm_semantic(cls, gcm_poly: int):
+        return cls(cls._gcm_bit_inverse(gcm_poly), gcm_poly)
 
     @property
     def gcm_poly(self) -> int:
-        return self._poly
+        return self._gcm_poly
 
-    @cached_property
+    @property
     def xex_poly(self) -> int:
-        return self._gcm_bit_inverse(self.gcm_poly)
+        return self._xex_poly
 
     @cached_property
     def xex_coefficients(self) -> list[int]:

@@ -5,14 +5,14 @@ from typing import Dict, Any
 
 from block_poly.b64_block import B64Block
 from block_poly.block import Block
-from block_poly.gcmcoefficients import GcmCoefficients
-from block_poly.xexcoefficients import XexCoefficients
+from block_poly.coefficients import Coefficients
+from block_poly.poly import Poly
 
-from gfmul import xex_gfmul, gcm_gfmul
-from gfpoly import gfpoly_add, gfpoly_mul, gfpoly_pow, gfdiv
-from sea128 import sea_encrypt, sea_decrypt, aes_decrypt, aes_encrypt
-from xex import encrypt_xex, decrypt_xex
-from gcm import gcm_encrypt, gcm_decrypt
+from galoisfield.galoisfieldelement import GaloisFieldElement
+from crypto_algorithms.sea128 import sea_encrypt, sea_decrypt, aes_encrypt
+from crypto_algorithms.xex import encrypt_xex, decrypt_xex
+from crypto_algorithms.gcm import gcm_encrypt, gcm_decrypt
+from galoisfield.galoisfieldpoly import GaloisFieldPolynomial
 from paddingoracle.paddingOracle import padding_oracle_attack
 
 ENCRYPT_MODE = "encrypt"
@@ -25,10 +25,9 @@ def poly2block_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     coefficients = arguments["coefficients"]
     semantic = arguments["semantic"]
 
-    if semantic == XEX_SEMANTIC:
-        result = XexCoefficients(coefficients)
-    else:
-        result = GcmCoefficients(coefficients)
+    result = Coefficients.from_xex_semantic(coefficients) if semantic == XEX_SEMANTIC else (
+        Coefficients.from_gcm_semantic(coefficients))
+
     return {"block": result.b64_block}
 
 
@@ -36,10 +35,7 @@ def block2poly_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     block = arguments["block"]
     semantic = arguments["semantic"]
 
-    if semantic == XEX_SEMANTIC:
-        result = B64Block(block).xex_coefficients
-    else:
-        result = B64Block(block).gcm_coefficients
+    result = B64Block(block).xex_coefficients if semantic == XEX_SEMANTIC else B64Block(block).gcm_coefficients
 
     return {"coefficients": result}
 
@@ -49,15 +45,14 @@ def gfmul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     b = arguments["b"]
     semantic = arguments["semantic"]
 
-    a_block = B64Block(a).block
-    b_block = B64Block(b).block
+    a_poly = B64Block(a).xex_poly if semantic == XEX_SEMANTIC else B64Block(a).gcm_poly
+    b_poly = B64Block(b).xex_poly if semantic == XEX_SEMANTIC else B64Block(b).gcm_poly
 
-    if semantic == XEX_SEMANTIC:
-        result = xex_gfmul(a_block, b_block)
-    else:
-        result = gcm_gfmul(a_block, b_block)
+    int_result = int(GaloisFieldElement(a_poly) * GaloisFieldElement(b_poly))
+    b64_result = Poly.from_xex_semantic(int_result).b64_block if semantic == XEX_SEMANTIC else (
+        Poly.from_gcm_semantic(int_result).b64_block)
 
-    return {"product": Block(result).b64_block}
+    return {"product": b64_result}
 
 
 def sea128_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -65,12 +60,7 @@ def sea128_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     key = B64Block(arguments["key"]).block
     input_data = B64Block(arguments["input"]).block
 
-    if mode == ENCRYPT_MODE:
-        result = sea_encrypt(key, input_data)
-    elif mode == DECRYPT_MODE:
-        result = sea_decrypt(key, input_data)
-    else:
-        raise ValueError(f"Unknown SEA-128 mode: {mode}")
+    result = sea_encrypt(key, input_data) if mode == ENCRYPT_MODE else sea_decrypt(key, input_data)
 
     return {"output": Block(result).b64_block}
 
@@ -81,12 +71,7 @@ def xex_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     tweak = B64Block(arguments["tweak"]).block
     input_data = B64Block(arguments["input"]).block
 
-    if mode == ENCRYPT_MODE:
-        result = encrypt_xex(key, tweak, input_data)
-    elif mode == DECRYPT_MODE:
-        result = decrypt_xex(key, tweak, input_data)
-    else:
-        raise ValueError(f"Unknown XEX mode: {mode}")
+    result = encrypt_xex(key, tweak, input_data) if mode == ENCRYPT_MODE else decrypt_xex(key, tweak, input_data)
 
     return {"output": Block(result).b64_block}
 
@@ -136,50 +121,44 @@ def gfpoly_add_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     A = arguments["A"]
     B = arguments["B"]
 
-    A_bytes = [B64Block(poly).block for poly in A]
-    B_bytes = [B64Block(poly).block for poly in B]
+    gfp_a = GaloisFieldPolynomial.from_b64_gcm(A)
+    gfp_b = GaloisFieldPolynomial.from_b64_gcm(B)
 
-    S = gfpoly_add(A_bytes, B_bytes)
+    S = gfp_a + gfp_b
 
-    result = [Block(poly).b64_block for poly in S]
-
-    return {"S": result}
+    return {"S": S.to_b64_list_gcm()}
 
 
 def gfpoly_mul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     A = arguments["A"]
     B = arguments["B"]
 
-    A_bytes = [B64Block(poly).block for poly in A]
-    B_bytes = [B64Block(poly).block for poly in B]
+    gfp_a = GaloisFieldPolynomial.from_b64_gcm(A)
+    gfp_b = GaloisFieldPolynomial.from_b64_gcm(B)
 
-    S = gfpoly_mul(A_bytes, B_bytes)
+    S = gfp_a * gfp_b
 
-    result = [Block(poly).b64_block for poly in S]
-
-    return {"P": result}
+    return {"P": S.to_b64_list_gcm()}
 
 
 def gfpoly_pow_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     A = arguments["A"]
     k = arguments["k"]
 
-    A_bytes = [B64Block(poly).block for poly in A]
+    gfp_a = GaloisFieldPolynomial.from_b64_gcm(A)
 
-    Z = gfpoly_pow(A_bytes, k)
+    Z = gfp_a ** k
 
-    result = [Block(poly).b64_block for poly in Z]
-
-    return {"Z": result}
+    return {"Z": Z.to_b64_list_gcm()}
 
 
 def gfdiv_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    a = B64Block(arguments["a"]).block
-    b = B64Block(arguments["b"]).block
+    a = B64Block(arguments["a"]).gcm_poly
+    b = B64Block(arguments["b"]).gcm_poly
 
-    q = gfdiv(a, b)
+    q = int(GaloisFieldElement(a) / GaloisFieldElement(b))
 
-    return {"q": Block(q).b64_block}
+    return {"q": Poly.from_gcm_semantic(q).b64_block}
 
 
 ACTION_PROCESSORS = {

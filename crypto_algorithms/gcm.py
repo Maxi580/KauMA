@@ -1,13 +1,10 @@
 from typing import Protocol
-
-from block_poly.b64_block import B64Block
-from block_poly.block import Block
-from gfmul import gcm_gfmul
-from sea128 import aes_encrypt
+from galoisfield.galoisfieldelement import GaloisFieldElement
 
 
 class EncryptionStrategy(Protocol):
     """Interface for passed encryption functions"""
+
     def __call__(self, key: bytes, data: bytes) -> bytes:
         ...
 
@@ -63,28 +60,29 @@ def _pad_to_block(data: bytes) -> bytes:
     return data + bytes(padding_length)
 
 
+def _process_blocks(X: bytes, data: bytes, auth_key: bytes):
+    for i in range(0, len(data), BLOCK_SIZE):
+        ad_block = data[i:i + BLOCK_SIZE]
+
+        X = bytes(x ^ y for x, y in zip(X, ad_block))
+
+        X = (GaloisFieldElement.from_block_gcm(X) * GaloisFieldElement.from_block_gcm(auth_key)).to_block_gcm()
+    return X
+
+
 def _get_ghash(associated_data: bytes, ciphertext: bytes, auth_key: bytes, L: bytes) -> bytes:
     X = bytes(BLOCK_SIZE)
 
     padded_associated_data = _pad_to_block(associated_data)
     padded_ciphertext = _pad_to_block(ciphertext)
-    for i in range(0, len(padded_associated_data), BLOCK_SIZE):
-        ad_block = padded_associated_data[i:i + BLOCK_SIZE]
 
-        X = bytes(x ^ y for x, y in zip(X, ad_block))
+    X = _process_blocks(X, padded_associated_data, auth_key)
 
-        X = gcm_gfmul(X, auth_key)
-
-    for i in range(0, len(padded_ciphertext), BLOCK_SIZE):
-        ciphertext_block = padded_ciphertext[i:i + BLOCK_SIZE]
-
-        X = bytes(x ^ y for x, y in zip(X, ciphertext_block))
-
-        X = gcm_gfmul(X, auth_key)
+    X = _process_blocks(X, padded_ciphertext, auth_key)
 
     X = bytes(x ^ y for x, y in zip(X, L))
 
-    return gcm_gfmul(X, auth_key)
+    return (GaloisFieldElement.from_block_gcm(X) * GaloisFieldElement.from_block_gcm(auth_key)).to_block_gcm()
 
 
 def _get_auth_tag(j: bytes, ghash: bytes):

@@ -1,7 +1,6 @@
-from sea128 import sea_encrypt, sea_decrypt
-from gfmul import xex_gfmul
-
-from block_poly.xexpoly import XexPoly
+from crypto_algorithms.sea128 import sea_encrypt, sea_decrypt
+from block_poly.poly import Poly
+from galoisfield.galoisfieldelement import GaloisFieldElement
 
 
 def split_key(key: bytes) -> (bytes, bytes):
@@ -13,7 +12,7 @@ def encrypt_xex(key: bytes, tweak: bytes, plaintext: bytes):
     key1, key2 = split_key(key)
 
     xor = sea_encrypt(key2, tweak)
-    alpha = XexPoly(1 << 1).block
+    alpha = Poly.from_xex_semantic(1 << 1).block
 
     ciphertext = bytearray()
     for i in range(0, len(plaintext), 16):
@@ -27,7 +26,7 @@ def encrypt_xex(key: bytes, tweak: bytes, plaintext: bytes):
 
         ciphertext.extend(xor_ciphertext_block)
 
-        xor = xex_gfmul(alpha, xor)
+        xor = (GaloisFieldElement.from_block_xex(alpha) * GaloisFieldElement.from_block_xex(xor)).to_block_xex()
 
     return bytes(ciphertext)
 
@@ -36,7 +35,7 @@ def decrypt_xex(key: bytes, tweak: bytes, ciphertext: bytes):
     key1, key2 = split_key(key)
 
     xor = sea_encrypt(key2, tweak)
-    alpha = XexPoly(1 << 1).block
+    alpha = Poly.from_xex_semantic(1 << 1).block
 
     plaintext = bytearray()
     for i in range(0, len(ciphertext), 16):
@@ -50,6 +49,6 @@ def decrypt_xex(key: bytes, tweak: bytes, ciphertext: bytes):
 
         plaintext.extend(xor_plaintext_block)
 
-        xor = xex_gfmul(alpha, xor)
+        xor = (GaloisFieldElement.from_block_xex(alpha) * GaloisFieldElement.from_block_xex(xor)).to_block_xex()
 
     return bytes(plaintext)

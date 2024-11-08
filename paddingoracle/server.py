@@ -8,10 +8,6 @@ DEFAULT_TIMEOUT: float = 10.0
 BLOCK_SIZE = 16
 
 
-def xor_bytes(a: bytes, b: bytes) -> bytes:
-    return bytes(x ^ y for x, y in zip(a, b))
-
-
 def check_pkcs7_padding(pt):
     padder = cryptography.hazmat.primitives.padding.PKCS7(128).unpadder()
     padder.update(pt)
@@ -63,7 +59,7 @@ class Server:
                 for _ in range(length):
                     q = client_socket.recv(BLOCK_SIZE)
 
-                    plaintext_xor = xor_bytes(q, self.plaintext)
+                    plaintext_xor = bytes(x ^ y for x, y in zip(q, self.plaintext))
 
                     is_valid = check_pkcs7_padding(plaintext_xor)
 

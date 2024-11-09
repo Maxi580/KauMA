@@ -14,8 +14,20 @@ class GaloisFieldPolynomial:
     def to_gfe_list(self) -> list[GaloisFieldElement]:
         return self._poly
 
+    def to_int_list_gcm(self) -> list[int]:
+        return [int(gfe) for gfe in self._poly]
+
     def to_b64_list_gcm(self) -> list[str]:
         return [Block(gfe.to_block_gcm()).b64_block for gfe in self._poly]
+
+    def __getitem__(self, index: int) -> GaloisFieldElement:
+        return self._poly[index]
+
+    def __setitem__(self, index: int, value: GaloisFieldElement):
+        self._poly[index] = value
+
+    def __iter__(self):
+        return iter(self._poly)
 
     def __len__(self) -> int:
         return len(self._poly)
@@ -63,3 +75,34 @@ class GaloisFieldPolynomial:
             return squared * self
         else:
             return squared
+
+    def __divmod__(self, b: 'GaloisFieldPolynomial'):
+        q = []
+        r = GaloisFieldPolynomial(self._poly.copy())
+
+        while len(b) > 0 and int(b[-1]) == 0:
+            b._poly.pop()
+
+        while len(r) >= len(b) and int(r[-1]) != 0:
+            r_deg = len(r) - 1
+            b_deg = len(b) - 1
+            deg_diff = r_deg - b_deg
+
+            quotient_coeff = r[-1] / b[-1]
+
+            # Increase Quotient
+            while len(q) <= deg_diff:
+                q.append(GaloisFieldElement(0))
+            q[deg_diff] = quotient_coeff
+
+            # Reduce Remainder
+            for idx, gfe in enumerate(b):
+                pos = deg_diff + idx
+                prod = quotient_coeff * gfe
+
+                r[pos] = r[pos] ^ prod
+
+            while len(r) > 0 and int(r[-1]) == 0:
+                r._poly.pop()
+
+        return GaloisFieldPolynomial(q), r

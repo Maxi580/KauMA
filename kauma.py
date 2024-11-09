@@ -160,6 +160,17 @@ def gfdiv_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     return {"q": Poly.from_gcm_semantic(q).b64_block}
 
+def gfpoly_divmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    A = arguments["A"]
+    B = arguments["B"]
+
+    gfp_a = GaloisFieldPolynomial.from_b64_gcm(A)
+    gfp_b = GaloisFieldPolynomial.from_b64_gcm(B)
+
+    Q, R = divmod(gfp_a, gfp_b)
+
+    return {"Q": Q.to_b64_list_gcm(), "R": R.to_b64_list_gcm()}
+
 
 ACTION_PROCESSORS = {
     "poly2block": poly2block_action,
@@ -174,6 +185,7 @@ ACTION_PROCESSORS = {
     "gfpoly_mul": gfpoly_mul_action,
     "gfpoly_pow": gfpoly_pow_action,
     "gfdiv": gfdiv_action,
+    "gfpoly_divmod": gfpoly_divmod_action,
 }
 
 

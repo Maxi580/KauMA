@@ -60,18 +60,20 @@ def _pad_to_block(data: bytes) -> bytes:
     return data + bytes(padding_length)
 
 
-def _process_blocks(X: bytes, data: bytes, auth_key: bytes):
+def _process_blocks(X: GaloisFieldElement, data: bytes, auth_key: GaloisFieldElement) -> GaloisFieldElement:
     for i in range(0, len(data), BLOCK_SIZE):
-        ad_block = data[i:i + BLOCK_SIZE]
+        ad_block = GaloisFieldElement.from_block_gcm(data[i:i + BLOCK_SIZE])
 
-        X = bytes(x ^ y for x, y in zip(X, ad_block))
+        X = X ^ ad_block
 
-        X = (GaloisFieldElement.from_block_gcm(X) * GaloisFieldElement.from_block_gcm(auth_key)).to_block_gcm()
+        X = X * auth_key
     return X
 
 
 def _get_ghash(associated_data: bytes, ciphertext: bytes, auth_key: bytes, L: bytes) -> bytes:
-    X = bytes(BLOCK_SIZE)
+    X = GaloisFieldElement(0)
+    auth_key = GaloisFieldElement.from_block_gcm(auth_key)
+    L = GaloisFieldElement.from_block_gcm(L)
 
     padded_associated_data = _pad_to_block(associated_data)
     padded_ciphertext = _pad_to_block(ciphertext)
@@ -80,9 +82,9 @@ def _get_ghash(associated_data: bytes, ciphertext: bytes, auth_key: bytes, L: by
 
     X = _process_blocks(X, padded_ciphertext, auth_key)
 
-    X = bytes(x ^ y for x, y in zip(X, L))
+    X = X ^ L
 
-    return (GaloisFieldElement.from_block_gcm(X) * GaloisFieldElement.from_block_gcm(auth_key)).to_block_gcm()
+    return (X * auth_key).to_block_gcm()
 
 
 def _get_auth_tag(j: bytes, ghash: bytes):

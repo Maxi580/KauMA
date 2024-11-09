@@ -3,12 +3,6 @@ from block_poly.block import Block
 from galoisfield.galoisfieldelement import GaloisFieldElement
 
 
-def _remove_leading_zero(gfp: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
-    while len(gfp) > 0 and int(gfp[-1]) == 0:
-        gfp._gfe_list.pop()
-    return gfp
-
-
 class GaloisFieldPolynomial:
     def __init__(self, poly: list[GaloisFieldElement]):
         self._gfe_list = poly
@@ -25,6 +19,10 @@ class GaloisFieldPolynomial:
 
     def to_b64_list_gcm(self) -> list[str]:
         return [Block(gfe.to_block_gcm()).b64_block for gfe in self._gfe_list]
+
+    def _remove_leading_zero(self):
+        while len(self) > 0 and int(self[-1]) == 0:
+            self._gfe_list.pop()
 
     def __getitem__(self, index: int) -> GaloisFieldElement:
         return self._gfe_list[index]
@@ -87,8 +85,8 @@ class GaloisFieldPolynomial:
         r = GaloisFieldPolynomial(self._gfe_list.copy())
         b_copy = GaloisFieldPolynomial(b._gfe_list.copy())
 
-        b_copy = _remove_leading_zero(b_copy)
-        r = _remove_leading_zero(r)
+        b_copy._remove_leading_zero()
+        r._remove_leading_zero()
 
         while len(r) >= len(b_copy):
             r_deg = len(r) - 1
@@ -109,7 +107,7 @@ class GaloisFieldPolynomial:
 
                 r[pos] = r[pos] ^ prod
 
-            r = _remove_leading_zero(r)
+            r._remove_leading_zero()
 
         return GaloisFieldPolynomial(q), r
 

@@ -3,37 +3,43 @@ from block_poly.block import Block
 from galoisfield.galoisfieldelement import GaloisFieldElement
 
 
+def _remove_leading_zero(gfp: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
+    while len(gfp) > 0 and int(gfp[-1]) == 0:
+        gfp._gfe_list.pop()
+    return gfp
+
+
 class GaloisFieldPolynomial:
     def __init__(self, poly: list[GaloisFieldElement]):
-        self._poly = poly
+        self._gfe_list = poly
 
     @classmethod
     def from_b64_gcm(cls, b64_gcm: list[str]) -> 'GaloisFieldPolynomial':
         return cls([GaloisFieldElement(B64Block(poly).gcm_poly) for poly in b64_gcm])
 
     def to_gfe_list(self) -> list[GaloisFieldElement]:
-        return self._poly
+        return self._gfe_list
 
     def to_int_list_gcm(self) -> list[int]:
-        return [int(gfe) for gfe in self._poly]
+        return [int(gfe) for gfe in self._gfe_list]
 
     def to_b64_list_gcm(self) -> list[str]:
-        return [Block(gfe.to_block_gcm()).b64_block for gfe in self._poly]
+        return [Block(gfe.to_block_gcm()).b64_block for gfe in self._gfe_list]
 
     def __getitem__(self, index: int) -> GaloisFieldElement:
-        return self._poly[index]
+        return self._gfe_list[index]
 
     def __setitem__(self, index: int, value: GaloisFieldElement):
-        self._poly[index] = value
+        self._gfe_list[index] = value
 
     def __iter__(self):
-        return iter(self._poly)
+        return iter(self._gfe_list)
 
     def __len__(self) -> int:
-        return len(self._poly)
+        return len(self._gfe_list)
 
     def __xor__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
-        return GaloisFieldPolynomial([x ^ y for x, y in zip(self.to_gfe_list(), other.to_gfe_list())])
+        return GaloisFieldPolynomial([x ^ y for x, y in zip(self, other)])
 
     def __add__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
         max_len = max(len(self), len(other))
@@ -78,17 +84,18 @@ class GaloisFieldPolynomial:
 
     def __divmod__(self, b: 'GaloisFieldPolynomial'):
         q = []
-        r = GaloisFieldPolynomial(self._poly.copy())
+        r = GaloisFieldPolynomial(self._gfe_list.copy())
+        b_copy = GaloisFieldPolynomial(b._gfe_list.copy())
 
-        while len(b) > 0 and int(b[-1]) == 0:
-            b._poly.pop()
+        b_copy = _remove_leading_zero(b_copy)
+        r = _remove_leading_zero(r)
 
-        while len(r) >= len(b) and int(r[-1]) != 0:
+        while len(r) >= len(b_copy):
             r_deg = len(r) - 1
-            b_deg = len(b) - 1
+            b_deg = len(b_copy) - 1
             deg_diff = r_deg - b_deg
 
-            quotient_coeff = r[-1] / b[-1]
+            quotient_coeff = r[-1] / b_copy[-1]
 
             # Increase Quotient
             while len(q) <= deg_diff:
@@ -96,13 +103,33 @@ class GaloisFieldPolynomial:
             q[deg_diff] = quotient_coeff
 
             # Reduce Remainder
-            for idx, gfe in enumerate(b):
+            for idx, gfe in enumerate(b_copy):
                 pos = deg_diff + idx
                 prod = quotient_coeff * gfe
 
                 r[pos] = r[pos] ^ prod
 
-            while len(r) > 0 and int(r[-1]) == 0:
-                r._poly.pop()
+            r = _remove_leading_zero(r)
 
         return GaloisFieldPolynomial(q), r
+
+    def __mod__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
+        _, remainder = self.__divmod__(other)
+        return remainder
+
+    def powmod(self, k: int, m: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
+        result = GaloisFieldPolynomial([GaloisFieldElement(1)])
+
+        if k == 0:
+            return result
+
+        base = self % m
+
+        while k > 0:
+            if k & 1:
+                result = (result * base) % m
+            k >>= 1
+            if k > 0:
+                base = (base * base) % m
+
+        return result

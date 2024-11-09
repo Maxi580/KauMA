@@ -7,8 +7,8 @@ class GaloisFieldElement:
     REDUCTION_POLYNOM = (1 << 128) | (1 << 7) | (1 << 2) | (1 << 1) | 1
     INVERSE_POWER = (1 << FIELD_SIZE) - 2
 
-    def __init__(self, value: int):
-        self._value = value
+    def __init__(self, int_value: int):
+        self._int_value = int_value
 
     @classmethod
     def from_block_xex(cls, xex_block: bytes):
@@ -19,16 +19,16 @@ class GaloisFieldElement:
         return cls(Block(gcm_block).gcm_poly)
 
     def to_block_gcm(self) -> bytes:
-        return Poly.from_gcm_semantic(self._value).block
+        return Poly.from_gcm_semantic(self._int_value).block
 
     def to_block_xex(self) -> bytes:
-        return Poly.from_xex_semantic(self._value).block
+        return Poly.from_xex_semantic(self._int_value).block
 
     def __int__(self) -> int:
-        return self._value
+        return self._int_value
 
     def __xor__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
-        return GaloisFieldElement(self._value ^ other._value)
+        return GaloisFieldElement(self._int_value ^ other._int_value)
 
     def __mul__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
         a_poly = int(self)
@@ -52,7 +52,7 @@ class GaloisFieldElement:
 
         return GaloisFieldElement(result)
 
-    def __pow__(self, power: int, modulo=None) -> 'GaloisFieldElement':
+    def __pow__(self, power: int) -> 'GaloisFieldElement':
         factor = self
         result = GaloisFieldElement(1)
 

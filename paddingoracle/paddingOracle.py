@@ -1,4 +1,5 @@
 from paddingoracle.client import Client
+from utils import xor_bytes
 
 BLOCK_SIZE = 16
 BRUTEFORCE_CHUNK_SIZE = 64
@@ -92,7 +93,7 @@ class PaddingOracleBlockDecryption:
             self.position -= 1
 
         self.client.close()
-        plaintext = bytes(x ^ y for x, y in zip(self.found_dc, self.iv))
+        plaintext = xor_bytes(self.found_dc, self.iv)
         return plaintext
 
 

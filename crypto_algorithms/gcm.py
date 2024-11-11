@@ -1,6 +1,6 @@
 from typing import Protocol
 from galoisfield.galoisfieldelement import GaloisFieldElement
-
+from utils import xor_bytes
 
 class EncryptionStrategy(Protocol):
     """Interface for passed encryption functions"""
@@ -24,7 +24,7 @@ def _apply_key_stream(nonce: bytes, key: bytes, xor_data: bytes, encryption_func
 
         plaintext_block = xor_data[i:i + BLOCK_SIZE]
 
-        result.extend(bytes(x ^ y for x, y in zip(encrypted_y[:len(plaintext_block)], plaintext_block)))
+        result.extend(xor_bytes(encrypted_y[:len(plaintext_block)], plaintext_block))
 
         ctr += 1
 
@@ -88,7 +88,7 @@ def _get_ghash(associated_data: bytes, ciphertext: bytes, auth_key: bytes, L: by
 
 
 def _get_auth_tag(j: bytes, ghash: bytes):
-    return bytes(x ^ y for x, y in zip(j, ghash))
+    return xor_bytes(j, ghash)
 
 
 def _compute_gcm_auth_parameters(nonce: bytes, key: bytes, ciphertext: bytes, ad: bytes,

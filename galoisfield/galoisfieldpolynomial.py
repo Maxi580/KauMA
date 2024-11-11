@@ -1,6 +1,7 @@
 from block_poly.b64_block import B64Block
 from block_poly.block import Block
 from galoisfield.galoisfieldelement import GaloisFieldElement
+from typing import Optional
 
 
 class GaloisFieldPolynomial:
@@ -36,9 +37,6 @@ class GaloisFieldPolynomial:
     def __len__(self) -> int:
         return len(self._gfe_list)
 
-    def __xor__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
-        return GaloisFieldPolynomial([x ^ y for x, y in zip(self, other)])
-
     def __add__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
         max_len = max(len(self), len(other))
         result = []
@@ -68,17 +66,22 @@ class GaloisFieldPolynomial:
 
         return GaloisFieldPolynomial(result)
 
-    def __pow__(self, k: int) -> 'GaloisFieldPolynomial':
+    def __pow__(self, k: int, modulo: Optional['GaloisFieldPolynomial'] = None) -> 'GaloisFieldPolynomial':
+        result = GaloisFieldPolynomial([GaloisFieldElement(1)])
+
         if k == 0:
-            return GaloisFieldPolynomial([GaloisFieldElement(1)])
+            return result
 
-        half = self ** (k // 2)
-        squared = half * half
+        base = self % modulo if modulo else self
 
-        if k % 2 == 1:
-            return squared * self
-        else:
-            return squared
+        while k > 0:
+            if k & 1:
+                result = (result * base) % modulo if modulo else result * base
+            k >>= 1
+            if k > 0:
+                base = (base * base) % modulo if modulo else base * base
+
+        return result
 
     def __divmod__(self, b: 'GaloisFieldPolynomial'):
         q = []
@@ -114,20 +117,3 @@ class GaloisFieldPolynomial:
     def __mod__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
         _, remainder = self.__divmod__(other)
         return remainder
-
-    def powmod(self, k: int, m: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
-        result = GaloisFieldPolynomial([GaloisFieldElement(1)])
-
-        if k == 0:
-            return result
-
-        base = self % m
-
-        while k > 0:
-            if k & 1:
-                result = (result * base) % m
-            k >>= 1
-            if k > 0:
-                base = (base * base) % m
-
-        return result

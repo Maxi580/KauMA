@@ -3,6 +3,7 @@ import socket
 import cryptography.hazmat.primitives.padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
+from utils import xor_bytes
 
 DEFAULT_TIMEOUT: float = 10.0
 BLOCK_SIZE = 16
@@ -59,7 +60,7 @@ class Server:
                 for _ in range(length):
                     q = client_socket.recv(BLOCK_SIZE)
 
-                    plaintext_xor = bytes(x ^ y for x, y in zip(q, self.plaintext))
+                    plaintext_xor = xor_bytes(q, self.plaintext)
 
                     is_valid = check_pkcs7_padding(plaintext_xor)
 

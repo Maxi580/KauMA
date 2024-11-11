@@ -83,7 +83,7 @@ class GaloisFieldPolynomial:
 
         return result
 
-    def __divmod__(self, b: 'GaloisFieldPolynomial'):
+    def __divmod__(self, b: 'GaloisFieldPolynomial') -> ('GaloisFieldPolynomial', 'GaloisFieldPolynomial'):
         q = []
         r = GaloisFieldPolynomial(self._gfe_list.copy())
         b_copy = GaloisFieldPolynomial(b._gfe_list.copy())

@@ -10,7 +10,7 @@ from block_poly.poly import Poly
 
 from galoisfield.galoisfieldelement import GaloisFieldElement
 from crypto_algorithms.sea128 import sea_encrypt, sea_decrypt, aes_encrypt
-from crypto_algorithms.xex import encrypt_xex, decrypt_xex
+from crypto_algorithms.fde import encrypt_fde, decrypt_fde
 from crypto_algorithms.gcm import gcm_encrypt, gcm_decrypt
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from paddingoracle.paddingOracle import padding_oracle_attack
@@ -71,7 +71,7 @@ def xex_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     tweak = B64Block(arguments["tweak"]).block
     input_data = B64Block(arguments["input"]).block
 
-    result = encrypt_xex(key, tweak, input_data) if mode == ENCRYPT_MODE else decrypt_xex(key, tweak, input_data)
+    result = encrypt_fde(key, tweak, input_data) if mode == ENCRYPT_MODE else decrypt_fde(key, tweak, input_data)
 
     return {"output": Block(result).b64_block}
 

@@ -6,6 +6,7 @@ class GaloisFieldElement:
     FIELD_SIZE = 128
     REDUCTION_POLYNOM = (1 << 128) | (1 << 7) | (1 << 2) | (1 << 1) | 1
     INVERSE_POWER = (1 << FIELD_SIZE) - 2
+    SQRT_POWER = 1 << FIELD_SIZE
 
     def __init__(self, int_value: int):
         self._int_value = int_value
@@ -70,5 +71,5 @@ class GaloisFieldElement:
 
         return self * other_inverse
 
-    def sqrt(self):
-        return self ** (2 << (self.FIELD_SIZE - 1))
+    def sqrt(self) -> 'GaloisFieldElement':
+        return self ** self.SQRT_POWER

@@ -61,6 +61,21 @@
               "IQAAAAAAAAAAAAAAAAAAAA=="
         ]
       }
+    },
+    "ef185d4d-234d-4f38-9777-1205e9ffc16f": {
+      "action": "gfpoly_powmod",
+      "arguments": {
+        "A": [
+        "JAAAAAAAAAAAAAAAAAAAAA==",
+        "wAAAAAAAAAAAAAAAAAAAAA==",
+        "ACAAAAAAAAAAAAAAAAAAAA=="
+        ],
+        "M": [
+        "KryptoanalyseAAAAAAAAA==",
+        "DHBWMannheimAAAAAAAAAA=="
+        ],
+        "k": 1000
+        }
     }
   }
 }

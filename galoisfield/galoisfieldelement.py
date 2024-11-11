@@ -65,6 +65,10 @@ class GaloisFieldElement:
         return result
 
     def __truediv__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
+        """b^(p -1) = 1 mod p => b * b^(p - 2) = 1 => b ^ (p - 2) is the inverse of b (Fermat) """
         other_inverse = other ** self.INVERSE_POWER
 
         return self * other_inverse
+
+    def sqrt(self):
+        return self ** (2 << (self.FIELD_SIZE - 1))

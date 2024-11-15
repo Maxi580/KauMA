@@ -2,6 +2,7 @@ from typing import Protocol
 from galoisfield.galoisfieldelement import GaloisFieldElement
 from utils import xor_bytes
 
+
 class EncryptionStrategy(Protocol):
     """Interface for passed encryption functions"""
 

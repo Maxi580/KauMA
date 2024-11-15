@@ -15,6 +15,23 @@
         ]
       }
     },
+    "389be67e-a794-4895-bd4e-c177a25674a9": {
+      "action": "gfpoly_add",
+      "arguments": {
+        "A": [
+              "NeverGonnaGiveYouUpAAA==",
+              "NeverGonnaLetYouDownAA==",
+              "NeverGonnaRunAroundAAA==",
+              "AndDesertYouAAAAAAAAAA=="
+        ],
+        "B": [
+              "NeverGonnaGiveYouUpAAA==",
+              "NeverGonnaLetYouDownAA==",
+              "NeverGonnaRunAroundAAA==",
+              "AndDesertYouAAAAAAAAAA=="
+        ]
+      }
+    },
     "e6dde5c7-2a1e-4bd0-8a72-e52ed75103fc": {
       "action": "gfpoly_mul",
       "arguments": {
@@ -24,8 +41,8 @@
               "ACAAAAAAAAAAAAAAAAAAAA=="
         ],
         "B": [
-              "0AAAAAAAAAAAAAAAAAAAAA==",
-              "IQAAAAAAAAAAAAAAAAAAAA=="
+        "0AAAAAAAAAAAAAAAAAAAAA==",
+        "IQAAAAAAAAAAAAAAAAAAAA=="
         ]
       }
     },

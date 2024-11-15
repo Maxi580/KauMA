@@ -12,18 +12,13 @@ class GaloisFieldPolynomial:
     def from_b64_gcm(cls, b64_gcm: list[str]) -> 'GaloisFieldPolynomial':
         return cls([GaloisFieldElement(B64Block(poly).gcm_poly) for poly in b64_gcm])
 
-    def to_gfe_list(self) -> list[GaloisFieldElement]:
-        return self._gfe_list
-
-    def to_int_list_gcm(self) -> list[int]:
-        return [int(gfe) for gfe in self._gfe_list]
-
     def to_b64_list_gcm(self) -> list[str]:
         return [Block(gfe.to_block_gcm()).b64_block for gfe in self._gfe_list]
 
-    def _remove_leading_zero(self):
-        while len(self) > 0 and int(self[-1]) == 0:
+    def _remove_leading_zero(self) -> 'GaloisFieldPolynomial':
+        while len(self) > 1 and int(self[-1]) == 0:
             self._gfe_list.pop()
+        return self
 
     def __getitem__(self, index: int) -> GaloisFieldElement:
         return self._gfe_list[index]
@@ -39,19 +34,13 @@ class GaloisFieldPolynomial:
 
     def __add__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
         max_len = max(len(self), len(other))
-        result = []
+        padded_self = GaloisFieldPolynomial(list(self) + [GaloisFieldElement(0)] * (max_len - len(self)))
+        padded_other = GaloisFieldPolynomial(list(other) + [GaloisFieldElement(0)] * (max_len - len(other)))
 
-        for i in range(max_len):
-            if i < len(self) and i < len(other):
-                summed = self.to_gfe_list()[i] ^ other.to_gfe_list()[i]
-            elif i < len(self):
-                summed = self.to_gfe_list()[i]
-            else:
-                summed = other.to_gfe_list()[i]
+        result = GaloisFieldPolynomial(
+            [gfe_a ^ gfe_b for gfe_a, gfe_b in zip(padded_self, padded_other)])._remove_leading_zero()
 
-            result.append(summed)
-
-        return GaloisFieldPolynomial(result)
+        return result
 
     def __mul__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
         result_len = len(self) + len(other) - 1
@@ -60,7 +49,7 @@ class GaloisFieldPolynomial:
 
         for i in range(len(self)):
             for j in range(len(other)):
-                prod = self.to_gfe_list()[i] * other.to_gfe_list()[j]
+                prod = self[i] * other[j]
 
                 result[i + j] = result[i + j] ^ prod
 
@@ -88,8 +77,8 @@ class GaloisFieldPolynomial:
         r = GaloisFieldPolynomial(self._gfe_list.copy())
         b_copy = GaloisFieldPolynomial(b._gfe_list.copy())
 
-        b_copy._remove_leading_zero()
         r._remove_leading_zero()
+        b_copy._remove_leading_zero()
 
         while len(r) >= len(b_copy):
             r_deg = len(r) - 1

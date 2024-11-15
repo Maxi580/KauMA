@@ -20,6 +20,9 @@ class GaloisFieldPolynomial:
             self._gfe_list.pop()
         return self
 
+    def append(self, elements: list[GaloisFieldElement]) -> 'GaloisFieldPolynomial':
+        return GaloisFieldPolynomial(list(self) + elements)
+
     def __getitem__(self, index: int) -> GaloisFieldElement:
         return self._gfe_list[index]
 
@@ -34,13 +37,11 @@ class GaloisFieldPolynomial:
 
     def __add__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
         max_len = max(len(self), len(other))
-        padded_self = GaloisFieldPolynomial(list(self) + [GaloisFieldElement(0)] * (max_len - len(self)))
-        padded_other = GaloisFieldPolynomial(list(other) + [GaloisFieldElement(0)] * (max_len - len(other)))
+        padded_self = self.append([GaloisFieldElement(0)] * (max_len - len(self)))
+        padded_other = other.append([GaloisFieldElement(0)] * (max_len - len(other)))
 
-        result = GaloisFieldPolynomial(
+        return GaloisFieldPolynomial(
             [gfe_a ^ gfe_b for gfe_a, gfe_b in zip(padded_self, padded_other)])._remove_leading_zero()
-
-        return result
 
     def __mul__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
         result_len = len(self) + len(other) - 1
@@ -74,11 +75,8 @@ class GaloisFieldPolynomial:
 
     def __divmod__(self, b: 'GaloisFieldPolynomial') -> ('GaloisFieldPolynomial', 'GaloisFieldPolynomial'):
         q = []
-        r = GaloisFieldPolynomial(self._gfe_list.copy())
-        b_copy = GaloisFieldPolynomial(b._gfe_list.copy())
-
-        r._remove_leading_zero()
-        b_copy._remove_leading_zero()
+        r = GaloisFieldPolynomial(self._gfe_list.copy())._remove_leading_zero()
+        b_copy = GaloisFieldPolynomial(b._gfe_list.copy())._remove_leading_zero()
 
         if len(r) < len(b_copy):
             return GaloisFieldPolynomial([GaloisFieldElement(0)]), r
@@ -103,7 +101,7 @@ class GaloisFieldPolynomial:
                 r[pos] = r[pos] ^ prod
 
             r._remove_leading_zero()
-            # If remainder gets 0, the len would still be 1 => endless loop
+            # If remainder is 0, the len would still be 1 => endless loop
             if int(r[-1]) == 0:
                 break
 

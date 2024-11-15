@@ -1,6 +1,6 @@
 {
   "testcases": {
-    "34427414-d128-42c9-8ebb-8ad627e21c0c": {
+    "gfpoly-add": {
       "action": "gfpoly_add",
       "arguments": {
         "A": [
@@ -15,7 +15,7 @@
         ]
       }
     },
-    "389be67e-a794-4895-bd4e-c177a25674a9": {
+    "gfpoly-add-inverse": {
       "action": "gfpoly_add",
       "arguments": {
         "A": [
@@ -32,7 +32,7 @@
         ]
       }
     },
-    "e6dde5c7-2a1e-4bd0-8a72-e52ed75103fc": {
+    "gfpoly-mul": {
       "action": "gfpoly_mul",
       "arguments": {
         "A": [
@@ -46,14 +46,14 @@
         ]
       }
     },
-    "46f7f64a-66db-42b1-9973-79d82d124a49": {
+    "gfpoly-mul-zero": {
       "action": "gfpoly_mul",
       "arguments": {
         "A": ["AAAAAAAAAAAAAAAAAAAAAA=="],
         "B": ["AAAAAAAAAAAAAAAAAAAAAA==", "gAAAAAAAAAAAAAAAAAAAAA=="]
       }
     },
-      "43f49100-0bf9-450f-9616-41e674ca403c": {
+    "gfpoly-pow": {
       "action": "gfpoly_pow",
       "arguments": {
         "A": [
@@ -64,14 +64,14 @@
         "k": 3
       }
     },
-    "fca85fb8-8e1b-4a27-a4fa-d835dbd7c053": {
+    "gfdiv": {
       "action": "gfdiv",
       "arguments": {
         "a": "JAAAAAAAAAAAAAAAAAAAAA==",
         "b": "wAAAAAAAAAAAAAAAAAAAAA=="
       }
     },
-    "db9d6ebc-9d20-48a3-a6d9-184f3cf79367": {
+    "gfpoly-divmod-a-smaller-b": {
       "action": "gfpoly_divmod",
       "arguments": {
         "A": ["gAAAAAAAAAAAAAAAAAAAAA==",
@@ -82,7 +82,7 @@
               "oAAAAAAAAAAAAAAAAAAAAA=="]
       }
     },
-    "1565b9a0-be58-4779-b592-cb2f4447ffdd": {
+    "gfpoly-divmod": {
       "action": "gfpoly_divmod",
       "arguments": {
         "A": [
@@ -97,7 +97,7 @@
         ]
       }
     },
-    "627439b6-682d-4fae-8fef-1759f436abe3": {
+    "gfpoly-divmod-2": {
       "action": "gfpoly_divmod",
       "arguments": {
         "A": ["AAAAAAAAAAAAAAAAAAAAAA==", "gAAAAAAAAAAAAAAAAAAAAA==", "QAAAAAAAAAAAAAAAAAAAAA=="],
@@ -105,7 +105,7 @@
         "B": ["gAAAAAAAAAAAAAAAAAAAAA=="]
       }
     },
-    "ef185d4d-234d-4f38-9777-1205e9ffc16f": {
+    "gfpoly-powmod": {
       "action": "gfpoly_powmod",
       "arguments": {
         "A": [

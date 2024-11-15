@@ -1,24 +1,24 @@
 {
   "responses": {
-    "e5545f77-8c7b-4d1d-9ea4-e60966b8d00e": {
+    "gcm-aes-encrypt": {
       "ciphertext": "ET3RmvH/Hbuxba63EuPRrw==",
       "tag": "Mp0APJb/ZIURRwQlMgNN/w==",
       "L": "AAAAAAAAAEAAAAAAAAAAgA==",
       "H": "Bu6ywbsUKlpmZXMQyuGAng=="
     },
-    "257a3582-0dee-4f80-beee-8f68b884d5ce": {
+    "gcm-sea-encrypt": {
       "ciphertext": "0cI/Wg4R3URfrVFZ0hw/vg==",
       "tag": "ysDdzOSnqLH0MQ+Mkb23gw==",
       "L": "AAAAAAAAAEAAAAAAAAAAgA==",
       "H": "xhFcAUT66qWIpYz+Ch5ujw=="
     },
-    "3d509ba8-21b6-416c-85ae-d947814057e3": {
+    "padding-oracle-1": {
         "plaintext": "SGVsbG8gVGhlcmUgRG9lcyBpdCBSZWFsbHkgUmVhbGx5IFdvcms/CQkJCQkJCQkJ"
     },
-    "10f0ee2b-1f93-41dc-9308-e844f8c74b50": {
+    "padding-oracle-2": {
         "plaintext": "EBAQEBAQEBAQEBAQEBAQEA=="
     },
-    "5f6b8338-c4fd-405e-acef-b4d2723588f2": {
+    "padding-oracle-3": {
         "plaintext": "SGVsbG8LCwsLCwsLCwsLCw=="
     }
   }

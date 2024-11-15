@@ -1,20 +1,20 @@
 {
   "testcases": {
-    "55f74969-b33c-4356-9973-ca86c5b9861f": {
+    "poly-2-block": {
       "action": "poly2block",
       "arguments": {
         "semantic": "xex",
         "coefficients": [12, 127, 9, 0]
       }
     },
-    "77803358-e5c0-43af-9b63-949b07129129": {
+    "block-2-poly": {
       "action": "block2poly",
       "arguments": {
         "semantic": "xex",
         "block": "ARIAAAAAAAAAAAAAAAAAgA=="
       }
     },
-    "3e70e91a-3751-441d-9cea-1b48a6f867c1": {
+    "gfmul": {
       "action": "gfmul",
       "arguments": {
         "semantic": "xex",
@@ -22,7 +22,7 @@
         "b": "AgAAAAAAAAAAAAAAAAAAAA=="
       }
     },
-    "a5230e47-d4ec-4028-8905-bcc47e1e85a9": {
+    "sea128-encrypt": {
       "action": "sea128",
       "arguments": {
         "mode": "encrypt",
@@ -30,7 +30,7 @@
         "input": "yv66vvrO263eyviIiDNEVQ=="
       }
     },
-    "c419626d-6dbd-4684-bbb1-ce04ecf9efad": {
+    "sea128-decrypt": {
       "action": "sea128",
       "arguments": {
         "mode": "decrypt",
@@ -38,7 +38,7 @@
         "input": "D5FDo3iVBoBN9gVi9/MSKQ=="
       }
     },
-    "0a1ca555-f6ad-4d5a-996c-f9b34e02d3f1": {
+    "xex-encrypt": {
       "action": "xex",
       "arguments": {
         "mode": "encrypt",
@@ -47,7 +47,7 @@
         "input": "/aOg4jMocLkBLkDLgkHYtFKc2L9jjyd2WXSSyxXQikpMY9ZRnsJE76e9dW9olZIW"
       }
     },
-    "e6f060af-1c19-41b8-b10f-0979f6eabaf2": {
+    "xex-decrypt": {
       "action": "xex",
       "arguments": {
         "mode": "decrypt",

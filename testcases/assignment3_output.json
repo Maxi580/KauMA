@@ -1,6 +1,6 @@
 {
   "responses": {
-    "34427414-d128-42c9-8ebb-8ad627e21c0c": {
+    "gfpoly-add": {
       "S": [
             "H1d3GuyA9/0OxeYouUpAAA==",
             "OZuIncPAGEp4tYouDownAA==",
@@ -8,13 +8,13 @@
             "AndDesertYouAAAAAAAAAA=="
       ]
     },
-    "389be67e-a794-4895-bd4e-c177a25674a9": {
+    "gfpoly-add-inverse": {
       "S": [
         "AAAAAAAAAAAAAAAAAAAAAA=="
       ]
     },
 
-    "e6dde5c7-2a1e-4bd0-8a72-e52ed75103fc": {
+    "gfpoly-mul": {
       "P": [
           "MoAAAAAAAAAAAAAAAAAAAA==",
           "sUgAAAAAAAAAAAAAAAAAAA==",
@@ -22,10 +22,10 @@
           "AAhAAAAAAAAAAAAAAAAAAA=="
       ]
     },
-    "46f7f64a-66db-42b1-9973-79d82d124a49": {
+    "gfpoly-mul-zero": {
       "P": ["AAAAAAAAAAAAAAAAAAAAAA=="]
     },
-    "43f49100-0bf9-450f-9616-41e674ca403c": {
+    "gfpoly-pow": {
       "Z": [
           "AkkAAAAAAAAAAAAAAAAAAA==",
           "DDAAAAAAAAAAAAAAAAAAAA==",
@@ -36,11 +36,18 @@
           "AAAAAgAAAAAAAAAAAAAAAA=="
       ]
     },
-    "fca85fb8-8e1b-4a27-a4fa-d835dbd7c053": {
+    "gfdiv": {
       "q": "OAAAAAAAAAAAAAAAAAAAAA=="
     },
-
-    "1565b9a0-be58-4779-b592-cb2f4447ffdd": {
+    "gfpoly-divmod-a-smaller-b": {
+      "Q": [
+            "AAAAAAAAAAAAAAAAAAAAAA=="
+      ],
+      "R": ["gAAAAAAAAAAAAAAAAAAAAA==",
+            "QAAAAAAAAAAAAAAAAAAAAA=="
+      ]
+    },
+    "gfpoly-divmod": {
       "Q": [
             "nAIAgCAIAgCAIAgCAIAgCg==",
             "m85znOc5znOc5znOc5znOQ=="
@@ -49,21 +56,13 @@
             "lQNA0DQNA0DQNA0DQNA0Dg=="
       ]
     },
-    "627439b6-682d-4fae-8fef-1759f436abe3": {
+    "gfpoly-divmod-2": {
       "Q": ["AAAAAAAAAAAAAAAAAAAAAA==", "gAAAAAAAAAAAAAAAAAAAAA==", "QAAAAAAAAAAAAAAAAAAAAA=="],
       "R": [
             "AAAAAAAAAAAAAAAAAAAAAA=="
       ]
     },
-    "db9d6ebc-9d20-48a3-a6d9-184f3cf79367": {
-      "Q": [
-            "AAAAAAAAAAAAAAAAAAAAAA=="
-      ],
-      "R": ["gAAAAAAAAAAAAAAAAAAAAA==",
-            "QAAAAAAAAAAAAAAAAAAAAA=="
-      ]
-    },
-    "ef185d4d-234d-4f38-9777-1205e9ffc16f": {
+    "gfpoly-powmod": {
       "Z": [
       "oNXl5P8xq2WpUTP92u25zg=="
       ]

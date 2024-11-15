@@ -1,24 +1,24 @@
 {
   "responses": {
-    "55f74969-b33c-4356-9973-ca86c5b9861f": {
+    "poly-2-block": {
       "block": "ARIAAAAAAAAAAAAAAAAAgA=="
     },
-    "77803358-e5c0-43af-9b63-949b07129129": {
+    "block-2-poly": {
       "coefficients": [0, 9, 12, 127]
     },
-    "3e70e91a-3751-441d-9cea-1b48a6f867c1": {
+    "gfmul": {
       "product": "hSQAAAAAAAAAAAAAAAAAAA=="
     },
-    "a5230e47-d4ec-4028-8905-bcc47e1e85a9": {
+    "sea128-encrypt": {
       "output": "D5FDo3iVBoBN9gVi9/MSKQ=="
     },
-    "c419626d-6dbd-4684-bbb1-ce04ecf9efad": {
+    "sea128-decrypt": {
       "output": "yv66vvrO263eyviIiDNEVQ=="
     },
-    "0a1ca555-f6ad-4d5a-996c-f9b34e02d3f1": {
+    "xex-encrypt": {
       "output": "mHAVhRCKPAPx0BcufG5BZ4+/CbneMV/gRvqK5rtLe0OJgpDU5iT7z2P0R7gEeRDO"
     },
-    "e6f060af-1c19-41b8-b10f-0979f6eabaf2": {
+    "xex-decrypt": {
       "output": "SGV5IHdpZSBrcmFzcyBkYXMgZnVua3Rpb25pZXJ0IGphIG9mZmVuYmFyIGVjaHQu"
     }
   }

@@ -80,6 +80,9 @@ class GaloisFieldPolynomial:
         r._remove_leading_zero()
         b_copy._remove_leading_zero()
 
+        if len(r) < len(b_copy):
+            return GaloisFieldPolynomial([GaloisFieldElement(0)]), r
+
         while len(r) >= len(b_copy):
             r_deg = len(r) - 1
             b_deg = len(b_copy) - 1

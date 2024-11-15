@@ -90,6 +90,14 @@
         ]
       }
     },
+    "627439b6-682d-4fae-8fef-1759f436abe3": {
+      "action": "gfpoly_divmod",
+      "arguments": {
+        "A": ["AAAAAAAAAAAAAAAAAAAAAA==", "gAAAAAAAAAAAAAAAAAAAAA==", "QAAAAAAAAAAAAAAAAAAAAA=="],
+
+        "B": ["gAAAAAAAAAAAAAAAAAAAAA=="]
+      }
+    },
     "ef185d4d-234d-4f38-9777-1205e9ffc16f": {
       "action": "gfpoly_powmod",
       "arguments": {

@@ -103,6 +103,9 @@ class GaloisFieldPolynomial:
                 r[pos] = r[pos] ^ prod
 
             r._remove_leading_zero()
+            # If remainder gets 0, the len would still be 1 => endless loop
+            if int(r[-1]) == 0:
+                break
 
         return GaloisFieldPolynomial(q), r
 

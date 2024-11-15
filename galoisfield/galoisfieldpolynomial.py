@@ -53,7 +53,7 @@ class GaloisFieldPolynomial:
 
                 result[i + j] = result[i + j] ^ prod
 
-        return GaloisFieldPolynomial(result)
+        return GaloisFieldPolynomial(result)._remove_leading_zero()
 
     def __pow__(self, k: int, modulo: Optional['GaloisFieldPolynomial'] = None) -> 'GaloisFieldPolynomial':
         result = GaloisFieldPolynomial([GaloisFieldElement(1)])

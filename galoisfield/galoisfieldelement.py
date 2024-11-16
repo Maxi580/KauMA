@@ -54,6 +54,9 @@ class GaloisFieldElement:
         return GaloisFieldElement(result)
 
     def __pow__(self, power: int) -> 'GaloisFieldElement':
+        if int(self) == 0 or int(self) == 1:
+            return self
+
         factor = self
         result = GaloisFieldElement(1)
 

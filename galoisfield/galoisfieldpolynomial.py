@@ -57,6 +57,9 @@ class GaloisFieldPolynomial:
         return GaloisFieldPolynomial(result)._remove_leading_zero()
 
     def __pow__(self, k: int, modulo: Optional['GaloisFieldPolynomial'] = None) -> 'GaloisFieldPolynomial':
+        if int(self[0]) == 0 or int(self[0]) == 1:  # (Assuming Polys do not have leading 0s)
+            return self
+
         result = GaloisFieldPolynomial([GaloisFieldElement(1)])
 
         if k == 0:
@@ -71,7 +74,7 @@ class GaloisFieldPolynomial:
             if k > 0:
                 base = (base * base) % modulo if modulo else base * base
 
-        return result
+        return result._remove_leading_zero()
 
     def __divmod__(self, b: 'GaloisFieldPolynomial') -> ('GaloisFieldPolynomial', 'GaloisFieldPolynomial'):
         q = []
@@ -105,7 +108,7 @@ class GaloisFieldPolynomial:
             if int(r[-1]) == 0:
                 break
 
-        return GaloisFieldPolynomial(q), r
+        return GaloisFieldPolynomial(q)._remove_leading_zero(), r
 
     def __mod__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
         _, remainder = self.__divmod__(other)

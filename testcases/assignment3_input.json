@@ -64,6 +64,13 @@
         "k": 3
       }
     },
+    "gfpoly-pow-1-exponent-100": {
+      "action": "gfpoly_pow",
+      "arguments": {
+        "A": ["gAAAAAAAAAAAAAAAAAAAAA=="],
+        "k": 100000000000000000000000000000000000
+      }
+    },
     "gfdiv": {
       "action": "gfdiv",
       "arguments": {

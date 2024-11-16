@@ -41,7 +41,7 @@ class GaloisFieldPolynomial:
         padded_other = other.append([GaloisFieldElement(0)] * (max_len - len(other)))
 
         return GaloisFieldPolynomial(
-            [gfe_a ^ gfe_b for gfe_a, gfe_b in zip(padded_self, padded_other)])._remove_leading_zero()
+            [gfe_a + gfe_b for gfe_a, gfe_b in zip(padded_self, padded_other)])._remove_leading_zero()
 
     def __mul__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
         result_len = len(self) + len(other) - 1
@@ -52,7 +52,7 @@ class GaloisFieldPolynomial:
             for j in range(len(other)):
                 prod = self[i] * other[j]
 
-                result[i + j] = result[i + j] ^ prod
+                result[i + j] = result[i + j] + prod
 
         return GaloisFieldPolynomial(result)._remove_leading_zero()
 
@@ -98,7 +98,7 @@ class GaloisFieldPolynomial:
                 pos = deg_diff + idx
                 prod = quotient_coeff * gfe
 
-                r[pos] = r[pos] ^ prod
+                r[pos] = r[pos] + prod
 
             r._remove_leading_zero()
             # If remainder is 0, the len would still be 1 => endless loop

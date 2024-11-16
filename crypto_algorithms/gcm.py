@@ -65,7 +65,7 @@ def _process_blocks(X: GaloisFieldElement, data: bytes, auth_key: GaloisFieldEle
     for i in range(0, len(data), BLOCK_SIZE):
         ad_block = GaloisFieldElement.from_block_gcm(data[i:i + BLOCK_SIZE])
 
-        X = X ^ ad_block
+        X = X + ad_block
 
         X = X * auth_key
     return X
@@ -83,7 +83,7 @@ def _get_ghash(associated_data: bytes, ciphertext: bytes, auth_key: bytes, L: by
 
     X = _process_blocks(X, padded_ciphertext, auth_key)
 
-    X = X ^ L
+    X = X + L
 
     return (X * auth_key).to_block_gcm()
 

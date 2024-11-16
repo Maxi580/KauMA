@@ -28,7 +28,7 @@ class GaloisFieldElement:
     def __int__(self) -> int:
         return self._int_value
 
-    def __xor__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
+    def __add__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
         return GaloisFieldElement(self._int_value ^ other._int_value)
 
     def __mul__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':

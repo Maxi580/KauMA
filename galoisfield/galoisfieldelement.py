@@ -2,6 +2,15 @@ from block_poly.block import Block
 from block_poly.poly import Poly
 
 
+def extended_gcd(a: 'GaloisFieldElement', b: 'GaloisFieldElement'):
+    if int(b) == 0:
+        return a, GaloisFieldElement(1), GaloisFieldElement(0)
+    gcd, x_prev, y_prev = extended_gcd(b, a % b)
+    x = y_prev
+    y = x_prev + (a // b) * y_prev  # Subtraction is same as addition in GF2^n
+    return gcd, x, y
+
+
 class GaloisFieldElement:
     FIELD_SIZE = 128
     REDUCTION_POLYNOM = (1 << 128) | (1 << 7) | (1 << 2) | (1 << 1) | 1
@@ -35,9 +44,6 @@ class GaloisFieldElement:
         a_poly = int(self)
         b_poly = int(other)
 
-        assert (0 <= a_poly < (1 << self.FIELD_SIZE)) or not (0 <= b_poly < (1 << self.FIELD_SIZE)), \
-            "Inputs must be non-negative integers less than 2^{FIELD_SIZE}"
-
         result = 0
 
         for i in range(b_poly.bit_length()):
@@ -48,8 +54,6 @@ class GaloisFieldElement:
                 a_poly = (a_poly << 1) ^ self.REDUCTION_POLYNOM
             else:
                 a_poly <<= 1
-
-        assert (0 <= result < (1 << self.FIELD_SIZE)), "Result must be non-negative integers less than 2^{FIELD_SIZE}"
 
         return GaloisFieldElement(result)
 
@@ -71,50 +75,34 @@ class GaloisFieldElement:
 
         return result
 
-    def extended_gcd(self, a: int) -> int:
-        """We are starting from a * g1 + REDUCTION_POLYNOM * g2 = u
-           1. We always swap u and v so that u is the bigger value, just like in gcd
-              (# gcd(54, 888) => 54 = 0 * 888 + 54 => 888 = 54 * ...)
-           2. then we divide e.g. in the first step REDUCTION_POLY (u) / a (v),
-              u gets set to the remainder of the division, hence we increase the coefficient of a:
-               REDUCTION_POLYNOM * 1 + a * 0 = REDUCTION_POLYNOM
-               REDUCTION_POLYNOM = a * (shift_factor) + remainder
-               remainder = REDUCTION_POLYNOM - a * (shift_factor)
-               REDUCTION_POLYNOM * 1 + a * (shift_factor) = remainder
-
-           3. Then we swap and repeat again until u is 1 and we have found the inverse
-              (Note that just like in gcd we are continuing calculations with the remainders, which however preserve
-               the relationship: 888 = 54(16) + 24 => 54 = 24(2) + 6 .... 6 = 54 - 23 * 2 .....).
-               or remainder = REDUCTION_POLYNOM - a * (shift_factor)"""
-
-        u = a
-        v = self.REDUCTION_POLYNOM
-
-        g1 = 1
-        g2 = 0
-
-        while u != 1:
-            # Division Step
-            while u.bit_length() >= v.bit_length():
-                j = u.bit_length() - v.bit_length()
-
-                u ^= (v << j)  # Essentially this is euclid, u becomes the remainder of the division
-                g1 ^= (g2 << j)  # Keep track of coefficients/ formula, for inverse calculation
-
-            if u == 1:  # achieved: a * g1 + REDUCTION_POLYNOM * g2 = 1
-                break
-
-            # Rotate numbers just like in gcd
-            if v.bit_length() > u.bit_length():
-                u, v = v, u
-                g1, g2 = g2, g1
-
-        return g1
-
     def __truediv__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
-        inverse = self.extended_gcd(int(other))
+        _, inverse, _ = extended_gcd(other, GaloisFieldElement(self.REDUCTION_POLYNOM))
 
-        return self * GaloisFieldElement(inverse)
+        return self * inverse
+
+    def __divmod__(self, other: 'GaloisFieldElement') -> tuple['GaloisFieldElement', 'GaloisFieldElement']:
+        dividend = int(self)
+        divisor = int(other)
+
+        quotient = 0
+        remainder = dividend
+
+        while remainder.bit_length() >= divisor.bit_length():
+            degree_diff = remainder.bit_length() - divisor.bit_length()
+
+            quotient ^= (1 << degree_diff)
+
+            remainder ^= (divisor << degree_diff)
+
+        return GaloisFieldElement(quotient), GaloisFieldElement(remainder)
+
+    def __floordiv__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
+        quotient, _ = divmod(self, other)
+        return quotient
+
+    def __mod__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
+        _, remainder = divmod(self, other)
+        return remainder
 
     def sqrt(self) -> 'GaloisFieldElement':
         return self ** self.SQRT_POWER

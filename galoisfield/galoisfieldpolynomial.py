@@ -61,6 +61,9 @@ class GaloisFieldPolynomial:
 
         if k == 0:
             return result
+        elif len(self) == 1:
+            if int(self[0]) == 0 or int(self[0]) == 1:
+                return self % modulo if modulo else self
 
         base = self % modulo if modulo else self
 

@@ -57,13 +57,14 @@ class GaloisFieldPolynomial:
         return GaloisFieldPolynomial(result)._remove_leading_zero()
 
     def __pow__(self, k: int, modulo: Optional['GaloisFieldPolynomial'] = None) -> 'GaloisFieldPolynomial':
-        if int(self[0]) == 0 or int(self[0]) == 1:  # (Assuming Polys do not have leading 0s)
-            return self
-
         result = GaloisFieldPolynomial([GaloisFieldElement(1)])
 
         if k == 0:
             return result
+        elif int(self[0]) == 0:
+            return self
+        elif int(self[0]) == 1 and len(self) == 1:
+            return self
 
         base = self % modulo if modulo else self
 

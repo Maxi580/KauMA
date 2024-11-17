@@ -39,6 +39,19 @@
     "gfpoly-pow-1-exponent-100": {
       "Z": ["gAAAAAAAAAAAAAAAAAAAAA=="]
     },
+    "gfpoly-pow-0-exponent-0": {
+      "Z": ["gAAAAAAAAAAAAAAAAAAAAA=="]
+    },
+    "gfpoly-pow-1-exponent-10": {
+      "Z": ["gAAAAAAAAAAAAAAAAAAAAA=="]
+    },
+    "gfpoly-pow-1,1-exponent-3": {
+      "Z": ["gAAAAAAAAAAAAAAAAAAAAA==",
+            "gAAAAAAAAAAAAAAAAAAAAA==",
+            "gAAAAAAAAAAAAAAAAAAAAA==",
+            "gAAAAAAAAAAAAAAAAAAAAA=="
+      ]
+    },
     "gfdiv": {
       "q": "OAAAAAAAAAAAAAAAAAAAAA=="
     },

@@ -71,11 +71,50 @@ class GaloisFieldElement:
 
         return result
 
-    def __truediv__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
-        """b^(p -1) = 1 mod p => b * b^(p - 2) = 1 => b ^ (p - 2) is the inverse of b (Fermat) """
-        other_inverse = other ** self.INVERSE_POWER
+    def extended_gcd(self, a: int) -> int:
+        """We are starting from a * g1 + REDUCTION_POLYNOM * g2 = u
+           1. We always swap u and v so that u is the bigger value, just like in gcd
+              (# gcd(54, 888) => 54 = 0 * 888 + 54 => 888 = 54 * ...)
+           2. then we divide e.g. in the first step REDUCTION_POLY (u) / a (v),
+              u gets set to the remainder of the division, hence we increase the coefficient of a:
+               REDUCTION_POLYNOM * 1 + a * 0 = REDUCTION_POLYNOM
+               REDUCTION_POLYNOM = a * (shift_factor) + remainder
+               remainder = REDUCTION_POLYNOM - a * (shift_factor)
+               REDUCTION_POLYNOM * 1 + a * (shift_factor) = remainder
 
-        return self * other_inverse
+           3. Then we swap and repeat again until u is 1 and we have found the inverse
+              (Note that just like in gcd we are continuing calculations with the remainders, which however preserve
+               the relationship: 888 = 54(16) + 24 => 54 = 24(2) + 6 .... 6 = 54 - 23 * 2 .....).
+               or remainder = REDUCTION_POLYNOM - a * (shift_factor)"""
+
+        u = a
+        v = self.REDUCTION_POLYNOM
+
+        g1 = 1
+        g2 = 0
+
+        while u != 1:
+            # Division Step
+            while u.bit_length() >= v.bit_length():
+                j = u.bit_length() - v.bit_length()
+
+                u ^= (v << j)  # Essentially this is euclid, u becomes the remainder of the division
+                g1 ^= (g2 << j)  # Keep track of coefficients/ formula, for inverse calculation
+
+            if u == 1:  # achieved: a * g1 + REDUCTION_POLYNOM * g2 = 1
+                break
+
+            # Rotate numbers just like in gcd
+            if v.bit_length() > u.bit_length():
+                u, v = v, u
+                g1, g2 = g2, g1
+
+        return g1
+
+    def __truediv__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
+        inverse = self.extended_gcd(int(other))
+
+        return self * GaloisFieldElement(inverse)
 
     def sqrt(self) -> 'GaloisFieldElement':
         return self ** self.SQRT_POWER

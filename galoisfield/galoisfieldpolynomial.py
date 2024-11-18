@@ -133,3 +133,9 @@ class GaloisFieldPolynomial:
                 return False
 
         return True
+
+    def make_monic(self):
+        for i in range(len(self) - 1):
+            self[i] /= self[-1]
+
+        self[-1] = GaloisFieldElement(1)

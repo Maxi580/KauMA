@@ -198,6 +198,18 @@ def gfpoly_sort_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     return {"sorted_polys": b64_sorted_polys}
 
 
+def gfpoly_make_monic_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    b64_a = arguments["A"]
+
+    a = GaloisFieldPolynomial.from_b64_gcm(b64_a)
+
+    a.make_monic()
+
+    b64_monic_a = a.to_b64_gcm()
+
+    return {"A*": b64_monic_a}
+
+
 ACTION_PROCESSORS = {
     "poly2block": poly2block_action,
     "block2poly": block2poly_action,
@@ -213,7 +225,8 @@ ACTION_PROCESSORS = {
     "gfdiv": gfdiv_action,
     "gfpoly_divmod": gfpoly_divmod_action,
     "gfpoly_powmod": gfpoly_powmod_action,
-    "gfpoly_sort": gfpoly_sort_action
+    "gfpoly_sort": gfpoly_sort_action,
+    "gfpoly_make_monic": gfpoly_make_monic_action
 }
 
 

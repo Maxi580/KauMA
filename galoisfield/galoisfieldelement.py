@@ -109,3 +109,4 @@ class GaloisFieldElement:
 
     def __eq__(self, other: 'GaloisFieldElement') -> bool:
         return int(self) == int(other)
+

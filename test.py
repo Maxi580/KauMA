@@ -75,7 +75,7 @@ def run_kauma(input_file: Path) -> dict:
         raise TestError("Error processing test cases", error_context)
 
 
-def compare_outputs(actual: dict, expected: dict, test_name: str) -> list[str]:
+def compare_outputs(actual: dict, expected: dict) -> list[str]:
     differences = []
 
     actual_responses = actual.get('responses', {})
@@ -125,7 +125,7 @@ def run_json_tests():
             actual_output = run_kauma(input_file)
             expected_output = load_output_json(output_file)[0]
 
-            differences = compare_outputs(actual_output, expected_output, test_name)
+            differences = compare_outputs(actual_output, expected_output)
 
             if not differences:
                 print(f"✅ {test_name} passed")

@@ -126,7 +126,7 @@ def gfpoly_add_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     S = gfp_a + gfp_b
 
-    return {"S": S.to_b64_list_gcm()}
+    return {"S": S.to_b64_gcm()}
 
 
 def gfpoly_mul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -138,7 +138,7 @@ def gfpoly_mul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     S = gfp_a * gfp_b
 
-    return {"P": S.to_b64_list_gcm()}
+    return {"P": S.to_b64_gcm()}
 
 
 def gfpoly_pow_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -149,7 +149,7 @@ def gfpoly_pow_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     Z = gfp_a ** k
 
-    return {"Z": Z.to_b64_list_gcm()}
+    return {"Z": Z.to_b64_gcm()}
 
 
 def gfdiv_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -170,7 +170,7 @@ def gfpoly_divmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     Q, R = divmod(gfp_a, gfp_b)
 
-    return {"Q": Q.to_b64_list_gcm(), "R": R.to_b64_list_gcm()}
+    return {"Q": Q.to_b64_gcm(), "R": R.to_b64_gcm()}
 
 
 def gfpoly_powmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -183,7 +183,19 @@ def gfpoly_powmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     Z = pow(gfp_a, k, gfp_m)
 
-    return {"Z": Z.to_b64_list_gcm()}
+    return {"Z": Z.to_b64_gcm()}
+
+
+def gfpoly_sort_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    b64_polys = arguments["polys"]
+
+    polys = [GaloisFieldPolynomial.from_b64_gcm(b64_poly) for b64_poly in b64_polys]
+
+    sorted_polys = sorted(polys)
+
+    b64_sorted_polys = [poly.to_b64_gcm() for poly in sorted_polys]
+
+    return {"sorted_polys": b64_sorted_polys}
 
 
 ACTION_PROCESSORS = {
@@ -201,6 +213,7 @@ ACTION_PROCESSORS = {
     "gfdiv": gfdiv_action,
     "gfpoly_divmod": gfpoly_divmod_action,
     "gfpoly_powmod": gfpoly_powmod_action,
+    "gfpoly_sort": gfpoly_sort_action
 }
 
 

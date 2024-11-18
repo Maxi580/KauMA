@@ -104,5 +104,8 @@ class GaloisFieldElement:
         _, remainder = divmod(self, other)
         return remainder
 
-    def sqrt(self) -> 'GaloisFieldElement':
-        return self ** self.SQRT_POWER
+    def __lt__(self, other: 'GaloisFieldElement') -> bool:
+        return int(self) < int(other)
+
+    def __eq__(self, other: 'GaloisFieldElement') -> bool:
+        return int(self) == int(other)

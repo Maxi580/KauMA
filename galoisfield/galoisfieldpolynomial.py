@@ -12,7 +12,7 @@ class GaloisFieldPolynomial:
     def from_b64_gcm(cls, b64_gcm: list[str]) -> 'GaloisFieldPolynomial':
         return cls([GaloisFieldElement(B64Block(poly).gcm_poly) for poly in b64_gcm])
 
-    def to_b64_list_gcm(self) -> list[str]:
+    def to_b64_gcm(self) -> list[str]:
         return [Block(gfe.to_block_gcm()).b64_block for gfe in self._gfe_list]
 
     def _remove_leading_zero(self) -> 'GaloisFieldPolynomial':
@@ -113,3 +113,23 @@ class GaloisFieldPolynomial:
     def __mod__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
         _, remainder = self.__divmod__(other)
         return remainder
+
+    def __lt__(self, other: 'GaloisFieldPolynomial') -> bool:
+        if len(self) != len(other):
+            return len(self) < len(other)
+
+        for gfe_self, gfe_other in zip(reversed(self), reversed(other)):
+            if gfe_self != gfe_other:
+                return gfe_self < gfe_other
+
+        return False
+
+    def __eq__(self, other: 'GaloisFieldPolynomial') -> bool:
+        if len(self) != len(other):
+            return False
+
+        for gfe_self, gfe_other in zip(reversed(self), reversed(other)):
+            if gfe_self != gfe_other:
+                return False
+
+        return True

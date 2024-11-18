@@ -210,6 +210,18 @@ def gfpoly_make_monic_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     return {"A*": b64_monic_a}
 
 
+def gfpoly_sqrt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    b64_q = arguments["Q"]
+
+    q = GaloisFieldPolynomial.from_b64_gcm(b64_q)
+
+    sqrt_q = q.sqrt()
+
+    b64_sqrt_q = sqrt_q.to_b64_gcm()
+
+    return {"S": b64_sqrt_q}
+
+
 ACTION_PROCESSORS = {
     "poly2block": poly2block_action,
     "block2poly": block2poly_action,
@@ -226,7 +238,8 @@ ACTION_PROCESSORS = {
     "gfpoly_divmod": gfpoly_divmod_action,
     "gfpoly_powmod": gfpoly_powmod_action,
     "gfpoly_sort": gfpoly_sort_action,
-    "gfpoly_make_monic": gfpoly_make_monic_action
+    "gfpoly_make_monic": gfpoly_make_monic_action,
+    "gfpoly_sqrt": gfpoly_sqrt_action
 }
 
 

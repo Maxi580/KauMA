@@ -34,9 +34,8 @@ def timing_context(operation_name: str):
 
 def load_output_json(file_path: Path) -> Tuple[Dict[str, Any], bool]:
     try:
-        with timing_context(f"Loading {file_path.name}"):
-            with open(file_path) as f:
-                return json.load(f), True
+        with open(file_path) as f:
+            return json.load(f), True
     except json.JSONDecodeError as e:
         error_context = {
             'file': str(file_path),

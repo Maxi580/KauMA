@@ -139,3 +139,11 @@ class GaloisFieldPolynomial:
             self[i] /= self[-1]
 
         self[-1] = GaloisFieldElement(1)
+
+    def sqrt(self):
+        sqrt_poly = GaloisFieldPolynomial([self[0].sqrt()])
+
+        for i in range(2, len(self), 2):
+            sqrt_poly = sqrt_poly.append([self[i].sqrt()])
+
+        return sqrt_poly._remove_leading_zero()

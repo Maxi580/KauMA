@@ -36,6 +36,18 @@
         "NeverGonnaRunAroundAAA==",
         "AndDesertYouAAAAAAAAAA=="
       ]
+    },
+    "gfpoly-diff": {
+      "F'": [
+      "HowImFeelingAAAAAAAAAA==",
+      "AAAAAAAAAAAAAAAAAAAAAA==",
+      "UnderstaaaaaaaaaaaaanQ=="
+      ]
+    },
+    "gfpoly-diff-single-element": {
+      "F'": [
+      "AAAAAAAAAAAAAAAAAAAAAA=="
+      ]
     }
   }
 }

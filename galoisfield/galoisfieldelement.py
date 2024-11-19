@@ -110,5 +110,5 @@ class GaloisFieldElement:
     def __eq__(self, other: 'GaloisFieldElement') -> bool:
         return int(self) == int(other)
 
-    def sqrt(self) -> 'GaloisFieldElement':
-        return self ** self.SQRT_POWER
+    def sqrt(self):
+        self._int_value = int(self ** self.SQRT_POWER)

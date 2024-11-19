@@ -215,11 +215,23 @@ def gfpoly_sqrt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     q = GaloisFieldPolynomial.from_b64_gcm(b64_q)
 
-    sqrt_q = q.sqrt()
+    q.sqrt()
 
-    b64_sqrt_q = sqrt_q.to_b64_gcm()
+    b64_sqrt_q = q.to_b64_gcm()
 
     return {"S": b64_sqrt_q}
+
+
+def gfpoly_diff_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    b64_f = arguments["F"]
+
+    f = GaloisFieldPolynomial.from_b64_gcm(b64_f)
+
+    f.diff()
+
+    b64_diff_f = f.to_b64_gcm()
+
+    return {"F'": b64_diff_f}
 
 
 ACTION_PROCESSORS = {
@@ -239,7 +251,8 @@ ACTION_PROCESSORS = {
     "gfpoly_powmod": gfpoly_powmod_action,
     "gfpoly_sort": gfpoly_sort_action,
     "gfpoly_make_monic": gfpoly_make_monic_action,
-    "gfpoly_sqrt": gfpoly_sqrt_action
+    "gfpoly_sqrt": gfpoly_sqrt_action,
+    "gfpoly_diff": gfpoly_diff_action,
 }
 
 

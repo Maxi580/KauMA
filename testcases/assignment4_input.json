@@ -48,6 +48,25 @@
         "Ds96KiAKKoigKoiKiiKAiA=="
         ]
       }
+    },
+    "gfpoly-diff": {
+      "action": "gfpoly_diff",
+      "arguments": {
+        "F": [
+          "IJustWannaTellYouAAAAA==",
+          "HowImFeelingAAAAAAAAAA==",
+          "GottaMakeYouAAAAAAAAAA==",
+          "UnderstaaaaaaaaaaaaanQ=="
+        ]
+      }
+    },
+    "gfpoly-diff-single-element": {
+      "action": "gfpoly_diff",
+      "arguments": {
+        "F": [
+          "IJustWannaTellYouAAAAA=="
+        ]
+      }
     }
   }
 }

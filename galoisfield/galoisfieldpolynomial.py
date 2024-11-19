@@ -23,6 +23,9 @@ class GaloisFieldPolynomial:
     def append(self, elements: list[GaloisFieldElement]) -> 'GaloisFieldPolynomial':
         return GaloisFieldPolynomial(list(self) + elements)
 
+    def pop(self, index: int = -1):
+        self._gfe_list.pop(index)
+
     def __getitem__(self, index: int) -> GaloisFieldElement:
         return self._gfe_list[index]
 
@@ -141,9 +144,28 @@ class GaloisFieldPolynomial:
         self[-1] = GaloisFieldElement(1)
 
     def sqrt(self):
-        sqrt_poly = GaloisFieldPolynomial([self[0].sqrt()])
+        """Len of GFP always has to be odd since, only even GFE do not equal 0.
+           => there are len(self)//2 odd gfe´s that need to be popped
+           => take sqrt of even, pop the odd one behind until the last one as there is no odd behind."""
 
+        odd_poly_cntr = len(self) // 2
+        for i in range(odd_poly_cntr):
+            self[i].sqrt()
+            self.pop(i + 1)
+
+        self[-1].sqrt()
+        self._remove_leading_zero()  # In case last gfe turns 0 on sqrt
+
+    def diff(self):
+        """set even elements to 0, remove constant (cant pop away only element)"""
         for i in range(2, len(self), 2):
-            sqrt_poly = sqrt_poly.append([self[i].sqrt()])
+            self[i] = GaloisFieldElement(0)
 
-        return sqrt_poly._remove_leading_zero()
+        if len(self) == 1:
+            self[0] = GaloisFieldElement(0)
+        else:
+            self.pop(0)
+
+
+
+

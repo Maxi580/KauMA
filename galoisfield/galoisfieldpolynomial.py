@@ -157,15 +157,11 @@ class GaloisFieldPolynomial:
         self._remove_leading_zero()  # In case last gfe turns 0 on sqrt
 
     def diff(self):
-        """set even elements to 0, remove constant (cant pop away only element)"""
-        for i in range(2, len(self), 2):
-            self[i] = GaloisFieldElement(0)
-
         if len(self) == 1:
             self[0] = GaloisFieldElement(0)
         else:
             self.pop(0)
 
-
-
+            for i in range(1, len(self), 2):
+                self[i] = GaloisFieldElement(0)
 

@@ -12,6 +12,16 @@ class GaloisFieldPolynomial:
     def from_b64_gcm(cls, b64_gcm: list[str]) -> 'GaloisFieldPolynomial':
         return cls([GaloisFieldElement(B64Block(poly).gcm_poly) for poly in b64_gcm])
 
+    @staticmethod
+    def gcd(a: 'GaloisFieldPolynomial', b: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
+        while not all(int(gfe) == 0 for gfe in b):
+            temp = b
+            b = a % b
+            a = temp
+
+        a.make_monic()
+        return a
+
     def to_b64_gcm(self) -> list[str]:
         return [Block(gfe.to_block_gcm()).b64_block for gfe in self._gfe_list]
 

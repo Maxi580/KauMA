@@ -234,6 +234,15 @@ def gfpoly_diff_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     return {"F'": b64_diff_f}
 
 
+def gfpoly_gcd_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    a = GaloisFieldPolynomial.from_b64_gcm(arguments["A"])
+    b = GaloisFieldPolynomial.from_b64_gcm(arguments["B"])
+
+    result = GaloisFieldPolynomial.gcd(a, b)
+
+    return {"G": result.to_b64_gcm()}
+
+
 ACTION_PROCESSORS = {
     "poly2block": poly2block_action,
     "block2poly": block2poly_action,
@@ -253,6 +262,7 @@ ACTION_PROCESSORS = {
     "gfpoly_make_monic": gfpoly_make_monic_action,
     "gfpoly_sqrt": gfpoly_sqrt_action,
     "gfpoly_diff": gfpoly_diff_action,
+    "gfpoly_gcd": gfpoly_gcd_action,
 }
 
 

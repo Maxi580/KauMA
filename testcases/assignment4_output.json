@@ -2,52 +2,95 @@
   "responses": {
     "gfpoly-sort": {
       "sorted_polys":  [
-          [
+        [
           "WereNoStrangersToLoveA==",
           "YouKnowTheRulesAAAAAAA==",
           "AndSoDoIAAAAAAAAAAAAAA=="
-          ],
-          [
+        ],
+        [
           "NeverGonnaMakeYouCryAA==",
           "NeverGonnaSayGoodbyeAA==",
           "NeverGonnaTellALieAAAA==",
           "AndHurtYouAAAAAAAAAAAA=="
-          ],
-          [
+        ],
+        [
           "NeverGonnaGiveYouUpAAA==",
           "NeverGonnaLetYouDownAA==",
           "NeverGonnaRunAroundAAA==",
           "AndDesertYouAAAAAAAAAA=="
-          ]
+        ]
       ]
     },
     "gfpoly-make-monic": {
-      "A*":   [
-      "edY47onJ4MtCENDTHG/sZw==",
-      "oaXjCKnceBIxSavZ9eFT8w==",
-      "1Ial5rAJGOucIdUe3zh5bw==",
-      "gAAAAAAAAAAAAAAAAAAAAA=="
-      ]
+      "A*":
+        [
+          "edY47onJ4MtCENDTHG/sZw==",
+          "oaXjCKnceBIxSavZ9eFT8w==",
+          "1Ial5rAJGOucIdUe3zh5bw==",
+          "gAAAAAAAAAAAAAAAAAAAAA=="
+        ]
     },
     "gfpoly-sqrt": {
-      "S":    [
-        "NeverGonnaGiveYouUpAAA==",
-        "NeverGonnaLetYouDownAA==",
-        "NeverGonnaRunAroundAAA==",
-        "AndDesertYouAAAAAAAAAA=="
-      ]
+      "S":
+        [
+          "NeverGonnaGiveYouUpAAA==",
+          "NeverGonnaLetYouDownAA==",
+          "NeverGonnaRunAroundAAA==",
+          "AndDesertYouAAAAAAAAAA=="
+        ]
     },
     "gfpoly-diff": {
-      "F'": [
-      "HowImFeelingAAAAAAAAAA==",
-      "AAAAAAAAAAAAAAAAAAAAAA==",
-      "UnderstaaaaaaaaaaaaanQ=="
-      ]
+      "F'":
+        [
+          "HowImFeelingAAAAAAAAAA==",
+          "AAAAAAAAAAAAAAAAAAAAAA==",
+          "UnderstaaaaaaaaaaaaanQ=="
+        ]
+    },
+    "gfpoly-diff-odd-cnt(lastElementZero)": {
+      "F'":
+        [
+          "HowImFeelingAAAAAAAAAA=="
+        ]
     },
     "gfpoly-diff-single-element": {
-      "F'": [
-      "AAAAAAAAAAAAAAAAAAAAAA=="
-      ]
+      "F'":
+        [
+          "AAAAAAAAAAAAAAAAAAAAAA=="
+        ]
+    },
+    "gfpoly-gcd": {
+      "G":
+        [
+          "NeverGonnaMakeYouCryAA==",
+          "NeverGonnaSayGoodbyeAA==",
+          "NeverGonnaTellALieAAAA==",
+          "AndHurtYouAAAAAAAAAAAA==",
+          "gAAAAAAAAAAAAAAAAAAAAA=="
+        ]
+    },
+    "gfpoly-gcd-identical": {
+      "G":
+        [
+          "g4tIp+6SdxUddQeNjisfJQ==",
+          "BUHmDqMSsuJU0ZVufRTg/Q==",
+          "D+vTjs1qwFk0hvqy+ihJqQ==",
+          "DsreCyGDZkTjQloGOOKcvg==",
+          "wezZpAq0bQPChn4eHI+10w==",
+          "KZsxR0ChX93A0cHv8P5Hnw==",
+          "wGfDm7MasmQhCEIQhCEIQA==",
+          "gAAAAAAAAAAAAAAAAAAAAA=="
+        ]
+    },
+    "gfpoly-gcd-reverse": {
+      "G":
+        [
+          "NeverGonnaMakeYouCryAA==",
+          "NeverGonnaSayGoodbyeAA==",
+          "NeverGonnaTellALieAAAA==",
+          "AndHurtYouAAAAAAAAAAAA==",
+          "gAAAAAAAAAAAAAAAAAAAAA=="
+        ]
     }
   }
 }

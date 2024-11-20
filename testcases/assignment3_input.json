@@ -3,92 +3,119 @@
     "gfpoly-add": {
       "action": "gfpoly_add",
       "arguments": {
-        "A": [
-              "NeverGonnaGiveYouUpAAA==",
-              "NeverGonnaLetYouDownAA==",
-              "NeverGonnaRunAroundAAA==",
-              "AndDesertYouAAAAAAAAAA=="
-        ],
-        "B": [
-              "KryptoanalyseAAAAAAAAA==",
-              "DHBWMannheimAAAAAAAAAA=="
-        ]
+        "A":
+          [
+            "NeverGonnaGiveYouUpAAA==",
+            "NeverGonnaLetYouDownAA==",
+            "NeverGonnaRunAroundAAA==",
+            "AndDesertYouAAAAAAAAAA=="
+          ],
+        "B":
+          [
+            "KryptoanalyseAAAAAAAAA==",
+            "DHBWMannheimAAAAAAAAAA=="
+          ]
       }
     },
     "gfpoly-add-inverse": {
       "action": "gfpoly_add",
       "arguments": {
-        "A": [
-              "NeverGonnaGiveYouUpAAA==",
-              "NeverGonnaLetYouDownAA==",
-              "NeverGonnaRunAroundAAA==",
-              "AndDesertYouAAAAAAAAAA=="
-        ],
-        "B": [
-              "NeverGonnaGiveYouUpAAA==",
-              "NeverGonnaLetYouDownAA==",
-              "NeverGonnaRunAroundAAA==",
-              "AndDesertYouAAAAAAAAAA=="
-        ]
+        "A":
+          [
+            "NeverGonnaGiveYouUpAAA==",
+            "NeverGonnaLetYouDownAA==",
+            "NeverGonnaRunAroundAAA==",
+            "AndDesertYouAAAAAAAAAA=="
+          ],
+        "B":
+          [
+            "NeverGonnaGiveYouUpAAA==",
+            "NeverGonnaLetYouDownAA==",
+            "NeverGonnaRunAroundAAA==",
+            "AndDesertYouAAAAAAAAAA=="
+          ]
       }
     },
     "gfpoly-mul": {
       "action": "gfpoly_mul",
       "arguments": {
-        "A": [
-              "JAAAAAAAAAAAAAAAAAAAAA==",
-              "wAAAAAAAAAAAAAAAAAAAAA==",
-              "ACAAAAAAAAAAAAAAAAAAAA=="
-        ],
-        "B": [
-        "0AAAAAAAAAAAAAAAAAAAAA==",
-        "IQAAAAAAAAAAAAAAAAAAAA=="
-        ]
+        "A":
+          [
+            "JAAAAAAAAAAAAAAAAAAAAA==",
+            "wAAAAAAAAAAAAAAAAAAAAA==",
+            "ACAAAAAAAAAAAAAAAAAAAA=="
+          ],
+        "B":
+          [
+            "0AAAAAAAAAAAAAAAAAAAAA==",
+            "IQAAAAAAAAAAAAAAAAAAAA=="
+          ]
       }
     },
     "gfpoly-mul-zero": {
       "action": "gfpoly_mul",
       "arguments": {
-        "A": ["AAAAAAAAAAAAAAAAAAAAAA=="],
-        "B": ["AAAAAAAAAAAAAAAAAAAAAA==", "gAAAAAAAAAAAAAAAAAAAAA=="]
+        "A":
+          [
+            "AAAAAAAAAAAAAAAAAAAAAA=="
+          ],
+        "B":
+          [
+            "AAAAAAAAAAAAAAAAAAAAAA==",
+            "gAAAAAAAAAAAAAAAAAAAAA=="
+          ]
       }
     },
     "gfpoly-pow": {
       "action": "gfpoly_pow",
       "arguments": {
-        "A": [
-              "JAAAAAAAAAAAAAAAAAAAAA==",
-              "wAAAAAAAAAAAAAAAAAAAAA==",
-              "ACAAAAAAAAAAAAAAAAAAAA=="
-        ],
+        "A":
+          [
+            "JAAAAAAAAAAAAAAAAAAAAA==",
+            "wAAAAAAAAAAAAAAAAAAAAA==",
+            "ACAAAAAAAAAAAAAAAAAAAA=="
+          ],
         "k": 3
       }
     },
     "gfpoly-pow-1-exponent-100": {
       "action": "gfpoly_pow",
       "arguments": {
-        "A": ["gAAAAAAAAAAAAAAAAAAAAA=="],
+        "A":
+          [
+            "gAAAAAAAAAAAAAAAAAAAAA=="
+          ],
         "k": 100000000000000000000000000000000000
       }
     },
     "gfpoly-pow-0-exponent-0": {
       "action": "gfpoly_pow",
       "arguments": {
-        "A": ["AAAAAAAAAAAAAAAAAAAAAA=="],
+        "A":
+          [
+            "AAAAAAAAAAAAAAAAAAAAAA=="
+          ],
         "k": 0
       }
     },
     "gfpoly-pow-1-exponent-10": {
       "action": "gfpoly_pow",
       "arguments": {
-        "A": ["gAAAAAAAAAAAAAAAAAAAAA=="],
+        "A":
+          [
+            "gAAAAAAAAAAAAAAAAAAAAA=="
+          ],
         "k": 10
       }
     },
     "gfpoly-pow-1,1-exponent-3": {
       "action": "gfpoly_pow",
       "arguments": {
-        "A": ["gAAAAAAAAAAAAAAAAAAAAA==", "gAAAAAAAAAAAAAAAAAAAAA=="],
+        "A":
+          [
+            "gAAAAAAAAAAAAAAAAAAAAA==",
+            "gAAAAAAAAAAAAAAAAAAAAA=="
+          ],
         "k": 3
       }
     },
@@ -102,49 +129,67 @@
     "gfpoly-divmod-a-smaller-b": {
       "action": "gfpoly_divmod",
       "arguments": {
-        "A": ["gAAAAAAAAAAAAAAAAAAAAA==",
-              "QAAAAAAAAAAAAAAAAAAAAA=="],
+        "A":
+          [
+            "gAAAAAAAAAAAAAAAAAAAAA==",
+            "QAAAAAAAAAAAAAAAAAAAAA=="
+          ],
 
-        "B": ["wAAAAAAAAAAAAAAAAAAAAA==",
-              "IAAAAAAAAAAAAAAAAAAAAA==",
-              "oAAAAAAAAAAAAAAAAAAAAA=="]
+        "B":
+          [
+            "wAAAAAAAAAAAAAAAAAAAAA==",
+            "IAAAAAAAAAAAAAAAAAAAAA==",
+            "oAAAAAAAAAAAAAAAAAAAAA=="
+          ]
       }
     },
     "gfpoly-divmod": {
       "action": "gfpoly_divmod",
       "arguments": {
-        "A": [
-              "JAAAAAAAAAAAAAAAAAAAAA==",
-              "wAAAAAAAAAAAAAAAAAAAAA==",
-              "ACAAAAAAAAAAAAAAAAAAAA=="
-              ],
+        "A":
+          [
+            "JAAAAAAAAAAAAAAAAAAAAA==",
+            "wAAAAAAAAAAAAAAAAAAAAA==",
+            "ACAAAAAAAAAAAAAAAAAAAA=="
+          ],
 
-        "B": [
-              "0AAAAAAAAAAAAAAAAAAAAA==",
-              "IQAAAAAAAAAAAAAAAAAAAA=="
-        ]
+        "B":
+          [
+            "0AAAAAAAAAAAAAAAAAAAAA==",
+            "IQAAAAAAAAAAAAAAAAAAAA=="
+          ]
       }
     },
     "gfpoly-divmod-2": {
       "action": "gfpoly_divmod",
       "arguments": {
-        "A": ["AAAAAAAAAAAAAAAAAAAAAA==", "gAAAAAAAAAAAAAAAAAAAAA==", "QAAAAAAAAAAAAAAAAAAAAA=="],
+        "A":
+          [
+            "AAAAAAAAAAAAAAAAAAAAAA==",
+            "gAAAAAAAAAAAAAAAAAAAAA==",
+            "QAAAAAAAAAAAAAAAAAAAAA=="
+          ],
 
-        "B": ["gAAAAAAAAAAAAAAAAAAAAA=="]
+        "B":
+          [
+            "gAAAAAAAAAAAAAAAAAAAAA=="
+          ]
       }
     },
     "gfpoly-powmod": {
       "action": "gfpoly_powmod",
       "arguments": {
-        "A": [
-        "JAAAAAAAAAAAAAAAAAAAAA==",
-        "wAAAAAAAAAAAAAAAAAAAAA==",
-        "ACAAAAAAAAAAAAAAAAAAAA=="
-        ],
-        "M": [
-        "KryptoanalyseAAAAAAAAA==",
-        "DHBWMannheimAAAAAAAAAA=="
-        ],
+        "A":
+          [
+            "JAAAAAAAAAAAAAAAAAAAAA==",
+            "wAAAAAAAAAAAAAAAAAAAAA==",
+            "ACAAAAAAAAAAAAAAAAAAAA=="
+          ],
+        "M":
+          [
+            "KryptoanalyseAAAAAAAAA==",
+            "DHBWMannheimAAAAAAAAAA=="
+          ],
         "k": 1000
         }
     }

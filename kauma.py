@@ -7,13 +7,13 @@ from block_poly.b64_block import B64Block
 from block_poly.block import Block
 from block_poly.coefficients import Coefficients
 from block_poly.poly import Poly
-
-from galoisfield.galoisfieldelement import GaloisFieldElement
 from crypto_algorithms.sea128 import sea_encrypt, sea_decrypt, aes_encrypt
 from crypto_algorithms.fde import encrypt_fde, decrypt_fde
 from crypto_algorithms.gcm import gcm_encrypt, gcm_decrypt
-from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from paddingoracle.paddingOracle import padding_oracle_attack
+from galoisfield.galoisfieldelement import GaloisFieldElement
+from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
+from gcm_crack.sff import sff
 
 ENCRYPT_MODE = "encrypt"
 DECRYPT_MODE = "decrypt"
@@ -118,36 +118,28 @@ def padding_oracle_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_add_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    A = arguments["A"]
-    B = arguments["B"]
+    A = GaloisFieldPolynomial.from_b64_gcm(arguments["A"])
+    B = GaloisFieldPolynomial.from_b64_gcm(arguments["B"])
 
-    gfp_a = GaloisFieldPolynomial.from_b64_gcm(A)
-    gfp_b = GaloisFieldPolynomial.from_b64_gcm(B)
-
-    S = gfp_a + gfp_b
+    S = A + B
 
     return {"S": S.to_b64_gcm()}
 
 
 def gfpoly_mul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    A = arguments["A"]
-    B = arguments["B"]
+    A = GaloisFieldPolynomial.from_b64_gcm(arguments["A"])
+    B = GaloisFieldPolynomial.from_b64_gcm(arguments["B"])
 
-    gfp_a = GaloisFieldPolynomial.from_b64_gcm(A)
-    gfp_b = GaloisFieldPolynomial.from_b64_gcm(B)
-
-    S = gfp_a * gfp_b
+    S = A * B
 
     return {"P": S.to_b64_gcm()}
 
 
 def gfpoly_pow_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    A = arguments["A"]
     k = arguments["k"]
+    A = GaloisFieldPolynomial.from_b64_gcm(arguments["A"])
 
-    gfp_a = GaloisFieldPolynomial.from_b64_gcm(A)
-
-    Z = gfp_a ** k
+    Z = A ** k
 
     return {"Z": Z.to_b64_gcm()}
 
@@ -162,13 +154,10 @@ def gfdiv_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_divmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    A = arguments["A"]
-    B = arguments["B"]
+    a = GaloisFieldPolynomial.from_b64_gcm(arguments["A"])
+    b = GaloisFieldPolynomial.from_b64_gcm(arguments["B"])
 
-    gfp_a = GaloisFieldPolynomial.from_b64_gcm(A)
-    gfp_b = GaloisFieldPolynomial.from_b64_gcm(B)
-
-    Q, R = divmod(gfp_a, gfp_b)
+    Q, R = divmod(a, b)
 
     return {"Q": Q.to_b64_gcm(), "R": R.to_b64_gcm()}
 
@@ -188,7 +177,6 @@ def gfpoly_powmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 def gfpoly_sort_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     b64_polys = arguments["polys"]
-
     polys = [GaloisFieldPolynomial.from_b64_gcm(b64_poly) for b64_poly in b64_polys]
 
     sorted_polys = sorted(polys)
@@ -199,48 +187,44 @@ def gfpoly_sort_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_make_monic_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    b64_a = arguments["A"]
+    A = GaloisFieldPolynomial.from_b64_gcm(arguments["A"])
 
-    a = GaloisFieldPolynomial.from_b64_gcm(b64_a)
+    A.make_monic()
 
-    a.make_monic()
-
-    b64_monic_a = a.to_b64_gcm()
-
-    return {"A*": b64_monic_a}
+    return {"A*": A.to_b64_gcm()}
 
 
 def gfpoly_sqrt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    b64_q = arguments["Q"]
+    Q = GaloisFieldPolynomial.from_b64_gcm(arguments["Q"])
 
-    q = GaloisFieldPolynomial.from_b64_gcm(b64_q)
+    sqrt_Q = Q.sqrt()
 
-    q.sqrt()
-
-    b64_sqrt_q = q.to_b64_gcm()
-
-    return {"S": b64_sqrt_q}
+    return {"S": sqrt_Q.to_b64_gcm()}
 
 
 def gfpoly_diff_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    b64_f = arguments["F"]
+    F = GaloisFieldPolynomial.from_b64_gcm(arguments["F"])
 
-    f = GaloisFieldPolynomial.from_b64_gcm(b64_f)
+    derived_F = F.diff()
 
-    f.diff()
-
-    b64_diff_f = f.to_b64_gcm()
-
-    return {"F'": b64_diff_f}
+    return {"F'": derived_F.to_b64_gcm()}
 
 
 def gfpoly_gcd_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    a = GaloisFieldPolynomial.from_b64_gcm(arguments["A"])
-    b = GaloisFieldPolynomial.from_b64_gcm(arguments["B"])
+    A = GaloisFieldPolynomial.from_b64_gcm(arguments["A"])
+    B = GaloisFieldPolynomial.from_b64_gcm(arguments["B"])
 
-    result = GaloisFieldPolynomial.gcd(a, b)
+    result = GaloisFieldPolynomial.gcd(A, B)
 
     return {"G": result.to_b64_gcm()}
+
+
+def gfpoly_factor_sff_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    F = GaloisFieldPolynomial.from_b64_gcm(arguments["F"])
+
+    result = sorted(sff(F))
+
+    return {"factors": [{"factor": result[i][0].to_b64_gcm(), "exponent": result[i][1]} for i in range(len(result))]}
 
 
 ACTION_PROCESSORS = {
@@ -263,6 +247,7 @@ ACTION_PROCESSORS = {
     "gfpoly_sqrt": gfpoly_sqrt_action,
     "gfpoly_diff": gfpoly_diff_action,
     "gfpoly_gcd": gfpoly_gcd_action,
+    "gfpoly_factor_sff": gfpoly_factor_sff_action,
 }
 
 

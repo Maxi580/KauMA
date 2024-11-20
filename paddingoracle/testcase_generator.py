@@ -1,13 +1,15 @@
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
-from block_poly.block import Block
 import secrets
+
+from block_poly.block import Block
 
 
 def pkcs7_pad(data: bytes, block_size: int = 16) -> bytes:
     padding_length = block_size - (len(data) % block_size)
     padding = bytes([padding_length] * padding_length)
     return data + padding
+
 
 if __name__ == '__main__':
     plaintext = pkcs7_pad(b'Hello')
@@ -28,7 +30,6 @@ if __name__ == '__main__':
     print(f"Key: {Block(key).b64_block}")
     print(f"IV: {Block(iv).b64_block}")
     print(f"Ciphertext: {Block(ciphertext).b64_block}")
-
 
     decryptor = cipher.decryptor()
     ciphertext = decryptor.update(ciphertext) + decryptor.finalize()

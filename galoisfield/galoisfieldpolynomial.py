@@ -123,6 +123,10 @@ class GaloisFieldPolynomial:
 
         return GaloisFieldPolynomial(q)._remove_leading_zero(), r
 
+    def __truediv__(self, other):
+        quotient, _ = self.__divmod__(other)
+        return quotient
+
     def __mod__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
         _, remainder = self.__divmod__(other)
         return remainder
@@ -153,27 +157,34 @@ class GaloisFieldPolynomial:
 
         self[-1] = GaloisFieldElement(1)
 
-    def sqrt(self):
+    def sqrt(self) -> 'GaloisFieldPolynomial':
         """Len of GFP always has to be odd since, only even GFE do not equal 0.
            => there are len(self)//2 odd gfe´s that need to be popped
            => take sqrt of even, pop the odd one behind until the last one as there is no odd behind."""
+        sqrt_poly = GaloisFieldPolynomial(self._gfe_list.copy())
 
-        odd_poly_cntr = len(self) // 2
+        odd_poly_cntr = len(sqrt_poly) // 2
         for i in range(odd_poly_cntr):
-            self[i].sqrt()
-            self.pop(i + 1)
+            sqrt_poly[i].sqrt()
+            sqrt_poly.pop(i + 1)
 
-        self[-1].sqrt()
-        self._remove_leading_zero()  # In case last gfe turns 0 on sqrt
+        sqrt_poly[-1].sqrt()
+        sqrt_poly._remove_leading_zero()  # In case last gfe turns 0 on sqrt
 
-    def diff(self):
-        if len(self) == 1:
-            self[0] = GaloisFieldElement(0)
+        return sqrt_poly
+
+    def diff(self) -> 'GaloisFieldPolynomial':
+        derived_poly = GaloisFieldPolynomial(self._gfe_list.copy())
+
+        if len(derived_poly) == 1:
+            derived_poly[0] = GaloisFieldElement(0)
 
         else:
-            self.pop(0)
+            derived_poly.pop(0)
 
-            for i in range(1, len(self), 2):
-                self[i] = GaloisFieldElement(0)
+            for i in range(1, len(derived_poly), 2):
+                derived_poly[i] = GaloisFieldElement(0)
 
-            self._remove_leading_zero()
+            derived_poly._remove_leading_zero()
+
+        return derived_poly

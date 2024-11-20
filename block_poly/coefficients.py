@@ -1,6 +1,8 @@
-from block_poly.base import Base
 import base64
 from functools import cached_property
+
+from constants import BLOCK_SIZE
+from block_poly.base import Base
 
 
 class Coefficients(Base):
@@ -34,7 +36,7 @@ class Coefficients(Base):
 
     @cached_property
     def block(self) -> bytes:
-        return self.xex_poly.to_bytes(self.BYTE_LEN, byteorder='little')
+        return self.xex_poly.to_bytes(BLOCK_SIZE, byteorder='little')
 
     @cached_property
     def b64_block(self) -> str:

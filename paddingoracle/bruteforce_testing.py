@@ -5,10 +5,9 @@ import random
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
+from constants import BLOCK_SIZE
 from paddingoracle.paddingOracle import padding_oracle_attack
 from paddingoracle.server import Server
-
-BLOCK_SIZE = 16
 
 
 def pkcs7_pad(data: bytes, block_size: int = 16) -> bytes:
@@ -66,7 +65,7 @@ def test_padding_oracle():
             assert plaintext_result == plaintext
 
             cntr += 1
-        print(f"Avg Execution time: {sum(execution_times)/len(execution_times):.2f}")
+        print(f"Avg Execution time: {sum(execution_times) / len(execution_times):.2f}")
 
     finally:
         server.timeout = 0

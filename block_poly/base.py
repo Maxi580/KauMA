@@ -2,8 +2,6 @@ from abc import ABC, abstractmethod
 
 
 class Base(ABC):
-    BYTE_LEN = 16
-
     @staticmethod
     def _gcm_bit_inverse(poly: int) -> int:
         result = 0

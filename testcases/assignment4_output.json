@@ -91,6 +91,39 @@
           "AndHurtYouAAAAAAAAAAAA==",
           "gAAAAAAAAAAAAAAAAAAAAA=="
         ]
+    },
+    "gfpoly_factor_sff": {
+      "factors":
+        [
+          {
+            "factor":
+              [
+              "q4AAAAAAAAAAAAAAAAAAAA==",
+              "gAAAAAAAAAAAAAAAAAAAAA=="
+              ],
+            "exponent": 1
+          },
+          {
+          "factor":
+            [
+            "iwAAAAAAAAAAAAAAAAAAAA==",
+            "CAAAAAAAAAAAAAAAAAAAAA==",
+            "AAAAAAAAAAAAAAAAAAAAAA==",
+            "gAAAAAAAAAAAAAAAAAAAAA=="
+            ],
+            "exponent": 2
+          },
+          {
+          "factor":
+            [
+            "kAAAAAAAAAAAAAAAAAAAAA==",
+            "CAAAAAAAAAAAAAAAAAAAAA==",
+            "wAAAAAAAAAAAAAAAAAAAAA==",
+            "gAAAAAAAAAAAAAAAAAAAAA=="
+            ],
+            "exponent": 3
+          }
+      ]
     }
   }
 }

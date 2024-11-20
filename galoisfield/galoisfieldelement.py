@@ -1,13 +1,9 @@
+from constants import FIELD_SIZE, REDUCTION_POLYNOM, INVERSE_POWER, SQRT_POWER
 from block_poly.block import Block
 from block_poly.poly import Poly
 
 
 class GaloisFieldElement:
-    FIELD_SIZE = 128
-    REDUCTION_POLYNOM = (1 << 128) | (1 << 7) | (1 << 2) | (1 << 1) | 1
-    INVERSE_POWER = (1 << FIELD_SIZE) - 2
-    SQRT_POWER = 1 << (FIELD_SIZE - 1)
-
     def __init__(self, int_value: int):
         self._int_value = int_value
 
@@ -51,8 +47,8 @@ class GaloisFieldElement:
             if b_poly & (1 << i):
                 result ^= a_poly
 
-            if a_poly & (1 << (self.FIELD_SIZE - 1)):
-                a_poly = (a_poly << 1) ^ self.REDUCTION_POLYNOM
+            if a_poly & (1 << (FIELD_SIZE - 1)):
+                a_poly = (a_poly << 1) ^ REDUCTION_POLYNOM
             else:
                 a_poly <<= 1
 
@@ -77,7 +73,7 @@ class GaloisFieldElement:
         return result
 
     def __truediv__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
-        _, inverse, _ = GaloisFieldElement.extended_gcd(other, GaloisFieldElement(self.REDUCTION_POLYNOM))
+        _, inverse, _ = GaloisFieldElement.extended_gcd(other, GaloisFieldElement(REDUCTION_POLYNOM))
 
         return self * inverse
 
@@ -112,4 +108,4 @@ class GaloisFieldElement:
         return int(self) == int(other)
 
     def sqrt(self):
-        self._int_value = int(self ** self.SQRT_POWER)
+        self._int_value = int(self ** SQRT_POWER)

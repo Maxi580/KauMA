@@ -124,6 +124,32 @@
             "exponent": 3
           }
       ]
+    },
+    "gfpoly_factor_ddf": {
+      "factors":
+        [
+          {
+            "factor":
+              [
+                "q4AAAAAAAAAAAAAAAAAAAA==",
+                "gAAAAAAAAAAAAAAAAAAAAA=="
+              ],
+            "degree": 1
+          },
+          {
+            "factor":
+              [
+                "mmAAAAAAAAAAAAAAAAAAAA==",
+                "AbAAAAAAAAAAAAAAAAAAAA==",
+                "zgAAAAAAAAAAAAAAAAAAAA==",
+                "FwAAAAAAAAAAAAAAAAAAAA==",
+                "AAAAAAAAAAAAAAAAAAAAAA==",
+                "wAAAAAAAAAAAAAAAAAAAAA==",
+                "gAAAAAAAAAAAAAAAAAAAAA=="
+              ],
+            "degree": 3
+          }
+        ]
     }
   }
 }

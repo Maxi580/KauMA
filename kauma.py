@@ -14,6 +14,7 @@ from paddingoracle.paddingOracle import padding_oracle_attack
 from galoisfield.galoisfieldelement import GaloisFieldElement
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from gcm_crack.sff import sff
+from gcm_crack.ddf import ddf
 
 ENCRYPT_MODE = "encrypt"
 DECRYPT_MODE = "decrypt"
@@ -222,9 +223,17 @@ def gfpoly_gcd_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 def gfpoly_factor_sff_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     F = GaloisFieldPolynomial.from_b64_gcm(arguments["F"])
 
-    result = sorted(sff(F))
+    result = sff(F)
 
     return {"factors": [{"factor": result[i][0].to_b64_gcm(), "exponent": result[i][1]} for i in range(len(result))]}
+
+
+def gfpoly_factor_ddf_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    F = GaloisFieldPolynomial.from_b64_gcm(arguments["F"])
+
+    result = ddf(F)
+
+    return {"factors": [{"factor": result[i][0].to_b64_gcm(), "degree": result[i][1]} for i in range(len(result))]}
 
 
 ACTION_PROCESSORS = {
@@ -248,6 +257,7 @@ ACTION_PROCESSORS = {
     "gfpoly_diff": gfpoly_diff_action,
     "gfpoly_gcd": gfpoly_gcd_action,
     "gfpoly_factor_sff": gfpoly_factor_sff_action,
+    "gfpoly_factor_ddf": gfpoly_factor_ddf_action,
 }
 
 

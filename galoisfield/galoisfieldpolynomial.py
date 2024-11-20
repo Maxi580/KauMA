@@ -1,7 +1,12 @@
+from typing import Optional
+
 from block_poly.b64_block import B64Block
 from block_poly.block import Block
 from galoisfield.galoisfieldelement import GaloisFieldElement
-from typing import Optional
+
+
+def degree(gfp: 'GaloisFieldPolynomial') -> int:
+    return len(gfp) - 1
 
 
 class GaloisFieldPolynomial:
@@ -56,6 +61,9 @@ class GaloisFieldPolynomial:
         return GaloisFieldPolynomial(
             [gfe_a + gfe_b for gfe_a, gfe_b in zip(padded_self, padded_other)])._remove_leading_zero()
 
+    def __sub__(self, other: 'GaloisFieldPolynomial'):
+        return self + other
+
     def __mul__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
         result_len = len(self) + len(other) - 1
 
@@ -98,8 +106,8 @@ class GaloisFieldPolynomial:
             return GaloisFieldPolynomial([GaloisFieldElement(0)]), r
 
         while len(r) >= len(b_copy):
-            r_deg = len(r) - 1
-            b_deg = len(b_copy) - 1
+            r_deg = degree(r)
+            b_deg = degree(b_copy)
             deg_diff = r_deg - b_deg
 
             quotient_coeff = r[-1] / b_copy[-1]
@@ -124,8 +132,8 @@ class GaloisFieldPolynomial:
         return GaloisFieldPolynomial(q)._remove_leading_zero(), r
 
     def __truediv__(self, other):
-        quotient, remainder = divmod(self, other)
-        return quotient + remainder
+        quotient, _ = divmod(self, other)
+        return quotient
 
     def __mod__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
         _, remainder = divmod(self, other)

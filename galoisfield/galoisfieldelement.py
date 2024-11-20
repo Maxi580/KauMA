@@ -22,7 +22,7 @@ class GaloisFieldElement:
             return a, GaloisFieldElement(1), GaloisFieldElement(0)
         gcd, x_prev, y_prev = GaloisFieldElement.extended_gcd(b, a % b)
         x = y_prev
-        y = x_prev + (a // b) * y_prev  # Subtraction is same as addition in GF2^n
+        y = x_prev - (a // b) * y_prev
         return gcd, x, y
 
     def to_block_gcm(self) -> bytes:
@@ -36,6 +36,9 @@ class GaloisFieldElement:
 
     def __add__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
         return GaloisFieldElement(self._int_value ^ other._int_value)
+
+    def __sub__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
+        return self + other
 
     def __mul__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
         a_poly = int(self)

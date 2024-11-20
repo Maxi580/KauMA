@@ -36,7 +36,7 @@ class GaloisFieldPolynomial:
         return self
 
     def append(self, elements: list[GaloisFieldElement]) -> 'GaloisFieldPolynomial':
-        return GaloisFieldPolynomial(list(self) + elements)
+        return GaloisFieldPolynomial(self._gfe_list + elements)
 
     def pop(self, index: int = -1):
         self._gfe_list.pop(index)

@@ -15,6 +15,7 @@ from galoisfield.galoisfieldelement import GaloisFieldElement
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from gcm_crack.sff import sff
 from gcm_crack.ddf import ddf
+from gcm_crack.edf import edf
 
 ENCRYPT_MODE = "encrypt"
 DECRYPT_MODE = "decrypt"
@@ -236,6 +237,15 @@ def gfpoly_factor_ddf_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     return {"factors": [{"factor": result[i][0].to_b64_gcm(), "degree": result[i][1]} for i in range(len(result))]}
 
 
+def gfpoly_factor_edf_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    F = GaloisFieldPolynomial.from_b64_gcm(arguments["F"])
+    d = arguments["d"]
+
+    result = edf(F, d)
+
+    return {"factors": [result[i].to_b64_gcm() for i in range(len(result))]}
+
+
 ACTION_PROCESSORS = {
     "poly2block": poly2block_action,
     "block2poly": block2poly_action,
@@ -258,6 +268,7 @@ ACTION_PROCESSORS = {
     "gfpoly_gcd": gfpoly_gcd_action,
     "gfpoly_factor_sff": gfpoly_factor_sff_action,
     "gfpoly_factor_ddf": gfpoly_factor_ddf_action,
+    "gfpoly_factor_edf": gfpoly_factor_edf_action
 }
 
 

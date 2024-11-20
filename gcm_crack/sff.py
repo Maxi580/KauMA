@@ -24,4 +24,4 @@ def sff(f: GaloisFieldPolynomial) -> list[tuple[GaloisFieldPolynomial, int]]:
     if c != ONE:
         for (fstar, estar) in sff(c.sqrt()):
             z.append((fstar, estar * 2))
-    return sorted(z, key=lambda x: (x[0], x[1]))
+    return sorted(z)

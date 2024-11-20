@@ -159,9 +159,11 @@ class GaloisFieldPolynomial:
     def diff(self):
         if len(self) == 1:
             self[0] = GaloisFieldElement(0)
+
         else:
             self.pop(0)
 
             for i in range(1, len(self), 2):
                 self[i] = GaloisFieldElement(0)
 
+            self._remove_leading_zero()

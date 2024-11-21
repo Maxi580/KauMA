@@ -16,6 +16,7 @@ from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from gcm_crack.sff import sff
 from gcm_crack.ddf import ddf
 from gcm_crack.edf import edf
+from gcm_crack.gcm_crack import gcm_crack, json_to_gcm_message
 
 ENCRYPT_MODE = "encrypt"
 DECRYPT_MODE = "decrypt"
@@ -246,6 +247,22 @@ def gfpoly_factor_edf_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     return {"factors": [result[i].to_b64_gcm() for i in range(len(result))]}
 
 
+def gcm_crack_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    nonce = B64Block(arguments["nonce"]).block
+
+    m1 = json_to_gcm_message(arguments["m1"])
+    m2 = json_to_gcm_message(arguments["m2"])
+    m3 = json_to_gcm_message(arguments["m3"])
+
+    forgery_data = arguments["forgery"]
+    forgery_ciphertext = B64Block(forgery_data["ciphertext"]).block
+    forgery_ad = B64Block(forgery_data["associated_data"]).block
+
+    result = gcm_crack(nonce, m1, m2, m3, forgery_ciphertext, forgery_ad)
+
+    return {"WIP": result}
+
+
 ACTION_PROCESSORS = {
     "poly2block": poly2block_action,
     "block2poly": block2poly_action,
@@ -268,7 +285,8 @@ ACTION_PROCESSORS = {
     "gfpoly_gcd": gfpoly_gcd_action,
     "gfpoly_factor_sff": gfpoly_factor_sff_action,
     "gfpoly_factor_ddf": gfpoly_factor_ddf_action,
-    "gfpoly_factor_edf": gfpoly_factor_edf_action
+    "gfpoly_factor_edf": gfpoly_factor_edf_action,
+    "gcm_crack": gcm_crack_action,
 }
 
 

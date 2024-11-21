@@ -45,7 +45,7 @@ def _get_j(key: bytes, nonce: bytes, encryption_function: EncryptionStrategy) ->
     return encryption_function(key, y0)
 
 
-def _get_l(ad: bytes, ciphertext: bytes):
+def get_l(ad: bytes, ciphertext: bytes):
     ad_length = len(ad) * 8
     cipher_length = len(ciphertext) * 8
 
@@ -61,14 +61,14 @@ def _pad_to_block(data: bytes) -> bytes:
     return data + bytes(padding_length)
 
 
-def _process_blocks(X: GaloisFieldElement, data: bytes, auth_key: GaloisFieldElement) -> GaloisFieldElement:
+def _process_blocks(x: GaloisFieldElement, data: bytes, auth_key: GaloisFieldElement) -> GaloisFieldElement:
     for i in range(0, len(data), BLOCK_SIZE):
         ad_block = GaloisFieldElement.from_block_gcm(data[i:i + BLOCK_SIZE])
 
-        X = X + ad_block
+        x = x + ad_block
 
-        X = X * auth_key
-    return X
+        x = x * auth_key
+    return x
 
 
 def _get_ghash(associated_data: bytes, ciphertext: bytes, auth_key: bytes, L: bytes) -> bytes:
@@ -95,7 +95,7 @@ def _get_auth_tag(j: bytes, ghash: bytes):
 def _compute_gcm_auth_parameters(nonce: bytes, key: bytes, ciphertext: bytes, ad: bytes,
                                  encryption_function: EncryptionStrategy):
     auth_key = _get_auth_key(key, encryption_function)
-    L = _get_l(ad, ciphertext)
+    L = get_l(ad, ciphertext)
     j = _get_j(key, nonce, encryption_function)
     ghash = _get_ghash(ad, ciphertext, auth_key, L)
     auth_tag = _get_auth_tag(j, ghash)

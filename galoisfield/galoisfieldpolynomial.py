@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union
 
 from block_poly.b64_block import B64Block
 from block_poly.block import Block
@@ -35,8 +35,12 @@ class GaloisFieldPolynomial:
             self._gfe_list.pop()
         return self
 
-    def append(self, elements: list[GaloisFieldElement]) -> 'GaloisFieldPolynomial':
-        return GaloisFieldPolynomial(self._gfe_list + elements)
+    def add_elements(self, elements: Union[GaloisFieldElement, list[GaloisFieldElement]]) -> 'GaloisFieldPolynomial':
+        if isinstance(elements, GaloisFieldElement):
+            self._gfe_list.append(elements)
+        else:
+            self._gfe_list.extend(elements)
+        return self
 
     def pop(self, index: int = -1):
         self._gfe_list.pop(index)
@@ -55,8 +59,12 @@ class GaloisFieldPolynomial:
 
     def __add__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
         max_len = max(len(self), len(other))
-        padded_self = self.append([GaloisFieldElement(0)] * (max_len - len(self)))
-        padded_other = other.append([GaloisFieldElement(0)] * (max_len - len(other)))
+
+        padded_self = GaloisFieldPolynomial(self._gfe_list.copy())
+        padded_other = GaloisFieldPolynomial(other._gfe_list.copy())
+
+        padded_self.add_elements([GaloisFieldElement(0)] * (max_len - len(self)))
+        padded_other.add_elements([GaloisFieldElement(0)] * (max_len - len(other)))
 
         return GaloisFieldPolynomial(
             [gfe_a + gfe_b for gfe_a, gfe_b in zip(padded_self, padded_other)])._remove_leading_zero()
@@ -131,7 +139,7 @@ class GaloisFieldPolynomial:
 
         return GaloisFieldPolynomial(q)._remove_leading_zero(), r
 
-    def __truediv__(self, other):
+    def __floordiv__(self, other):
         quotient, _ = divmod(self, other)
         return quotient
 

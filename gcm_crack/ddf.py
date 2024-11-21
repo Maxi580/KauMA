@@ -16,7 +16,7 @@ def ddf(f: GaloisFieldPolynomial) -> list[tuple[GaloisFieldPolynomial, int]]:
         g = GaloisFieldPolynomial.gcd(h, fstar)
         if g != ONE:
             z.append((g, d))
-            fstar = fstar / g
+            fstar = fstar // g
         d += 1
 
     if fstar != ONE:

@@ -12,7 +12,7 @@ def generate_random_poly(max_degree: int):
     new_degree = secrets.randbelow(max_degree)
 
     for i in range(new_degree):
-        new_poly = new_poly.append([GaloisFieldElement.from_block_gcm(secrets.token_bytes(BLOCK_SIZE))])
+        new_poly.add_elements(GaloisFieldElement.from_block_gcm(secrets.token_bytes(BLOCK_SIZE)))
 
     return new_poly
 
@@ -33,6 +33,6 @@ def edf(f: GaloisFieldPolynomial, d: int) -> list[GaloisFieldPolynomial]:
                 if j != ONE and j != u:
                     z.remove(u)
                     z.append(j)
-                    z.append(u / j)
+                    z.append(u // j)
 
     return sorted(z)

@@ -71,7 +71,7 @@ def _process_blocks(x: GaloisFieldElement, data: bytes, auth_key: GaloisFieldEle
     return x
 
 
-def _get_ghash(associated_data: bytes, ciphertext: bytes, auth_key: bytes, L: bytes) -> bytes:
+def get_ghash(associated_data: bytes, ciphertext: bytes, auth_key: bytes, L: bytes) -> bytes:
     X = GaloisFieldElement(0)
     auth_key = GaloisFieldElement.from_block_gcm(auth_key)
     L = GaloisFieldElement.from_block_gcm(L)
@@ -88,7 +88,7 @@ def _get_ghash(associated_data: bytes, ciphertext: bytes, auth_key: bytes, L: by
     return (X * auth_key).to_block_gcm()
 
 
-def _get_auth_tag(j: bytes, ghash: bytes):
+def get_auth_tag(j: bytes, ghash: bytes):
     return xor_bytes(j, ghash)
 
 
@@ -97,8 +97,8 @@ def _compute_gcm_auth_parameters(nonce: bytes, key: bytes, ciphertext: bytes, ad
     auth_key = _get_auth_key(key, encryption_function)
     L = get_l(ad, ciphertext)
     j = _get_j(key, nonce, encryption_function)
-    ghash = _get_ghash(ad, ciphertext, auth_key, L)
-    auth_tag = _get_auth_tag(j, ghash)
+    ghash = get_ghash(ad, ciphertext, auth_key, L)
+    auth_tag = get_auth_tag(j, ghash)
 
     return auth_tag, L, auth_key
 

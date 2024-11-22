@@ -1,13 +1,13 @@
 from dataclasses import dataclass
 
 from block_poly.b64_block import B64Block
-from block_poly.block import Block
 from galoisfield.galoisfieldelement import GaloisFieldElement
 from gcm_crack.sff import sff
+from gcm_crack.ddf import ddf
+from gcm_crack.edf import edf
 from crypto_algorithms.gcm import get_l
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from constants import BLOCK_SIZE
-from utils import xor_bytes
 
 
 @dataclass
@@ -34,11 +34,11 @@ def get_ghash_poly(message: GCMMessage) -> GaloisFieldPolynomial:
     L = get_l(message.associated_data, message.ciphertext)
     poly.add_elements(GaloisFieldElement.from_block_gcm(L))
 
-    print(f"Ciphertext len: {len(message.ciphertext)}")
+    ciphertext_elements = []
     for i in range(0, len(message.ciphertext), BLOCK_SIZE):
-        print(f"I Range: {i, i + BLOCK_SIZE}, Block: {Block(message.ciphertext[i: i + BLOCK_SIZE]).b64_block}, block len:"
-            f"{len(message.ciphertext[i: i + BLOCK_SIZE])}")
-        poly.add_elements(GaloisFieldElement.from_block_gcm(message.ciphertext[i: i + BLOCK_SIZE]))
+        ciphertext_elements.append(GaloisFieldElement.from_block_gcm(message.ciphertext[i: i + BLOCK_SIZE]))
+    ciphertext_elements.reverse()  # c1 * Hn + c2 * H(n-1)....
+    poly.add_elements(ciphertext_elements)
 
     poly.add_elements(GaloisFieldElement.from_block_gcm(message.associated_data))
 
@@ -47,18 +47,26 @@ def get_ghash_poly(message: GCMMessage) -> GaloisFieldPolynomial:
 
 def gcm_crack(nonce: bytes, m1: GCMMessage, m2: GCMMessage, m3: GCMMessage, forgery_ciphertext: bytes,
               forgery_ad: bytes):
-
-    print(m1)
-    print(m2)
-
     Tu = get_ghash_poly(m1)
     Tv = get_ghash_poly(m2)
 
     F = Tu - Tv
-
-    print(f"F: {F.to_b64_gcm()}")
-
     F.make_monic()
-    z = sff(F)
 
-    print({"factors": [{"factor": z[i][0].to_b64_gcm(), "exponent": z[i][1]} for i in range(len(z))]})
+    roots = []
+    for factor_sff in sff(F):
+        f = factor_sff[0]
+
+        for factor_ddf in ddf(f):
+            f_ddf = factor_ddf[0]
+            degree = factor_ddf[1]
+
+            if degree == f_ddf.degree:
+                roots.append(f_ddf)
+            else:
+                roots.extend(edf(f_ddf, degree))
+
+    for factor in roots:
+        print(f"Complete Result {factor.to_b64_gcm()}")
+
+

@@ -1,7 +1,7 @@
 import secrets
 
 from galoisfield.galoisfieldelement import GaloisFieldElement
-from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial, degree
+from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from constants import BLOCK_SIZE
 
 ONE = GaloisFieldPolynomial([GaloisFieldElement(1)])
@@ -19,16 +19,16 @@ def generate_random_poly(max_degree: int):
 
 def edf(f: GaloisFieldPolynomial, d: int) -> list[GaloisFieldPolynomial]:
     q = 1 << 128
-    n = degree(f) // d
+    n = f.degree // d
     z = [f]
-    max_random_degree = degree(f) - 1
+    max_random_degree = f.degree - 1
 
     while len(z) < n:
         h = generate_random_poly(max_random_degree)
         g = (pow(h, (q ** d - 1) // 3, f) - ONE) % f
 
         for u in z:
-            if degree(u) > d:
+            if u.degree > d:
                 j = GaloisFieldPolynomial.gcd(u, g)
                 if j != ONE and j != u:
                     z.remove(u)

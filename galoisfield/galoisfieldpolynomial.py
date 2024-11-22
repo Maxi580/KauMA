@@ -5,10 +5,6 @@ from block_poly.block import Block
 from galoisfield.galoisfieldelement import GaloisFieldElement
 
 
-def degree(gfp: 'GaloisFieldPolynomial') -> int:
-    return len(gfp) - 1
-
-
 class GaloisFieldPolynomial:
     def __init__(self, poly: list[GaloisFieldElement]):
         self._gfe_list = poly
@@ -26,6 +22,10 @@ class GaloisFieldPolynomial:
 
         a.make_monic()
         return a
+
+    @property
+    def degree(self) -> int:
+        return len(self) - 1
 
     def to_b64_gcm(self) -> list[str]:
         return [Block(gfe.to_block_gcm()).b64_block for gfe in self._gfe_list]
@@ -114,9 +114,7 @@ class GaloisFieldPolynomial:
             return GaloisFieldPolynomial([GaloisFieldElement(0)]), r
 
         while len(r) >= len(b_copy):
-            r_deg = degree(r)
-            b_deg = degree(b_copy)
-            deg_diff = r_deg - b_deg
+            deg_diff = r.degree - b_copy.degree
 
             quotient_coeff = r[-1] / b_copy[-1]
 

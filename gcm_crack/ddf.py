@@ -1,5 +1,5 @@
 from galoisfield.galoisfieldelement import GaloisFieldElement
-from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial, degree
+from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 
 ONE = GaloisFieldPolynomial([GaloisFieldElement(1)])
 X = GaloisFieldPolynomial([GaloisFieldElement(0), GaloisFieldElement(1)])
@@ -10,7 +10,7 @@ def ddf(f: GaloisFieldPolynomial) -> list[tuple[GaloisFieldPolynomial, int]]:
     d = 1
     z = []
     fstar = f
-    while degree(fstar) >= 2 * d:
+    while fstar.degree >= 2 * d:
         h = (pow(X, (q ** d), fstar) - X) % fstar
 
         g = GaloisFieldPolynomial.gcd(h, fstar)
@@ -20,7 +20,7 @@ def ddf(f: GaloisFieldPolynomial) -> list[tuple[GaloisFieldPolynomial, int]]:
         d += 1
 
     if fstar != ONE:
-        z.append((fstar, degree(fstar)))
+        z.append((fstar, fstar.degree))
     elif len(z) == 0:
         z.append((f, 1))
     return sorted(z)

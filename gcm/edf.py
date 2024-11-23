@@ -36,3 +36,4 @@ def edf(f: GaloisFieldPolynomial, d: int) -> list[GaloisFieldPolynomial]:
                     z.append(u // j)
 
     return sorted(z)
+

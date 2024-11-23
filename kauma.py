@@ -13,9 +13,7 @@ from crypto_algorithms.gcm import gcm_encrypt, gcm_decrypt
 from paddingoracle.paddingOracle import padding_oracle_attack
 from galoisfield.galoisfieldelement import GaloisFieldElement
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-from gcm.sff import sff
-from gcm.ddf import ddf
-from gcm.edf import edf
+from gcm.find_roots import sff, ddf, edf
 from gcm.gcm_crack import gcm_crack, json_to_gcm_message
 
 ENCRYPT_MODE = "encrypt"
@@ -258,9 +256,9 @@ def gcm_crack_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     forgery_ciphertext = B64(forgery_data["ciphertext"]).block
     forgery_ad = B64(forgery_data["associated_data"]).block
 
-    result = gcm_crack(nonce, m1, m2, m3, forgery_ciphertext, forgery_ad)
+    tag, H, mask = gcm_crack(nonce, m1, m2, m3, forgery_ciphertext, forgery_ad)
 
-    return {"WIP": result}
+    return {"tag": tag, "H": H, "mask": mask}
 
 
 ACTION_PROCESSORS = {
@@ -286,7 +284,7 @@ ACTION_PROCESSORS = {
     "gfpoly_factor_sff": gfpoly_factor_sff_action,
     "gfpoly_factor_ddf": gfpoly_factor_ddf_action,
     "gfpoly_factor_edf": gfpoly_factor_edf_action,
-    "gcm": gcm_crack_action,
+    "gcm_crack": gcm_crack_action,
 }
 
 

@@ -5,7 +5,7 @@ from block_poly.poly import Poly
 
 
 class GaloisFieldElement:
-    def __init__(self, int_value: int, original_len: int = 0):
+    def __init__(self, int_value: int):
         self._int_value = int_value
 
     @classmethod

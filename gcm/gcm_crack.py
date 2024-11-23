@@ -1,11 +1,7 @@
 from dataclasses import dataclass
-from imp import get_tag
-
 from block_poly.b64_block import B64
-from block_poly.block import Block
 from galoisfield.galoisfieldelement import GaloisFieldElement
-from gcm.bruteforce_test import ciphertext
-from crypto_algorithms.gcm import get_l, get_ghash, get_auth_key, calculate_tag
+from crypto_algorithms.gcm import get_l, get_ghash
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from gcm.find_roots import find_roots
 

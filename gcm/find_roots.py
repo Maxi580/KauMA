@@ -83,12 +83,12 @@ def edf(f: GaloisFieldPolynomial, d: int) -> list[GaloisFieldPolynomial]:
     return sorted(z)
 
 
-def find_roots(F: GaloisFieldPolynomial):
+def find_roots(f: GaloisFieldPolynomial):
     roots = []
-    for factor_sff in sff(F):
-        f = factor_sff[0]
+    for factor_sff in sff(f):
+        f_sff = factor_sff[0]
 
-        for factor_ddf in ddf(f):
+        for factor_ddf in ddf(f_sff):
             f_ddf = factor_ddf[0]
             degree = factor_ddf[1]
 

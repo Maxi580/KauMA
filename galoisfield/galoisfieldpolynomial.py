@@ -1,7 +1,8 @@
 from typing import Optional, Union
 
-from block_poly.b64_block import B64Block
+from block_poly.b64_block import B64
 from block_poly.block import Block
+from crypto_algorithms.gcm import BLOCK_SIZE
 from galoisfield.galoisfieldelement import GaloisFieldElement
 
 
@@ -10,8 +11,15 @@ class GaloisFieldPolynomial:
         self._gfe_list = poly
 
     @classmethod
-    def from_b64_gcm(cls, b64_gcm: list[str]) -> 'GaloisFieldPolynomial':
-        return cls([GaloisFieldElement(B64Block(poly).gcm_poly) for poly in b64_gcm])
+    def from_b64(cls, b64_list: list[str]) -> 'GaloisFieldPolynomial':
+        return cls([GaloisFieldElement(B64(poly).gcm_poly) for poly in b64_list])
+
+    @classmethod
+    def from_block(cls, block: bytes) -> 'GaloisFieldPolynomial':
+        """Splits the bytes into 16 Byte/ Block Size blocks and turns each of them into a gfe and then all into gfp"""
+
+        return cls([GaloisFieldElement.from_block_gcm(block[i: i + BLOCK_SIZE])
+                    for i in range(0, len(block), BLOCK_SIZE)])
 
     @staticmethod
     def gcd(a: 'GaloisFieldPolynomial', b: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
@@ -27,8 +35,16 @@ class GaloisFieldPolynomial:
     def degree(self) -> int:
         return len(self) - 1
 
-    def to_b64_gcm(self) -> list[str]:
+    def to_b64_list(self) -> list[str]:
+        # Uses GCM Semantic
         return [Block(gfe.to_block_gcm()).b64_block for gfe in self._gfe_list]
+
+    def to_b64_str(self) -> str:
+        block = bytearray()
+        for gfe in self._gfe_list:
+            block.extend(gfe.to_block_gcm())
+
+        return Block(block).b64_block
 
     def _remove_leading_zero(self) -> 'GaloisFieldPolynomial':
         while len(self) > 1 and int(self[-1]) == 0:

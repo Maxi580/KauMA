@@ -1,10 +1,11 @@
-from constants import FIELD_SIZE, REDUCTION_POLYNOM, INVERSE_POWER, SQRT_POWER
+from block_poly.b64_block import B64
+from constants import FIELD_SIZE, REDUCTION_POLYNOM, SQRT_POWER
 from block_poly.block import Block
 from block_poly.poly import Poly
 
 
 class GaloisFieldElement:
-    def __init__(self, int_value: int):
+    def __init__(self, int_value: int, original_len: int = 0):
         self._int_value = int_value
 
     @classmethod
@@ -30,6 +31,9 @@ class GaloisFieldElement:
 
     def to_block_xex(self) -> bytes:
         return Poly.from_xex_semantic(self._int_value).block
+
+    def to_b64_gcm(self) -> bytes:
+        return Poly.from_gcm_semantic(self._int_value).b64_block
 
     def __int__(self) -> int:
         return self._int_value

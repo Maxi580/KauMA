@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 
-from block_poly.b64_block import B64Block
+from block_poly.b64_block import B64
 from block_poly.block import Block
 from galoisfield.galoisfieldelement import GaloisFieldElement
-from gcm_crack.sff import sff
-from gcm_crack.ddf import ddf
-from gcm_crack.edf import edf
+from gcm.sff import sff
+from gcm.ddf import ddf
+from gcm.edf import edf
 from crypto_algorithms.gcm import get_l, get_ghash, get_auth_tag
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from constants import BLOCK_SIZE
@@ -21,9 +21,9 @@ class GCMMessage:
 
 def json_to_gcm_message(message_data: dict) -> GCMMessage:
     return GCMMessage(
-        ciphertext=B64Block(message_data["ciphertext"]).block,
-        associated_data=B64Block(message_data["associated_data"]).block,
-        tag=B64Block(message_data["tag"]).block
+        ciphertext=B64(message_data["ciphertext"]).block,
+        associated_data=B64(message_data["associated_data"]).block,
+        tag=B64(message_data["tag"]).block
     )
 
 

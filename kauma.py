@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 from typing import Dict, Any
 
-from block_poly.b64_block import B64Block
+from block_poly.b64_block import B64
 from block_poly.block import Block
 from block_poly.coefficients import Coefficients
 from block_poly.poly import Poly
@@ -13,10 +13,10 @@ from crypto_algorithms.gcm import gcm_encrypt, gcm_decrypt
 from paddingoracle.paddingOracle import padding_oracle_attack
 from galoisfield.galoisfieldelement import GaloisFieldElement
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-from gcm_crack.sff import sff
-from gcm_crack.ddf import ddf
-from gcm_crack.edf import edf
-from gcm_crack.gcm_crack import gcm_crack, json_to_gcm_message
+from gcm.sff import sff
+from gcm.ddf import ddf
+from gcm.edf import edf
+from gcm.gcm_crack import gcm_crack, json_to_gcm_message
 
 ENCRYPT_MODE = "encrypt"
 DECRYPT_MODE = "decrypt"
@@ -38,7 +38,7 @@ def block2poly_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     block = arguments["block"]
     semantic = arguments["semantic"]
 
-    result = B64Block(block).xex_coefficients if semantic == XEX_SEMANTIC else B64Block(block).gcm_coefficients
+    result = B64(block).xex_coefficients if semantic == XEX_SEMANTIC else B64(block).gcm_coefficients
 
     return {"coefficients": result}
 
@@ -48,8 +48,8 @@ def gfmul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     b = arguments["b"]
     semantic = arguments["semantic"]
 
-    a_poly = B64Block(a).xex_poly if semantic == XEX_SEMANTIC else B64Block(a).gcm_poly
-    b_poly = B64Block(b).xex_poly if semantic == XEX_SEMANTIC else B64Block(b).gcm_poly
+    a_poly = B64(a).xex_poly if semantic == XEX_SEMANTIC else B64(a).gcm_poly
+    b_poly = B64(b).xex_poly if semantic == XEX_SEMANTIC else B64(b).gcm_poly
 
     int_result = int(GaloisFieldElement(a_poly) * GaloisFieldElement(b_poly))
     b64_result = Poly.from_xex_semantic(int_result).b64_block if semantic == XEX_SEMANTIC else (
@@ -60,8 +60,8 @@ def gfmul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 def sea128_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     mode = arguments["mode"]
-    key = B64Block(arguments["key"]).block
-    input_data = B64Block(arguments["input"]).block
+    key = B64(arguments["key"]).block
+    input_data = B64(arguments["input"]).block
 
     result = sea_encrypt(key, input_data) if mode == ENCRYPT_MODE else sea_decrypt(key, input_data)
 
@@ -70,9 +70,9 @@ def sea128_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 def xex_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     mode = arguments["mode"]
-    key = B64Block(arguments["key"]).block
-    tweak = B64Block(arguments["tweak"]).block
-    input_data = B64Block(arguments["input"]).block
+    key = B64(arguments["key"]).block
+    tweak = B64(arguments["tweak"]).block
+    input_data = B64(arguments["input"]).block
 
     result = encrypt_fde(key, tweak, input_data) if mode == ENCRYPT_MODE else decrypt_fde(key, tweak, input_data)
 
@@ -81,39 +81,39 @@ def xex_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 def gcm_encrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     algorithm = arguments["algorithm"]
-    nonce = B64Block(arguments["nonce"]).block
-    key = B64Block(arguments["key"]).block
-    plaintext = B64Block(arguments["plaintext"]).block
-    ad = B64Block(arguments["ad"]).block
+    nonce = B64(arguments["nonce"]).block
+    key = B64(arguments["key"]).block
+    plaintext = B64(arguments["plaintext"]).block
+    ad = B64(arguments["ad"]).block
 
-    encrypt_function = aes_encrypt if algorithm == AES_128_ALGORITHM else sea_encrypt
+    encryption_algorithm = aes_encrypt if algorithm == AES_128_ALGORITHM else sea_encrypt
 
-    ciphertext, tag, L, H = gcm_encrypt(nonce, key, plaintext, ad, encrypt_function)
+    ciphertext, tag, l, auth_key = gcm_encrypt(encryption_algorithm, nonce, key, plaintext, ad)
 
-    return {"ciphertext": Block(ciphertext).b64_block, "tag": Block(tag).b64_block, "L": Block(L).b64_block,
-            "H": Block(H).b64_block}
+    return {"ciphertext": ciphertext.to_b64_str(), "tag": tag.to_b64_gcm(), "L": l.to_b64_gcm(),
+            "H": auth_key.to_b64_gcm()}
 
 
 def gcm_decrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     algorithm = arguments["algorithm"]
-    nonce = B64Block(arguments["nonce"]).block
-    key = B64Block(arguments["key"]).block
-    ciphertext = B64Block(arguments["ciphertext"]).block
-    ad = B64Block(arguments["ad"]).block
-    tag = B64Block(arguments["tag"]).block
+    nonce = B64(arguments["nonce"]).block
+    key = B64(arguments["key"]).block
+    ciphertext = B64(arguments["ciphertext"]).block
+    ad = B64(arguments["ad"]).block
+    tag = arguments["tag"]
 
     encrypt_function = aes_encrypt if algorithm == AES_128_ALGORITHM else sea_encrypt
 
-    plaintext, authentic = gcm_decrypt(nonce, key, ciphertext, ad, tag, encrypt_function)
+    authentic, plaintext = gcm_decrypt(nonce, key, ciphertext, ad, tag, encrypt_function)
 
-    return {"plaintext": Block(plaintext).b64_block, "authentic": authentic}
+    return {"plaintext": plaintext.to_b64_str(), "authentic": authentic}
 
 
 def padding_oracle_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     hostname = arguments["hostname"]
     port = arguments["port"]
-    iv = B64Block(arguments["iv"]).block
-    ciphertext = B64Block(arguments["ciphertext"]).block
+    iv = B64(arguments["iv"]).block
+    ciphertext = B64(arguments["ciphertext"]).block
 
     plaintext = padding_oracle_attack(ciphertext, iv, hostname, port)
 
@@ -121,35 +121,35 @@ def padding_oracle_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_add_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    A = GaloisFieldPolynomial.from_b64_gcm(arguments["A"])
-    B = GaloisFieldPolynomial.from_b64_gcm(arguments["B"])
+    A = GaloisFieldPolynomial.from_b64(arguments["A"])
+    B = GaloisFieldPolynomial.from_b64(arguments["B"])
 
     S = A + B
 
-    return {"S": S.to_b64_gcm()}
+    return {"S": S.to_b64_list()}
 
 
 def gfpoly_mul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    A = GaloisFieldPolynomial.from_b64_gcm(arguments["A"])
-    B = GaloisFieldPolynomial.from_b64_gcm(arguments["B"])
+    A = GaloisFieldPolynomial.from_b64(arguments["A"])
+    B = GaloisFieldPolynomial.from_b64(arguments["B"])
 
     S = A * B
 
-    return {"P": S.to_b64_gcm()}
+    return {"P": S.to_b64_list()}
 
 
 def gfpoly_pow_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     k = arguments["k"]
-    A = GaloisFieldPolynomial.from_b64_gcm(arguments["A"])
+    A = GaloisFieldPolynomial.from_b64(arguments["A"])
 
     Z = A ** k
 
-    return {"Z": Z.to_b64_gcm()}
+    return {"Z": Z.to_b64_list()}
 
 
 def gfdiv_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    a = B64Block(arguments["a"]).gcm_poly
-    b = B64Block(arguments["b"]).gcm_poly
+    a = B64(arguments["a"]).gcm_poly
+    b = B64(arguments["b"]).gcm_poly
 
     q = int(GaloisFieldElement(a) / GaloisFieldElement(b))
 
@@ -157,12 +157,12 @@ def gfdiv_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_divmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    a = GaloisFieldPolynomial.from_b64_gcm(arguments["A"])
-    b = GaloisFieldPolynomial.from_b64_gcm(arguments["B"])
+    a = GaloisFieldPolynomial.from_b64(arguments["A"])
+    b = GaloisFieldPolynomial.from_b64(arguments["B"])
 
     Q, R = divmod(a, b)
 
-    return {"Q": Q.to_b64_gcm(), "R": R.to_b64_gcm()}
+    return {"Q": Q.to_b64_list(), "R": R.to_b64_list()}
 
 
 def gfpoly_powmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -170,93 +170,93 @@ def gfpoly_powmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     M = arguments["M"]
     k = arguments["k"]
 
-    gfp_a = GaloisFieldPolynomial.from_b64_gcm(A)
-    gfp_m = GaloisFieldPolynomial.from_b64_gcm(M)
+    gfp_a = GaloisFieldPolynomial.from_b64(A)
+    gfp_m = GaloisFieldPolynomial.from_b64(M)
 
     Z = pow(gfp_a, k, gfp_m)
 
-    return {"Z": Z.to_b64_gcm()}
+    return {"Z": Z.to_b64_list()}
 
 
 def gfpoly_sort_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     b64_polys = arguments["polys"]
-    polys = [GaloisFieldPolynomial.from_b64_gcm(b64_poly) for b64_poly in b64_polys]
+    polys = [GaloisFieldPolynomial.from_b64(b64_poly) for b64_poly in b64_polys]
 
     sorted_polys = sorted(polys)
 
-    b64_sorted_polys = [poly.to_b64_gcm() for poly in sorted_polys]
+    b64_sorted_polys = [poly.to_b64_list() for poly in sorted_polys]
 
     return {"sorted_polys": b64_sorted_polys}
 
 
 def gfpoly_make_monic_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    A = GaloisFieldPolynomial.from_b64_gcm(arguments["A"])
+    A = GaloisFieldPolynomial.from_b64(arguments["A"])
 
     A.make_monic()
 
-    return {"A*": A.to_b64_gcm()}
+    return {"A*": A.to_b64_list()}
 
 
 def gfpoly_sqrt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    Q = GaloisFieldPolynomial.from_b64_gcm(arguments["Q"])
+    Q = GaloisFieldPolynomial.from_b64(arguments["Q"])
 
     sqrt_Q = Q.sqrt()
 
-    return {"S": sqrt_Q.to_b64_gcm()}
+    return {"S": sqrt_Q.to_b64_list()}
 
 
 def gfpoly_diff_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    F = GaloisFieldPolynomial.from_b64_gcm(arguments["F"])
+    F = GaloisFieldPolynomial.from_b64(arguments["F"])
 
     derived_F = F.diff()
 
-    return {"F'": derived_F.to_b64_gcm()}
+    return {"F'": derived_F.to_b64_list()}
 
 
 def gfpoly_gcd_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    A = GaloisFieldPolynomial.from_b64_gcm(arguments["A"])
-    B = GaloisFieldPolynomial.from_b64_gcm(arguments["B"])
+    A = GaloisFieldPolynomial.from_b64(arguments["A"])
+    B = GaloisFieldPolynomial.from_b64(arguments["B"])
 
     result = GaloisFieldPolynomial.gcd(A, B)
 
-    return {"G": result.to_b64_gcm()}
+    return {"G": result.to_b64_list()}
 
 
 def gfpoly_factor_sff_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    F = GaloisFieldPolynomial.from_b64_gcm(arguments["F"])
+    F = GaloisFieldPolynomial.from_b64(arguments["F"])
 
     result = sff(F)
 
-    return {"factors": [{"factor": result[i][0].to_b64_gcm(), "exponent": result[i][1]} for i in range(len(result))]}
+    return {"factors": [{"factor": result[i][0].to_b64_list(), "exponent": result[i][1]} for i in range(len(result))]}
 
 
 def gfpoly_factor_ddf_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    F = GaloisFieldPolynomial.from_b64_gcm(arguments["F"])
+    F = GaloisFieldPolynomial.from_b64(arguments["F"])
 
     result = ddf(F)
 
-    return {"factors": [{"factor": result[i][0].to_b64_gcm(), "degree": result[i][1]} for i in range(len(result))]}
+    return {"factors": [{"factor": result[i][0].to_b64_list(), "degree": result[i][1]} for i in range(len(result))]}
 
 
 def gfpoly_factor_edf_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    F = GaloisFieldPolynomial.from_b64_gcm(arguments["F"])
+    F = GaloisFieldPolynomial.from_b64(arguments["F"])
     d = arguments["d"]
 
     result = edf(F, d)
 
-    return {"factors": [result[i].to_b64_gcm() for i in range(len(result))]}
+    return {"factors": [result[i].to_b64_list() for i in range(len(result))]}
 
 
 def gcm_crack_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    nonce = B64Block(arguments["nonce"]).block
+    nonce = B64(arguments["nonce"]).block
 
     m1 = json_to_gcm_message(arguments["m1"])
     m2 = json_to_gcm_message(arguments["m2"])
     m3 = json_to_gcm_message(arguments["m3"])
 
     forgery_data = arguments["forgery"]
-    forgery_ciphertext = B64Block(forgery_data["ciphertext"]).block
-    forgery_ad = B64Block(forgery_data["associated_data"]).block
+    forgery_ciphertext = B64(forgery_data["ciphertext"]).block
+    forgery_ad = B64(forgery_data["associated_data"]).block
 
     result = gcm_crack(nonce, m1, m2, m3, forgery_ciphertext, forgery_ad)
 
@@ -286,7 +286,7 @@ ACTION_PROCESSORS = {
     "gfpoly_factor_sff": gfpoly_factor_sff_action,
     "gfpoly_factor_ddf": gfpoly_factor_ddf_action,
     "gfpoly_factor_edf": gfpoly_factor_edf_action,
-    "gcm_crack": gcm_crack_action,
+    "gcm": gcm_crack_action,
 }
 
 

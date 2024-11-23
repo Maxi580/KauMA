@@ -3,7 +3,7 @@ import base64
 from functools import cached_property
 
 
-class B64Block(Base):
+class B64(Base):
     def __init__(self, b64_block: str):
         self._b64_block = b64_block
 

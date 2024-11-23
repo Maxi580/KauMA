@@ -103,8 +103,4 @@ def gcm_crack(nonce: bytes, m1: GCMMessage, m2: GCMMessage, m3: GCMMessage, forg
     forgery_ghash = get_ghash(correct_h, forgery.associated_data, forgery.ciphertext, forgery_l)
     forgery_tag = forgery_ghash + mask
 
-    print(correct_h.to_b64_gcm())
-    print(mask.to_b64_gcm())
-    print(forgery_tag.to_b64_gcm())
-
     return forgery_tag, correct_h, mask

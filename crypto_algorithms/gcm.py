@@ -1,6 +1,6 @@
 from collections.abc import Callable
 
-from block_poly.block import Block
+from utils import xor_bytes
 from constants import BLOCK_SIZE
 from galoisfield.galoisfieldelement import GaloisFieldElement
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
@@ -13,17 +13,21 @@ def _poly_to_bytes(poly: GaloisFieldPolynomial, original_length: int) -> bytes:
     return result[:original_length]
 
 
-def get_key_stream(size: int, key: bytes, nonce: bytes, encryption_algorithm: Callable) -> GaloisFieldPolynomial:
-    key_stream = GaloisFieldPolynomial([])
+def apply_key_stream(text: bytes, key: bytes, nonce: bytes, encryption_algorithm: Callable) -> bytes:
+    result = bytearray()
 
     ctr = 2
-    for i in range(0, size, BLOCK_SIZE):
+    for i in range(0, len(text), BLOCK_SIZE):
         yi = nonce[-12:] + ctr.to_bytes(4, byteorder='big')
-        gfe = GaloisFieldElement.from_block_gcm(encryption_algorithm(key, yi))
-        key_stream.add_elements(gfe)
+
+        key_block = encryption_algorithm(key, yi)
+        text_block = text[i:i + BLOCK_SIZE]
+
+        result.extend(xor_bytes(key_block[:len(text_block)], text_block))
+
         ctr += 1
 
-    return key_stream
+    return result
 
 
 def get_auth_key(key: bytes, encryption_algorithm: Callable) -> GaloisFieldElement:
@@ -69,6 +73,7 @@ def get_l(ad_len: int, ciphertext_len: int) -> GaloisFieldElement:
 def calculate_tag(key: bytes, ciphertext_len: int, ad_len: int, ad: GaloisFieldPolynomial,
                   ciphertext: GaloisFieldPolynomial, nonce: bytes, encryption_algorithm: Callable) \
         -> tuple[GaloisFieldElement, GaloisFieldElement, GaloisFieldElement]:
+
     auth_key = get_auth_key(key, encryption_algorithm)
     l = get_l(ad_len, ciphertext_len)  # unnecessary to calculate back length of a gfp, plaintext length is the same
     ghash = get_ghash(auth_key, ad, ciphertext, l)
@@ -78,39 +83,26 @@ def calculate_tag(key: bytes, ciphertext_len: int, ad_len: int, ad: GaloisFieldP
     return tag, l, auth_key
 
 
-def gcm_encrypt(encryption_algorithm: Callable, nonce: bytes, key: bytes, plaintext_bytes: bytes, ad_bytes: bytes) \
+def gcm_encrypt(encryption_algorithm: Callable, nonce: bytes, key: bytes, plaintext: bytes, ad: bytes) \
         -> tuple[bytes, bytes, bytes, bytes]:
-    ad_len = len(ad_bytes)  # After Blocks are converted to Polys, it gets hard to get original length (padding etc.)
-    text_len = len(plaintext_bytes)
 
-    plaintext = GaloisFieldPolynomial.from_block(plaintext_bytes)
-    ad = GaloisFieldPolynomial.from_block(ad_bytes)
+    ciphertext = apply_key_stream(plaintext, key, nonce, encryption_algorithm)
 
-    key_stream = get_key_stream(text_len, key, nonce, encryption_algorithm)
-    ciphertext = key_stream + plaintext
+    ciphertext_poly = GaloisFieldPolynomial.from_block(ciphertext)
+    ad_poly = GaloisFieldPolynomial.from_block(ad)
+    tag, l, auth_key = calculate_tag(key, len(ciphertext), len(ad), ad_poly, ciphertext_poly, nonce,
+                                     encryption_algorithm)
 
-    tag, l, auth_key = calculate_tag(key, text_len, ad_len, ad, ciphertext, nonce, encryption_algorithm)
-
-    # When turning to poly, the original size gets lost so we need to trim it back
-    ciphertext = _poly_to_bytes(ciphertext, text_len)
     return ciphertext, tag.to_block_gcm(), l.to_block_gcm(), auth_key.to_block_gcm()
 
 
-def gcm_decrypt(nonce: bytes, key: bytes, ciphertext_bytes: bytes, ad_bytes: bytes,
-                provided_auth_tag: bytes, encryption_algorithm: Callable) \
-        -> tuple[bool, bytes]:
-    ad_len = len(ad_bytes)
-    text_len = len(ciphertext_bytes)
+def gcm_decrypt(nonce: bytes, key: bytes, ciphertext: bytes, ad: bytes, provided_auth_tag: bytes,
+                encryption_algorithm: Callable) -> tuple[bool, bytes]:
 
-    ciphertext = GaloisFieldPolynomial.from_block(ciphertext_bytes)
-    ad = GaloisFieldPolynomial.from_block(ad_bytes)
-    provided_auth_tag = GaloisFieldElement.from_block_gcm(provided_auth_tag)
+    plaintext = apply_key_stream(ciphertext, key, nonce, encryption_algorithm)
 
-    key_stream = get_key_stream(text_len, key, nonce, encryption_algorithm)
-    plaintext = key_stream + ciphertext
+    ciphertext_poly = GaloisFieldPolynomial.from_block(ciphertext)
+    ad_poly = GaloisFieldPolynomial.from_block(ad)
+    tag, _, _ = calculate_tag(key, len(ciphertext), len(ad), ad_poly, ciphertext_poly, nonce, encryption_algorithm)
 
-    tag, _, _ = calculate_tag(key, text_len, ad_len, ad, ciphertext, nonce, encryption_algorithm)
-
-    # When turning to poly, the original size gets lost so we need to trim it back
-    plaintext = _poly_to_bytes(plaintext, text_len)
-    return tag == provided_auth_tag, plaintext
+    return tag.to_block_gcm() == provided_auth_tag, plaintext

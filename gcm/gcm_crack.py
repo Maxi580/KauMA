@@ -66,6 +66,7 @@ def _get_zeroed_poly(message: GCMMessage) -> GaloisFieldPolynomial:
 
 def _find_correct_h(h_candidates: list[GaloisFieldElement], m1: GCMMessage, m3: GCMMessage) \
         -> tuple[GaloisFieldElement, GaloisFieldElement]:
+
     for potential_auth_key in h_candidates:
         # Calculate back the ek0 for the given auth key, stays the same due to same nonce etc.
         m1_l = get_l(m1.original_ad_length, m1.original_cipher_length)

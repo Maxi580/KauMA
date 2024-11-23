@@ -88,6 +88,7 @@ def gcm_encrypt(encryption_algorithm: Callable, nonce: bytes, key: bytes, plaint
 
     ciphertext = apply_key_stream(plaintext, key, nonce, encryption_algorithm)
 
+    # Turning ciphertext and ad into a poly automatically pads them (which we don´t want for ciphertext calc)
     ciphertext_poly = GaloisFieldPolynomial.from_block(ciphertext)
     ad_poly = GaloisFieldPolynomial.from_block(ad)
     tag, l, auth_key = calculate_tag(key, ad, ciphertext, ad_poly, ciphertext_poly, nonce,
@@ -101,6 +102,7 @@ def gcm_decrypt(nonce: bytes, key: bytes, ciphertext: bytes, ad: bytes, provided
 
     plaintext = apply_key_stream(ciphertext, key, nonce, encryption_algorithm)
 
+    # Turning ciphertext and ad into a poly automatically pads them (which we don´t want for plaintext calc)
     ciphertext_poly = GaloisFieldPolynomial.from_block(ciphertext)
     ad_poly = GaloisFieldPolynomial.from_block(ad)
     tag, _, _ = calculate_tag(key, ad, ciphertext, ad_poly, ciphertext_poly, nonce, encryption_algorithm)

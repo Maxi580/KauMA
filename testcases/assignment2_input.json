@@ -20,6 +20,28 @@
         "ad": "QUQtRGF0ZW4="
       }
     },
+    "gcm-aes-decrypt": {
+      "action": "gcm_decrypt",
+      "arguments": {
+        "algorithm": "aes128",
+        "nonce": "SwVYf3IJ2p/VTiyz",
+        "key": "bYfxz4zIS8NGWT55xSGy7Q==",
+        "ciphertext": "ltCrCEYjUCHd",
+        "ad": "w8pc8/yCt2zxERPVcsnOMx8/HmrfAfGUQtD+vyMMpJ5lrF2S",
+        "tag": "d4Z2uVRSmpVE1TEa/Zhx9A=="
+      }
+    },
+    "gcm-sea-decrypt": {
+      "action": "gcm_decrypt",
+      "arguments": {
+        "algorithm": "sea128",
+        "nonce": "VOkKCCnH4EYE1z4L",
+        "key": "ByMrTiLP7isfBDL7vsKkOQ==",
+        "ciphertext": "UdpDzPAafM+y",
+        "ad": "UknNF3AKBaF/8GUnFUw=",
+        "tag": "sN0+1fG+WSOHMswF7IBnZA=="
+      }
+    },
     "padding-oracle-1": {
       "action": "padding_oracle",
       "arguments": {

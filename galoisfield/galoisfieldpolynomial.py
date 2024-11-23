@@ -35,16 +35,9 @@ class GaloisFieldPolynomial:
     def degree(self) -> int:
         return len(self) - 1
 
-    def to_b64_list(self) -> list[str]:
+    def to_b64(self) -> list[str]:
         # Uses GCM Semantic
         return [Block(gfe.to_block_gcm()).b64_block for gfe in self._gfe_list]
-
-    def to_b64_str(self) -> str:
-        block = bytearray()
-        for gfe in self._gfe_list:
-            block.extend(gfe.to_block_gcm())
-
-        return Block(block).b64_block
 
     def _remove_leading_zero(self) -> 'GaloisFieldPolynomial':
         while len(self) > 1 and int(self[-1]) == 0:

@@ -88,8 +88,8 @@ def gcm_encrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     ciphertext, tag, l, auth_key = gcm_encrypt(encryption_algorithm, nonce, key, plaintext, ad)
 
-    return {"ciphertext": ciphertext.to_b64_str(), "tag": tag.to_b64_gcm(), "L": l.to_b64_gcm(),
-            "H": auth_key.to_b64_gcm()}
+    return {"ciphertext": Block(ciphertext).b64_block, "tag": Block(tag).b64_block, "L": Block(l).b64_block,
+            "H": Block(auth_key).b64_block}
 
 
 def gcm_decrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -98,13 +98,13 @@ def gcm_decrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     key = B64(arguments["key"]).block
     ciphertext = B64(arguments["ciphertext"]).block
     ad = B64(arguments["ad"]).block
-    tag = arguments["tag"]
+    tag = B64(arguments["tag"]).block
 
     encrypt_function = aes_encrypt if algorithm == AES_128_ALGORITHM else sea_encrypt
 
     authentic, plaintext = gcm_decrypt(nonce, key, ciphertext, ad, tag, encrypt_function)
 
-    return {"plaintext": plaintext.to_b64_str(), "authentic": authentic}
+    return {"authentic": authentic, "plaintext": Block(plaintext).b64_block}
 
 
 def padding_oracle_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -124,7 +124,7 @@ def gfpoly_add_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     S = A + B
 
-    return {"S": S.to_b64_list()}
+    return {"S": S.to_b64()}
 
 
 def gfpoly_mul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -133,7 +133,7 @@ def gfpoly_mul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     S = A * B
 
-    return {"P": S.to_b64_list()}
+    return {"P": S.to_b64()}
 
 
 def gfpoly_pow_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -142,7 +142,7 @@ def gfpoly_pow_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     Z = A ** k
 
-    return {"Z": Z.to_b64_list()}
+    return {"Z": Z.to_b64()}
 
 
 def gfdiv_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -160,7 +160,7 @@ def gfpoly_divmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     Q, R = divmod(a, b)
 
-    return {"Q": Q.to_b64_list(), "R": R.to_b64_list()}
+    return {"Q": Q.to_b64(), "R": R.to_b64()}
 
 
 def gfpoly_powmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -173,7 +173,7 @@ def gfpoly_powmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     Z = pow(gfp_a, k, gfp_m)
 
-    return {"Z": Z.to_b64_list()}
+    return {"Z": Z.to_b64()}
 
 
 def gfpoly_sort_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -182,7 +182,7 @@ def gfpoly_sort_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     sorted_polys = sorted(polys)
 
-    b64_sorted_polys = [poly.to_b64_list() for poly in sorted_polys]
+    b64_sorted_polys = [poly.to_b64() for poly in sorted_polys]
 
     return {"sorted_polys": b64_sorted_polys}
 
@@ -192,7 +192,7 @@ def gfpoly_make_monic_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     A.make_monic()
 
-    return {"A*": A.to_b64_list()}
+    return {"A*": A.to_b64()}
 
 
 def gfpoly_sqrt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -200,7 +200,7 @@ def gfpoly_sqrt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     sqrt_Q = Q.sqrt()
 
-    return {"S": sqrt_Q.to_b64_list()}
+    return {"S": sqrt_Q.to_b64()}
 
 
 def gfpoly_diff_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -208,7 +208,7 @@ def gfpoly_diff_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     derived_F = F.diff()
 
-    return {"F'": derived_F.to_b64_list()}
+    return {"F'": derived_F.to_b64()}
 
 
 def gfpoly_gcd_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -217,7 +217,7 @@ def gfpoly_gcd_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     result = GaloisFieldPolynomial.gcd(A, B)
 
-    return {"G": result.to_b64_list()}
+    return {"G": result.to_b64()}
 
 
 def gfpoly_factor_sff_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -225,7 +225,7 @@ def gfpoly_factor_sff_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     result = sff(F)
 
-    return {"factors": [{"factor": result[i][0].to_b64_list(), "exponent": result[i][1]} for i in range(len(result))]}
+    return {"factors": [{"factor": result[i][0].to_b64(), "exponent": result[i][1]} for i in range(len(result))]}
 
 
 def gfpoly_factor_ddf_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -233,7 +233,7 @@ def gfpoly_factor_ddf_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     result = ddf(F)
 
-    return {"factors": [{"factor": result[i][0].to_b64_list(), "degree": result[i][1]} for i in range(len(result))]}
+    return {"factors": [{"factor": result[i][0].to_b64(), "degree": result[i][1]} for i in range(len(result))]}
 
 
 def gfpoly_factor_edf_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -242,7 +242,7 @@ def gfpoly_factor_edf_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     result = edf(F, d)
 
-    return {"factors": [result[i].to_b64_list() for i in range(len(result))]}
+    return {"factors": [result[i].to_b64() for i in range(len(result))]}
 
 
 def gcm_crack_action(arguments: Dict[str, Any]) -> Dict[str, Any]:

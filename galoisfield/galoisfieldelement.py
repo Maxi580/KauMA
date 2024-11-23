@@ -1,3 +1,5 @@
+from typing import Optional
+
 from block_poly.b64_block import B64
 from constants import FIELD_SIZE, REDUCTION_POLYNOM, SQRT_POWER
 from block_poly.block import Block

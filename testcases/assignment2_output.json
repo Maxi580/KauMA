@@ -12,6 +12,14 @@
       "L": "AAAAAAAAAEAAAAAAAAAAgA==",
       "H": "xhFcAUT66qWIpYz+Ch5ujw=="
     },
+    "gcm-aes-decrypt": {
+      "authentic": true,
+      "plaintext": "EREavadt90qq"
+    },
+    "gcm-sea-decrypt": {
+      "authentic": false,
+      "plaintext": "AxSiKm93Gr2+"
+    },
     "padding-oracle-1": {
         "plaintext": "SGVsbG8gVGhlcmUgRG9lcyBpdCBSZWFsbHkgUmVhbGx5IFdvcms/CQkJCQkJCQkJ"
     },

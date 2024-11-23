@@ -1,7 +1,16 @@
 from collections.abc import Callable
+
+from block_poly.block import Block
 from constants import BLOCK_SIZE
 from galoisfield.galoisfieldelement import GaloisFieldElement
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
+
+
+def _poly_to_bytes(poly: GaloisFieldPolynomial, original_length: int) -> bytes:
+    result = bytearray()
+    for gfe in poly:
+        result.extend(gfe.to_block_gcm())
+    return result[:original_length]
 
 
 def get_key_stream(size: int, key: bytes, nonce: bytes, encryption_algorithm: Callable) -> GaloisFieldPolynomial:
@@ -70,7 +79,7 @@ def calculate_tag(key: bytes, ciphertext_len: int, ad_len: int, ad: GaloisFieldP
 
 
 def gcm_encrypt(encryption_algorithm: Callable, nonce: bytes, key: bytes, plaintext_bytes: bytes, ad_bytes: bytes) \
-        -> tuple[GaloisFieldPolynomial, GaloisFieldElement, GaloisFieldElement, GaloisFieldElement]:
+        -> tuple[bytes, bytes, bytes, bytes]:
     ad_len = len(ad_bytes)  # After Blocks are converted to Polys, it gets hard to get original length (padding etc.)
     text_len = len(plaintext_bytes)
 
@@ -81,12 +90,15 @@ def gcm_encrypt(encryption_algorithm: Callable, nonce: bytes, key: bytes, plaint
     ciphertext = key_stream + plaintext
 
     tag, l, auth_key = calculate_tag(key, text_len, ad_len, ad, ciphertext, nonce, encryption_algorithm)
-    return ciphertext, tag, l, auth_key
+
+    # When turning to poly, the original size gets lost so we need to trim it back
+    ciphertext = _poly_to_bytes(ciphertext, text_len)
+    return ciphertext, tag.to_block_gcm(), l.to_block_gcm(), auth_key.to_block_gcm()
 
 
 def gcm_decrypt(nonce: bytes, key: bytes, ciphertext_bytes: bytes, ad_bytes: bytes,
                 provided_auth_tag: bytes, encryption_algorithm: Callable) \
-        -> tuple[bool, GaloisFieldPolynomial]:
+        -> tuple[bool, bytes]:
     ad_len = len(ad_bytes)
     text_len = len(ciphertext_bytes)
 
@@ -98,4 +110,7 @@ def gcm_decrypt(nonce: bytes, key: bytes, ciphertext_bytes: bytes, ad_bytes: byt
     plaintext = key_stream + ciphertext
 
     tag, _, _ = calculate_tag(key, text_len, ad_len, ad, ciphertext, nonce, encryption_algorithm)
+
+    # When turning to poly, the original size gets lost so we need to trim it back
+    plaintext = _poly_to_bytes(plaintext, text_len)
     return tag == provided_auth_tag, plaintext

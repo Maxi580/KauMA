@@ -11,16 +11,16 @@ class GCMMessage:
     ciphertext: GaloisFieldPolynomial
     associated_data: GaloisFieldPolynomial
     tag: GaloisFieldElement
-    original_cipher_length: int
-    original_ad_length: int
+    ciphertext_bytes: bytes
+    ad_bytes: bytes
 
 
 @dataclass
 class GCMForgery:
     ciphertext: GaloisFieldPolynomial
     associated_data: GaloisFieldPolynomial
-    original_cipher_length: int
-    original_ad_length: int
+    ciphertext_bytes: bytes
+    ad_bytes: bytes
 
 
 def json_to_gcm_message(message_data: dict) -> GCMMessage:
@@ -30,8 +30,8 @@ def json_to_gcm_message(message_data: dict) -> GCMMessage:
         ciphertext=GaloisFieldPolynomial.from_block(cipher_bytes),
         associated_data=GaloisFieldPolynomial.from_block(ad_bytes),
         tag=GaloisFieldElement.from_block_gcm(B64(message_data["tag"]).block),
-        original_cipher_length=len(cipher_bytes),
-        original_ad_length=len(ad_bytes)
+        ciphertext_bytes=cipher_bytes,
+        ad_bytes=ad_bytes
     )
 
 
@@ -41,8 +41,8 @@ def json_to_gcm_forgery_message(message_data: dict) -> GCMForgery:
     return GCMForgery(
         ciphertext=GaloisFieldPolynomial.from_block(cipher_bytes),
         associated_data=GaloisFieldPolynomial.from_block(ad_bytes),
-        original_cipher_length=len(cipher_bytes),
-        original_ad_length=len(ad_bytes)
+        ciphertext_bytes=cipher_bytes,
+        ad_bytes=ad_bytes
     )
 
 
@@ -52,7 +52,7 @@ def _get_zeroed_poly(message: GCMMessage) -> GaloisFieldPolynomial:
 
     poly.add_elements(message.tag)
 
-    L = get_l(message.original_ad_length, message.original_cipher_length)
+    L = get_l(message.ad_bytes, message.ciphertext_bytes)
     poly.add_elements(L)
 
     for i in range(len(message.ciphertext) - 1, -1, -1):
@@ -69,12 +69,12 @@ def _find_correct_h(h_candidates: list[GaloisFieldElement], m1: GCMMessage, m3: 
 
     for potential_auth_key in h_candidates:
         # Calculate back the ek0 for the given auth key, stays the same due to same nonce etc.
-        m1_l = get_l(m1.original_ad_length, m1.original_cipher_length)
+        m1_l = get_l(m1.ad_bytes, m1.ciphertext_bytes)
         m1_ghash = get_ghash(potential_auth_key, m1.associated_data, m1.ciphertext, m1_l)
         ek0 = m1_ghash + m1.tag
 
         # Try to authenticate m3 with potential auth key
-        m3_l = get_l(m3.original_ad_length, m3.original_cipher_length)
+        m3_l = get_l(m3.ad_bytes, m3.ciphertext_bytes)
         m3_ghash = get_ghash(potential_auth_key, m3.associated_data, m3.ciphertext, m3_l)
         tag = ek0 + m3_ghash
 
@@ -96,7 +96,7 @@ def gcm_crack(nonce: bytes, m1: GCMMessage, m2: GCMMessage, m3: GCMMessage, forg
     correct_h, mask = _find_correct_h(h_candidates, m1, m3)
     assert correct_h is not None, "No Correct auth Key has been found"
 
-    forgery_l = get_l(forgery.original_ad_length, forgery.original_cipher_length)
+    forgery_l = get_l(forgery.ad_bytes, forgery.ciphertext_bytes)
     forgery_ghash = get_ghash(correct_h, forgery.associated_data, forgery.ciphertext, forgery_l)
     forgery_tag = forgery_ghash + mask
 

@@ -62,20 +62,20 @@ def get_ghash(h: GaloisFieldElement, ad: GaloisFieldPolynomial, ciphertext: Galo
     return X
 
 
-def get_l(ad_len: int, ciphertext_len: int) -> GaloisFieldElement:
-    ad_bit_length = ad_len * 8
-    cipher_bit_length = ciphertext_len * 8
+def get_l(ad: bytes, ciphertext: bytes) -> GaloisFieldElement:
+    ad_bit_length = len(ad) * 8
+    cipher_bit_length = len(ciphertext) * 8
 
     l = ad_bit_length.to_bytes(8, byteorder='big') + cipher_bit_length.to_bytes(8, byteorder='big')
     return GaloisFieldElement.from_block_gcm(l)
 
 
-def calculate_tag(key: bytes, ciphertext_len: int, ad_len: int, ad: GaloisFieldPolynomial,
+def calculate_tag(key: bytes, ad_bytes: bytes, ciphertext_bytes: bytes, ad: GaloisFieldPolynomial,
                   ciphertext: GaloisFieldPolynomial, nonce: bytes, encryption_algorithm: Callable) \
         -> tuple[GaloisFieldElement, GaloisFieldElement, GaloisFieldElement]:
 
     auth_key = get_auth_key(key, encryption_algorithm)
-    l = get_l(ad_len, ciphertext_len)  # unnecessary to calculate back length of a gfp, plaintext length is the same
+    l = get_l(ad_bytes, ciphertext_bytes)
     ghash = get_ghash(auth_key, ad, ciphertext, l)
     eky0 = get_eky0(key, nonce, encryption_algorithm)
     tag = ghash + eky0
@@ -90,7 +90,7 @@ def gcm_encrypt(encryption_algorithm: Callable, nonce: bytes, key: bytes, plaint
 
     ciphertext_poly = GaloisFieldPolynomial.from_block(ciphertext)
     ad_poly = GaloisFieldPolynomial.from_block(ad)
-    tag, l, auth_key = calculate_tag(key, len(ciphertext), len(ad), ad_poly, ciphertext_poly, nonce,
+    tag, l, auth_key = calculate_tag(key, ad, ciphertext, ad_poly, ciphertext_poly, nonce,
                                      encryption_algorithm)
 
     return ciphertext, tag.to_block_gcm(), l.to_block_gcm(), auth_key.to_block_gcm()
@@ -103,6 +103,6 @@ def gcm_decrypt(nonce: bytes, key: bytes, ciphertext: bytes, ad: bytes, provided
 
     ciphertext_poly = GaloisFieldPolynomial.from_block(ciphertext)
     ad_poly = GaloisFieldPolynomial.from_block(ad)
-    tag, _, _ = calculate_tag(key, len(ciphertext), len(ad), ad_poly, ciphertext_poly, nonce, encryption_algorithm)
+    tag, _, _ = calculate_tag(key, ad, ciphertext, ad_poly, ciphertext_poly, nonce, encryption_algorithm)
 
     return tag.to_block_gcm() == provided_auth_tag, plaintext

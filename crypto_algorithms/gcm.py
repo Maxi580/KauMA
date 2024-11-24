@@ -70,13 +70,16 @@ def get_l(ad: bytes, ciphertext: bytes) -> GaloisFieldElement:
     return GaloisFieldElement.from_block_gcm(l)
 
 
-def calculate_tag(key: bytes, ad_bytes: bytes, ciphertext_bytes: bytes, ad: GaloisFieldPolynomial,
-                  ciphertext: GaloisFieldPolynomial, nonce: bytes, encryption_algorithm: Callable) \
+def calculate_tag(key: bytes, ad: bytes, ciphertext: bytes, nonce: bytes, encryption_algorithm: Callable) \
         -> tuple[GaloisFieldElement, GaloisFieldElement, GaloisFieldElement]:
 
+    # Turning ciphertext and ad into a poly automatically pads them (which we don´t want for ciphertext/ plaintext calc)
+    ciphertext_poly = GaloisFieldPolynomial.from_block(ciphertext)
+    ad_poly = GaloisFieldPolynomial.from_block(ad)
+
     auth_key = get_auth_key(key, encryption_algorithm)
-    l = get_l(ad_bytes, ciphertext_bytes)
-    ghash = get_ghash(auth_key, ad, ciphertext, l)
+    l = get_l(ad, ciphertext)
+    ghash = get_ghash(auth_key, ad_poly, ciphertext_poly, l)
     eky0 = get_eky0(key, nonce, encryption_algorithm)
     tag = ghash + eky0
 
@@ -88,11 +91,7 @@ def gcm_encrypt(encryption_algorithm: Callable, nonce: bytes, key: bytes, plaint
 
     ciphertext = apply_key_stream(plaintext, key, nonce, encryption_algorithm)
 
-    # Turning ciphertext and ad into a poly automatically pads them (which we don´t want for ciphertext calc)
-    ciphertext_poly = GaloisFieldPolynomial.from_block(ciphertext)
-    ad_poly = GaloisFieldPolynomial.from_block(ad)
-    tag, l, auth_key = calculate_tag(key, ad, ciphertext, ad_poly, ciphertext_poly, nonce,
-                                     encryption_algorithm)
+    tag, l, auth_key = calculate_tag(key, ad, ciphertext, nonce, encryption_algorithm)
 
     return ciphertext, tag.to_block_gcm(), l.to_block_gcm(), auth_key.to_block_gcm()
 
@@ -102,9 +101,6 @@ def gcm_decrypt(nonce: bytes, key: bytes, ciphertext: bytes, ad: bytes, provided
 
     plaintext = apply_key_stream(ciphertext, key, nonce, encryption_algorithm)
 
-    # Turning ciphertext and ad into a poly automatically pads them (which we don´t want for plaintext calc)
-    ciphertext_poly = GaloisFieldPolynomial.from_block(ciphertext)
-    ad_poly = GaloisFieldPolynomial.from_block(ad)
-    tag, _, _ = calculate_tag(key, ad, ciphertext, ad_poly, ciphertext_poly, nonce, encryption_algorithm)
+    tag, _, _ = calculate_tag(key, ad, ciphertext, nonce, encryption_algorithm)
 
     return tag.to_block_gcm() == provided_auth_tag, plaintext

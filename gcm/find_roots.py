@@ -20,13 +20,13 @@ def _generate_random_poly(max_degree: int):
 
 def sff(f: GaloisFieldPolynomial) -> list[tuple[GaloisFieldPolynomial, int]]:
     f_derived = f.diff()
-    c = GaloisFieldPolynomial.gcd(f, f_derived)
+    c = f.gcd(f_derived)
     f = f // c
 
     z = []
     exponent = 1
     while f != ONE:
-        y = GaloisFieldPolynomial.gcd(f, c)
+        y = f.gcd(c)
 
         if f != y:
             z.append((f // y, exponent))
@@ -49,7 +49,7 @@ def ddf(f: GaloisFieldPolynomial) -> list[tuple[GaloisFieldPolynomial, int]]:
     while fstar.degree >= 2 * d:
         h = (pow(X, (q ** d), fstar) - X) % fstar
 
-        g = GaloisFieldPolynomial.gcd(h, fstar)
+        g = h.gcd(fstar)
         if g != ONE:
             z.append((g, d))
             fstar = fstar // g
@@ -74,7 +74,7 @@ def edf(f: GaloisFieldPolynomial, d: int) -> list[GaloisFieldPolynomial]:
 
         for u in z:
             if u.degree > d:
-                j = GaloisFieldPolynomial.gcd(u, g)
+                j = u.gcd(g)
                 if j != ONE and j != u:
                     z.remove(u)
                     z.append(j)

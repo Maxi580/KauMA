@@ -215,7 +215,7 @@ def gfpoly_gcd_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     A = GaloisFieldPolynomial.from_b64(arguments["A"])
     B = GaloisFieldPolynomial.from_b64(arguments["B"])
 
-    result = GaloisFieldPolynomial.gcd(A, B)
+    result = A.gcd(B)
 
     return {"G": result.to_b64()}
 

@@ -21,16 +21,6 @@ class GaloisFieldPolynomial:
         return cls([GaloisFieldElement.from_block_gcm(block[i: i + BLOCK_SIZE])
                     for i in range(0, len(block), BLOCK_SIZE)])
 
-    @staticmethod
-    def gcd(a: 'GaloisFieldPolynomial', b: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
-        while not all(int(gfe) == 0 for gfe in b):
-            temp = b
-            b = a % b
-            a = temp
-
-        a.make_monic()
-        return a
-
     @property
     def degree(self) -> int:
         return len(self) - 1
@@ -54,6 +44,9 @@ class GaloisFieldPolynomial:
     def pop(self, index: int = -1):
         self._gfe_list.pop(index)
 
+    def copy(self) -> 'GaloisFieldPolynomial':
+        return GaloisFieldPolynomial(self._gfe_list.copy())
+
     def __getitem__(self, index: int) -> GaloisFieldElement:
         return self._gfe_list[index]
 
@@ -69,11 +62,8 @@ class GaloisFieldPolynomial:
     def __add__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
         max_len = max(len(self), len(other))
 
-        padded_self = GaloisFieldPolynomial(self._gfe_list.copy())
-        padded_other = GaloisFieldPolynomial(other._gfe_list.copy())
-
-        padded_self.add_elements([GaloisFieldElement(0)] * (max_len - len(self)))
-        padded_other.add_elements([GaloisFieldElement(0)] * (max_len - len(other)))
+        padded_self = self.copy().add_elements([GaloisFieldElement(0)] * (max_len - len(self)))
+        padded_other = other.copy().add_elements([GaloisFieldElement(0)] * (max_len - len(other)))
 
         return GaloisFieldPolynomial(
             [gfe_a + gfe_b for gfe_a, gfe_b in zip(padded_self, padded_other)])._remove_leading_zero()
@@ -114,18 +104,18 @@ class GaloisFieldPolynomial:
 
         return result._remove_leading_zero()
 
-    def __divmod__(self, b: 'GaloisFieldPolynomial') -> ('GaloisFieldPolynomial', 'GaloisFieldPolynomial'):
+    def __divmod__(self, other: 'GaloisFieldPolynomial') -> ('GaloisFieldPolynomial', 'GaloisFieldPolynomial'):
         q = []
-        r = GaloisFieldPolynomial(self._gfe_list.copy())._remove_leading_zero()
-        b_copy = GaloisFieldPolynomial(b._gfe_list.copy())._remove_leading_zero()
+        r = self.copy()._remove_leading_zero()
+        b = other.copy()._remove_leading_zero()
 
-        if len(r) < len(b_copy):
+        if len(r) < len(b):
             return GaloisFieldPolynomial([GaloisFieldElement(0)]), r
 
-        while len(r) >= len(b_copy):
-            deg_diff = r.degree - b_copy.degree
+        while len(r) >= len(b):
+            deg_diff = r.degree - b.degree
 
-            quotient_coeff = r[-1] / b_copy[-1]
+            quotient_coeff = r[-1] / b[-1]
 
             # Increase Quotient
             while len(q) <= deg_diff:
@@ -133,7 +123,7 @@ class GaloisFieldPolynomial:
             q[deg_diff] = quotient_coeff
 
             # Reduce Remainder
-            for idx, gfe in enumerate(b_copy):
+            for idx, gfe in enumerate(b):
                 pos = deg_diff + idx
                 prod = quotient_coeff * gfe
 
@@ -184,7 +174,7 @@ class GaloisFieldPolynomial:
         """Len of GFP always has to be odd since, only even GFE do not equal 0.
            => there are len(self)//2 odd gfe´s that need to be popped
            => take sqrt of even, pop the odd one behind until the last one as there is no odd behind."""
-        sqrt_poly = GaloisFieldPolynomial(self._gfe_list.copy())
+        sqrt_poly = self.copy()
 
         odd_poly_cntr = len(sqrt_poly) // 2
         for i in range(odd_poly_cntr):
@@ -197,7 +187,7 @@ class GaloisFieldPolynomial:
         return sqrt_poly
 
     def diff(self) -> 'GaloisFieldPolynomial':
-        derived_poly = GaloisFieldPolynomial(self._gfe_list.copy())
+        derived_poly = self.copy()
 
         if len(derived_poly) == 1:
             derived_poly[0] = GaloisFieldElement(0)
@@ -211,3 +201,15 @@ class GaloisFieldPolynomial:
             derived_poly._remove_leading_zero()
 
         return derived_poly
+
+    def gcd(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
+        a = self.copy()
+        b = other.copy()
+
+        while not all(int(gfe) == 0 for gfe in b):
+            temp = b
+            b = a % b
+            a = temp
+
+        a.make_monic()
+        return a

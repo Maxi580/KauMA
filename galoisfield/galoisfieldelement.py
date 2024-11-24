@@ -1,6 +1,3 @@
-from typing import Optional
-
-from block_poly.b64_block import B64
 from constants import FIELD_SIZE, REDUCTION_POLYNOM, SQRT_POWER
 from block_poly.block import Block
 from block_poly.poly import Poly
@@ -17,16 +14,6 @@ class GaloisFieldElement:
     @classmethod
     def from_block_gcm(cls, gcm_block: bytes):
         return cls(Block(gcm_block).gcm_poly)
-
-    @staticmethod
-    def extended_gcd(a: 'GaloisFieldElement', b: 'GaloisFieldElement') -> tuple['GaloisFieldElement',
-    'GaloisFieldElement', 'GaloisFieldElement']:
-        if int(b) == 0:
-            return a, GaloisFieldElement(1), GaloisFieldElement(0)
-        gcd, x_prev, y_prev = GaloisFieldElement.extended_gcd(b, a % b)
-        x = y_prev
-        y = x_prev - (a // b) * y_prev
-        return gcd, x, y
 
     def to_block_gcm(self) -> bytes:
         return Poly.from_gcm_semantic(self._int_value).block
@@ -82,7 +69,7 @@ class GaloisFieldElement:
         return result
 
     def __truediv__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
-        _, inverse, _ = GaloisFieldElement.extended_gcd(other, GaloisFieldElement(REDUCTION_POLYNOM))
+        _, inverse, _ = other.extended_gcd(GaloisFieldElement(REDUCTION_POLYNOM))
 
         return self * inverse
 
@@ -118,3 +105,12 @@ class GaloisFieldElement:
 
     def sqrt(self):
         self._int_value = int(self ** SQRT_POWER)
+
+    def extended_gcd(self, other: 'GaloisFieldElement') -> tuple['GaloisFieldElement',
+    'GaloisFieldElement', 'GaloisFieldElement']:
+        if int(other) == 0:
+            return self, GaloisFieldElement(1), GaloisFieldElement(0)
+        gcd, x_prev, y_prev = other.extended_gcd(self % other)
+        x = y_prev
+        y = x_prev - (self // other) * y_prev
+        return gcd, x, y

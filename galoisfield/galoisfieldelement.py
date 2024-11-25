@@ -27,7 +27,7 @@ class GaloisFieldElement:
         return Poly.from_xex_semantic(self._int_value).block
 
     def to_b64_gcm(self) -> bytes:
-        return Poly.from_gcm_semantic(self._int_value).b64_block
+        return Poly.from_gcm_semantic(self._int_value).b64
 
     def __int__(self) -> int:
         return self._int_value

@@ -1,8 +1,8 @@
 from typing import Optional, Union
 
-from block_poly.b64_block import B64
+from block_poly.b64 import B64
 from block_poly.block import Block
-from crypto_algorithms.gcm import BLOCK_SIZE
+from constants import BLOCK_SIZE
 from galoisfield.galoisfieldelement import GaloisFieldElement
 
 
@@ -27,7 +27,7 @@ class GaloisFieldPolynomial:
 
     def to_b64(self) -> list[str]:
         # Uses GCM Semantic
-        return [Block(gfe.to_block_gcm()).b64_block for gfe in self._gfe_list]
+        return [Block(gfe.to_block_gcm()).b64 for gfe in self._gfe_list]
 
     def _remove_leading_zero(self) -> 'GaloisFieldPolynomial':
         while len(self) > 1 and int(self[-1]) == 0:

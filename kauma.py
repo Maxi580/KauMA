@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 from typing import Dict, Any
 
-from block_poly.b64_block import B64
+from block_poly.b64 import B64
 from block_poly.block import Block
 from block_poly.coefficients import Coefficients
 from block_poly.poly import Poly
@@ -13,8 +13,9 @@ from crypto_algorithms.gcm import gcm_encrypt, gcm_decrypt
 from paddingoracle.paddingOracle import padding_oracle_attack
 from galoisfield.galoisfieldelement import GaloisFieldElement
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-from gcm.find_roots import sff, ddf, edf
-from gcm.gcm_crack import gcm_crack, json_to_gcm_message, json_to_gcm_forgery_message
+from gcm.recover_h import sff, ddf, edf
+from gcm.gcm_types import json_to_gcm_message, json_to_gcm_forgery_message
+from gcm.gcm_crack import gcm_crack
 
 ENCRYPT_MODE = "encrypt"
 DECRYPT_MODE = "decrypt"
@@ -29,7 +30,7 @@ def poly2block_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     result = Coefficients.from_xex_semantic(coefficients) if semantic == XEX_SEMANTIC else (
         Coefficients.from_gcm_semantic(coefficients))
 
-    return {"block": result.b64_block}
+    return {"block": result.b64}
 
 
 def block2poly_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -50,8 +51,8 @@ def gfmul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     b_poly = B64(b).xex_poly if semantic == XEX_SEMANTIC else B64(b).gcm_poly
 
     int_result = int(GaloisFieldElement(a_poly) * GaloisFieldElement(b_poly))
-    b64_result = Poly.from_xex_semantic(int_result).b64_block if semantic == XEX_SEMANTIC else (
-        Poly.from_gcm_semantic(int_result).b64_block)
+    b64_result = Poly.from_xex_semantic(int_result).b64 if semantic == XEX_SEMANTIC else (
+        Poly.from_gcm_semantic(int_result).b64)
 
     return {"product": b64_result}
 
@@ -63,7 +64,7 @@ def sea128_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     result = sea_encrypt(key, input_data) if mode == ENCRYPT_MODE else sea_decrypt(key, input_data)
 
-    return {"output": Block(result).b64_block}
+    return {"output": Block(result).b64}
 
 
 def xex_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -74,7 +75,7 @@ def xex_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     result = encrypt_fde(key, tweak, input_data) if mode == ENCRYPT_MODE else decrypt_fde(key, tweak, input_data)
 
-    return {"output": Block(result).b64_block}
+    return {"output": Block(result).b64}
 
 
 def gcm_encrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -88,8 +89,8 @@ def gcm_encrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     ciphertext, tag, l, auth_key = gcm_encrypt(encryption_algorithm, nonce, key, plaintext, ad)
 
-    return {"ciphertext": Block(ciphertext).b64_block, "tag": Block(tag).b64_block, "L": Block(l).b64_block,
-            "H": Block(auth_key).b64_block}
+    return {"ciphertext": Block(ciphertext).b64, "tag": Block(tag).b64, "L": Block(l).b64,
+            "H": Block(auth_key).b64}
 
 
 def gcm_decrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -104,7 +105,7 @@ def gcm_decrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     authentic, plaintext = gcm_decrypt(nonce, key, ciphertext, ad, tag, encrypt_function)
 
-    return {"authentic": authentic, "plaintext": Block(plaintext).b64_block}
+    return {"authentic": authentic, "plaintext": Block(plaintext).b64}
 
 
 def padding_oracle_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -115,7 +116,7 @@ def padding_oracle_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     plaintext = padding_oracle_attack(ciphertext, iv, hostname, port)
 
-    return {"plaintext": Block(plaintext).b64_block}
+    return {"plaintext": Block(plaintext).b64}
 
 
 def gfpoly_add_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -151,7 +152,7 @@ def gfdiv_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     q = int(GaloisFieldElement(a) / GaloisFieldElement(b))
 
-    return {"q": Poly.from_gcm_semantic(q).b64_block}
+    return {"q": Poly.from_gcm_semantic(q).b64}
 
 
 def gfpoly_divmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:

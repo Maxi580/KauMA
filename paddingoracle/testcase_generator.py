@@ -26,10 +26,10 @@ if __name__ == '__main__':
     encryptor = cipher.encryptor()
     ciphertext = encryptor.update(plaintext) + encryptor.finalize()
 
-    print(f"Plaintext: {Block(plaintext).b64_block}")
-    print(f"Key: {Block(key).b64_block}")
-    print(f"IV: {Block(iv).b64_block}")
-    print(f"Ciphertext: {Block(ciphertext).b64_block}")
+    print(f"Plaintext: {Block(plaintext).b64}")
+    print(f"Key: {Block(key).b64}")
+    print(f"IV: {Block(iv).b64}")
+    print(f"Ciphertext: {Block(ciphertext).b64}")
 
     decryptor = cipher.decryptor()
     ciphertext = decryptor.update(ciphertext) + decryptor.finalize()

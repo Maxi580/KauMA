@@ -1,0 +1,29 @@
+{
+  "testcases": {
+    "gcm_crack": {
+      "action": "gcm_crack",
+      "arguments": {
+        "nonce": "4gF+BtR3ku/PUQci",
+        "m1": {
+        "ciphertext": "WymaCg==",
+        "associated_data": "jg==",
+        "tag": "S4uwu465gKQxJB87ITMbYw=="
+        },
+        "m2": {
+        "ciphertext": "zWts",
+        "associated_data": "Fw5+WG1oigE4ZAs8",
+        "tag": "xVYqXb5m/EIdsLk4ZV+TmA=="
+        },
+        "m3": {
+        "ciphertext": "FA==",
+        "associated_data": "8XNZ1RhAHI4fLl9J",
+        "tag": "NtvsSBGh6Iabs1FeBL5Wkg=="
+        },
+        "forgery": {
+        "ciphertext": "qKY9dw==",
+        "associated_data": "Hj0MSPPS"
+        }
+      }
+    }
+  }
+}

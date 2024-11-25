@@ -3,6 +3,8 @@ import secrets
 from galoisfield.galoisfieldelement import GaloisFieldElement
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from constants import BLOCK_SIZE
+from crypto_algorithms.gcm import get_l, get_ghash
+from gcm.gcm_types import GCMMessage
 
 ONE = GaloisFieldPolynomial([GaloisFieldElement(1)])
 X = GaloisFieldPolynomial([GaloisFieldElement(0), GaloisFieldElement(1)])
@@ -16,6 +18,24 @@ def _generate_random_poly(max_degree: int):
         new_poly.add_elements(GaloisFieldElement.from_block_gcm(secrets.token_bytes(BLOCK_SIZE)))
 
     return new_poly
+
+
+def _find_correct_h(h_candidates: list[GaloisFieldElement], m1: GCMMessage, m3: GCMMessage) \
+        -> tuple[GaloisFieldElement, GaloisFieldElement]:
+    for potential_auth_key in h_candidates:
+        # Calculate back the ek0 for the given auth key, stays the same due to same nonce etc.
+        m1_l = get_l(m1.ad_bytes, m1.ciphertext_bytes)
+        m1_ghash = get_ghash(potential_auth_key, m1.associated_data, m1.ciphertext, m1_l)
+        ek0 = m1_ghash + m1.tag
+
+        # Try to authenticate m3 with potential auth key
+        m3_l = get_l(m3.ad_bytes, m3.ciphertext_bytes)
+        m3_ghash = get_ghash(potential_auth_key, m3.associated_data, m3.ciphertext, m3_l)
+        tag = ek0 + m3_ghash
+
+        # If Tag is the same, authentication is successful
+        if tag == m3.tag:
+            return potential_auth_key, ek0
 
 
 def sff(f: GaloisFieldPolynomial) -> list[tuple[GaloisFieldPolynomial, int]]:
@@ -83,8 +103,9 @@ def edf(f: GaloisFieldPolynomial, d: int) -> list[GaloisFieldPolynomial]:
     return sorted(z)
 
 
-def find_roots(f: GaloisFieldPolynomial):
-    roots = []
+def recover_h(f: GaloisFieldPolynomial, m1: GCMMessage, m3: GCMMessage):
+    """Calculates roots of f and immediately checks if they are correct H
+    (as we don't want to calculate roots after we already found the correct one)"""
     for factor_sff in sff(f):
         f_sff = factor_sff[0]
 
@@ -93,7 +114,16 @@ def find_roots(f: GaloisFieldPolynomial):
             degree = factor_ddf[1]
 
             if degree == f_ddf.degree:
-                roots.append(f_ddf)
+                h_candidate = [f_ddf[0]]
+                # Roots/ h_candidates found => Check if they are a correct H
+                result = _find_correct_h(h_candidate, m1, m3)
+                if result:
+                    return result
             else:
-                roots.extend(edf(f_ddf, degree))
-    return roots
+                roots = edf(f_ddf, degree)
+                # Roots/ h_candidates found => Check if they are a correct H
+                h_candidates = [root[0] for root in roots]
+                result = _find_correct_h(h_candidates, m1, m3)
+                if result:
+                    return result
+    assert "No correct H has been found"

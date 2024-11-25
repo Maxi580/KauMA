@@ -1,0 +1,46 @@
+{
+  "testcases": {
+    "gcm-aes-encrypt-empty": {
+      "action": "gcm_encrypt",
+      "arguments": {
+        "algorithm": "aes128",
+        "nonce": "v3KItPnTsZnL2pGK",
+        "key": "t0tT7160rYNSMrGFnk+bwQ==",
+        "plaintext": "",
+        "ad": ""
+      }
+    },
+    "gcm-sea-encrypt-long": {
+      "action": "gcm_encrypt",
+      "arguments": {
+        "algorithm": "sea128",
+        "nonce": "QjemowT/K+oxNPkR",
+        "key": "szf0Kk8S3TFyV/Go9BiaDw==",
+        "plaintext": "TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNldGV0dXIgc2FkaXBzY2luZyBlbGl0ciwgc2VkIGRpYW0gbm9udW15IGVpcm1vZCB0ZW1wb3IgaW52aWR1bnQgdXQgbGFib3JlIGV0IGRvbG9yZSBtYWduYSBhbGlxdXlhbSBlcmF0LCBzZWQgZGlhbSB2b2x1cHR1YS4gQXQgdmVybyBlb3MgZXQgYWNjdXNhbSBldCBqdXN0byBkdW8gZG9sb3JlcyBldCBlYSByZWJ1bS4gU3RldCBjbGl0YSBrYXNkIGd1YmVyZ3Jlbiwgbm8gc2VhIHRha2ltYXRhIHNhbmN0dXMgZXN0IExvcmVtIGlwcw==",
+        "ad": "c3VtIGRvbG9yIHNpdCBhbWV0LiBMb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldCwgY29uc2V0ZXR1ciBzYWRpcHNjaW5nIGVsaXRyLCBzZWQgZGlhbSBub251bXkgZWlybW9kIHRlbXBvciBpbnZpZHVudCB1dCBsYWJvcmUgZXQgZG9sb3JlIG1hZ25hIGFsaXF1eWFtIGVyYXQsIHNlZCBkaWFtIHZvbHVwdHVhLiBBdCB2ZXJvIGVvcyBldCBhY2N1c2FtIGV0IGp1c3RvIGR1byBkb2xvcmVzIGV0IGVhIHJlYnVtLiBTdGV0IGNsaXRhIGthc2QgZ3ViZXJncmVuLCBubyBzZWEgdGFraW1hdGEgc2FuY3R1cyBlc3QgTG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQu"
+      }
+    },
+    "gcm-aes-decrypt-empty": {
+      "action": "gcm_decrypt",
+      "arguments": {
+        "algorithm": "aes128",
+        "nonce": "v3KItPnTsZnL2pGK",
+        "key": "t0tT7160rYNSMrGFnk+bwQ==",
+        "ciphertext": "",
+        "ad": "",
+        "tag": "NT5wuneJQXHasrN2XdeR2g=="
+      }
+    },
+    "gcm-sea-decrypt-long": {
+      "action": "gcm_decrypt",
+      "arguments": {
+        "algorithm": "sea128",
+        "nonce": "QjemowT/K+oxNPkR",
+        "key": "szf0Kk8S3TFyV/Go9BiaDw==",
+        "ciphertext": "yNpFcNaAkeyHD8j6i2Tn2UdTDgU9v14ifbnzwDh+TFzA/OvzwEV7D+QA95f/Q+Fc5szSDAV1oZFjrz2aqA7ChA8DIZ/B7TzXJbK1W9affKjvK9yxqImEqA8+fItv+8q1IkpvDe0uEA9I2fMTRp9XehUvo/ci1lSPxwYVTJGGy3rmAzxDl5N3hfL3QgQ4dcvG3ELnVasRucUkc1ApGlNk7jzP0orti5Eyh2w6yecG12YCUxctPB/kgZLptXMNLAhbcW2zeGOQzJnMqmavpUze73eBa9nCtFn9cCuzsKDc35W3nQXHEl+60O0lKWCyrxiqcvh0GlzGPqffeHNtK+Izgc7ixMZODK0dU62VWg9vOU3n8hklig==",
+        "ad": "c3VtIGRvbG9yIHNpdCBhbWV0LiBMb3JlbSBpcHN1bSBkb2xvciBzaXQgYW1ldCwgY29uc2V0ZXR1ciBzYWRpcHNjaW5nIGVsaXRyLCBzZWQgZGlhbSBub251bXkgZWlybW9kIHRlbXBvciBpbnZpZHVudCB1dCBsYWJvcmUgZXQgZG9sb3JlIG1hZ25hIGFsaXF1eWFtIGVyYXQsIHNlZCBkaWFtIHZvbHVwdHVhLiBBdCB2ZXJvIGVvcyBldCBhY2N1c2FtIGV0IGp1c3RvIGR1byBkb2xvcmVzIGV0IGVhIHJlYnVtLiBTdGV0IGNsaXRhIGthc2QgZ3ViZXJncmVuLCBubyBzZWEgdGFraW1hdGEgc2FuY3R1cyBlc3QgTG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQu\n",
+        "tag": "yZRoDOcPFUSCHxjwjK17Ug=="
+      }
+    }
+  }
+}

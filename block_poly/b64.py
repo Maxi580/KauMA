@@ -8,12 +8,12 @@ class B64(Base):
         self._b64_block = b64_block
 
     @property
-    def b64_block(self) -> str:
+    def b64(self) -> str:
         return self._b64_block
 
     @cached_property
     def block(self) -> bytes:
-        return base64.b64decode(self.b64_block)
+        return base64.b64decode(self.b64)
 
     @cached_property
     def xex_poly(self) -> int:

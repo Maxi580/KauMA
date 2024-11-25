@@ -88,7 +88,7 @@ def calculate_tag(key: bytes, ad: bytes, ciphertext: bytes, nonce: bytes, encryp
 
 def gcm_encrypt(encryption_algorithm: Callable, nonce: bytes, key: bytes, plaintext: bytes, ad: bytes) \
         -> tuple[bytes, bytes, bytes, bytes]:
-    """nonce: 8 bytes, key: 16: bytes"""
+    """nonce: 12 bytes, key: 16: bytes"""
 
     ciphertext = apply_key_stream(plaintext, key, nonce, encryption_algorithm)
 
@@ -99,7 +99,7 @@ def gcm_encrypt(encryption_algorithm: Callable, nonce: bytes, key: bytes, plaint
 
 def gcm_decrypt(nonce: bytes, key: bytes, ciphertext: bytes, ad: bytes, provided_auth_tag: bytes,
                 encryption_algorithm: Callable) -> tuple[bool, bytes]:
-    """nonce: 8 bytes, key: 16: bytes"""
+    """nonce: 12 bytes, key: 16: bytes"""
 
     plaintext = apply_key_stream(ciphertext, key, nonce, encryption_algorithm)
 

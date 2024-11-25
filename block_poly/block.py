@@ -12,7 +12,7 @@ class Block(Base):
         return self._block
 
     @cached_property
-    def b64_block(self) -> str:
+    def b64(self) -> str:
         return base64.b64encode(self.block).decode()
 
     @cached_property

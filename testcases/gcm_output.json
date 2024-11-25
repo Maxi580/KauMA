@@ -1,0 +1,24 @@
+{
+  "responses": {
+    "gcm-aes-encrypt-empty": {
+      "ciphertext": "",
+      "tag": "NT5wuneJQXHasrN2XdeR2g==",
+      "L": "AAAAAAAAAAAAAAAAAAAAAA==",
+      "H": "Ht9rWz0H8LRCRfVRMdZPyw=="
+    },
+    "gcm-sea-encrypt-long": {
+      "ciphertext": "yNpFcNaAkeyHD8j6i2Tn2UdTDgU9v14ifbnzwDh+TFzA/OvzwEV7D+QA95f/Q+Fc5szSDAV1oZFjrz2aqA7ChA8DIZ/B7TzXJbK1W9affKjvK9yxqImEqA8+fItv+8q1IkpvDe0uEA9I2fMTRp9XehUvo/ci1lSPxwYVTJGGy3rmAzxDl5N3hfL3QgQ4dcvG3ELnVasRucUkc1ApGlNk7jzP0orti5Eyh2w6yecG12YCUxctPB/kgZLptXMNLAhbcW2zeGOQzJnMqmavpUze73eBa9nCtFn9cCuzsKDc35W3nQXHEl+60O0lKWCyrxiqcvh0GlzGPqffeHNtK+Izgc7ixMZODK0dU62VWg9vOU3n8hklig==",
+      "tag": "yZRoDOcx5sFguxjwjK17Ug==",
+      "L": "AAAAAAAACdgAAAAAAAAIqA==",
+      "H": "1eDzajTfuuIDd4h4TX0YiA=="
+    },
+    "gcm-aes-decrypt-empty": {
+      "authentic": true,
+      "plaintext": ""
+    },
+    "gcm-sea-decrypt-long": {
+      "authentic": false,
+      "plaintext": "TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNldGV0dXIgc2FkaXBzY2luZyBlbGl0ciwgc2VkIGRpYW0gbm9udW15IGVpcm1vZCB0ZW1wb3IgaW52aWR1bnQgdXQgbGFib3JlIGV0IGRvbG9yZSBtYWduYSBhbGlxdXlhbSBlcmF0LCBzZWQgZGlhbSB2b2x1cHR1YS4gQXQgdmVybyBlb3MgZXQgYWNjdXNhbSBldCBqdXN0byBkdW8gZG9sb3JlcyBldCBlYSByZWJ1bS4gU3RldCBjbGl0YSBrYXNkIGd1YmVyZ3Jlbiwgbm8gc2VhIHRha2ltYXRhIHNhbmN0dXMgZXN0IExvcmVtIGlwcw=="
+    }
+  }
+}

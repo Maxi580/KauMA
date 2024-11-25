@@ -39,5 +39,5 @@ class Coefficients(Base):
         return self.xex_poly.to_bytes(BLOCK_SIZE, byteorder='little')
 
     @cached_property
-    def b64_block(self) -> str:
+    def b64(self) -> str:
         return base64.b64encode(self.block).decode()

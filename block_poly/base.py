@@ -53,5 +53,5 @@ class Base(ABC):
         pass
 
     @abstractmethod
-    def b64_block(self) -> str:
+    def b64(self) -> str:
         pass

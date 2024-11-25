@@ -1,8 +1,8 @@
 from crypto_algorithms.gcm import get_l, get_ghash
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-from gcm.recover_h import recover_h
+from gcm_crack.recover_h import recover_h
 
-from gcm.gcm_types import GCMMessage, GCMForgery
+from gcm_crack.gcm_types import GCMMessage, GCMForgery
 
 
 def _get_zeroed_poly(message: GCMMessage) -> GaloisFieldPolynomial:

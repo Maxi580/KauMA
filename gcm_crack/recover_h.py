@@ -4,7 +4,7 @@ from galoisfield.galoisfieldelement import GaloisFieldElement
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from constants import BLOCK_SIZE
 from crypto_algorithms.gcm import get_l, get_ghash
-from gcm.gcm_types import GCMMessage
+from gcm_crack.gcm_types import GCMMessage
 
 ONE = GaloisFieldPolynomial([GaloisFieldElement(1)])
 X = GaloisFieldPolynomial([GaloisFieldElement(0), GaloisFieldElement(1)])

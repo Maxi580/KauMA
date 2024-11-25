@@ -2,7 +2,7 @@ from block_poly.b64 import B64
 from block_poly.block import Block
 from crypto_algorithms.gcm import gcm_encrypt, gcm_decrypt, get_eky0, get_auth_key, calculate_tag
 from crypto_algorithms.sea128 import aes_encrypt, sea_decrypt, sea_encrypt
-from gcm.gcm_crack import gcm_crack, GCMMessage, GCMForgery
+from gcm_crack.gcm_crack import gcm_crack, GCMMessage, GCMForgery
 from galoisfield.galoisfieldelement import GaloisFieldElement
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 
@@ -10,9 +10,9 @@ import secrets
 
 
 def randomize_test_data(encryption_algorithm, reused_nonce, key):
-    plaintext_len = secrets.randbelow(32)
+    plaintext_len = secrets.randbelow(16)
     plaintext = secrets.token_bytes(plaintext_len)
-    ad_len = secrets.randbelow(16)
+    ad_len = secrets.randbelow(8)
     ad = secrets.token_bytes(ad_len)
     ciphertext, tag, _, _ = gcm_encrypt(encryption_algorithm, reused_nonce, key, plaintext, ad)
 

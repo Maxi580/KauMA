@@ -1,3 +1,4 @@
+import time
 from typing import Optional, Union
 
 from block_poly.b64 import B64
@@ -137,11 +138,11 @@ class GaloisFieldPolynomial:
         return GaloisFieldPolynomial(q)._remove_leading_zero(), r
 
     def __floordiv__(self, other):
-        quotient, _ = divmod(self, other)
+        quotient, _ = self.__divmod__(other)
         return quotient
 
     def __mod__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
-        _, remainder = divmod(self, other)
+        _, remainder = self.__divmod__(other)
         return remainder
 
     def __lt__(self, other: 'GaloisFieldPolynomial') -> bool:
@@ -206,7 +207,7 @@ class GaloisFieldPolynomial:
         a = self.copy()
         b = other.copy()
 
-        while not all(int(gfe) == 0 for gfe in b):
+        while b != GaloisFieldPolynomial([GaloisFieldElement(0)]):
             temp = b
             b = a % b
             a = temp

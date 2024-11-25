@@ -1,0 +1,18 @@
+{
+  "responses": {
+    "gfpoly-divmod-2": {
+      "Q": ["AAAAAAAAAAAAAAAAAAAAAA==", "gAAAAAAAAAAAAAAAAAAAAA==", "QAAAAAAAAAAAAAAAAAAAAA=="],
+      "R": [
+            "AAAAAAAAAAAAAAAAAAAAAA=="
+      ]
+    },
+    "gfpoly-divmod-a-smaller-b": {
+      "Q": [
+            "AAAAAAAAAAAAAAAAAAAAAA=="
+      ],
+      "R": ["gAAAAAAAAAAAAAAAAAAAAA==",
+            "QAAAAAAAAAAAAAAAAAAAAA=="
+      ]
+    }
+  }
+}

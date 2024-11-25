@@ -1,0 +1,37 @@
+{
+  "testcases": {
+    "gfpoly-divmod-2": {
+      "action": "gfpoly_divmod",
+      "arguments": {
+        "A":
+          [
+            "AAAAAAAAAAAAAAAAAAAAAA==",
+            "gAAAAAAAAAAAAAAAAAAAAA==",
+            "QAAAAAAAAAAAAAAAAAAAAA=="
+          ],
+
+        "B":
+          [
+            "gAAAAAAAAAAAAAAAAAAAAA=="
+          ]
+      }
+    },
+    "gfpoly-divmod-a-smaller-b": {
+      "action": "gfpoly_divmod",
+      "arguments": {
+        "A":
+          [
+            "gAAAAAAAAAAAAAAAAAAAAA==",
+            "QAAAAAAAAAAAAAAAAAAAAA=="
+          ],
+
+        "B":
+          [
+            "wAAAAAAAAAAAAAAAAAAAAA==",
+            "IAAAAAAAAAAAAAAAAAAAAA==",
+            "oAAAAAAAAAAAAAAAAAAAAA=="
+          ]
+      }
+    }
+  }
+}

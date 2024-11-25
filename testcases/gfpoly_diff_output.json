@@ -1,0 +1,16 @@
+{
+  "responses": {
+    "gfpoly-diff-odd-cnt(lastElementZero)": {
+      "F'":
+        [
+          "HowImFeelingAAAAAAAAAA=="
+        ]
+    },
+    "gfpoly-diff-single-element": {
+      "F'":
+        [
+          "AAAAAAAAAAAAAAAAAAAAAA=="
+        ]
+    }
+  }
+}

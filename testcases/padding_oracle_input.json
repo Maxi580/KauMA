@@ -1,0 +1,31 @@
+{
+  "testcases": {
+    "padding-oracle-long": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "cPdyATy4f0nEkz90Pbbgow==",
+        "ciphertext": "ulF+k/CZUJfcUPkfneP6f+uiG/d21xetySEsoOvRnKCh4Fib/suYPPL7dmbtUwi5"
+      }
+    },
+    "padding-oracle-small": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "pqXIa9BojuXwMC9CqozYkA==",
+        "ciphertext": "ar1ERqCSTPsWPTLQ2iz8Bg=="
+      }
+    },
+    "padding-oracle-block-size": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "iwa77I4amb/t7TD1kRHM8A==",
+        "ciphertext": "hOJk4QIEGKUSIOBbMh5raHKh+TZYhKHUQazkveqepx4="
+      }
+    }
+  }
+}

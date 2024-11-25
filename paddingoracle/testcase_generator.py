@@ -12,7 +12,7 @@ def pkcs7_pad(data: bytes, block_size: int = 16) -> bytes:
 
 
 if __name__ == '__main__':
-    plaintext = pkcs7_pad(b'Hello')
+    plaintext = pkcs7_pad(b'SixteenLongWord!')
 
     key = b'\xeeH\xe0\xf4\xd0c\xeb\xd8\xb87\x16\xd3\t\xfe\x87\xce'
     iv = secrets.token_bytes(16)

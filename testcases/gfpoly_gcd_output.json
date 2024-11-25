@@ -1,0 +1,27 @@
+{
+  "responses": {
+    "gfpoly-gcd-identical": {
+      "G":
+        [
+          "g4tIp+6SdxUddQeNjisfJQ==",
+          "BUHmDqMSsuJU0ZVufRTg/Q==",
+          "D+vTjs1qwFk0hvqy+ihJqQ==",
+          "DsreCyGDZkTjQloGOOKcvg==",
+          "wezZpAq0bQPChn4eHI+10w==",
+          "KZsxR0ChX93A0cHv8P5Hnw==",
+          "wGfDm7MasmQhCEIQhCEIQA==",
+          "gAAAAAAAAAAAAAAAAAAAAA=="
+        ]
+    },
+    "gfpoly-gcd-reverse": {
+      "G":
+        [
+          "NeverGonnaMakeYouCryAA==",
+          "NeverGonnaSayGoodbyeAA==",
+          "NeverGonnaTellALieAAAA==",
+          "AndHurtYouAAAAAAAAAAAA==",
+          "gAAAAAAAAAAAAAAAAAAAAA=="
+        ]
+    }
+  }
+}

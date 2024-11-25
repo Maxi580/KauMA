@@ -1,0 +1,18 @@
+{
+  "testcases": {
+    "gfpoly-mul-zero": {
+      "action": "gfpoly_mul",
+      "arguments": {
+        "A":
+          [
+            "AAAAAAAAAAAAAAAAAAAAAA=="
+          ],
+        "B":
+          [
+            "AAAAAAAAAAAAAAAAAAAAAA==",
+            "gAAAAAAAAAAAAAAAAAAAAA=="
+          ]
+      }
+    }
+  }
+}

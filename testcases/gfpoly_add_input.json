@@ -1,0 +1,23 @@
+{
+  "testcases": {
+    "gfpoly-add-inverse": {
+      "action": "gfpoly_add",
+      "arguments": {
+        "A":
+          [
+            "NeverGonnaGiveYouUpAAA==",
+            "NeverGonnaLetYouDownAA==",
+            "NeverGonnaRunAroundAAA==",
+            "AndDesertYouAAAAAAAAAA=="
+          ],
+        "B":
+          [
+            "NeverGonnaGiveYouUpAAA==",
+            "NeverGonnaLetYouDownAA==",
+            "NeverGonnaRunAroundAAA==",
+            "AndDesertYouAAAAAAAAAA=="
+          ]
+      }
+    }
+  }
+}

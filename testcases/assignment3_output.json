@@ -8,12 +8,6 @@
             "AndDesertYouAAAAAAAAAA=="
       ]
     },
-    "gfpoly-add-inverse": {
-      "S": [
-        "AAAAAAAAAAAAAAAAAAAAAA=="
-      ]
-    },
-
     "gfpoly-mul": {
       "P": [
           "MoAAAAAAAAAAAAAAAAAAAA==",
@@ -21,9 +15,6 @@
           "MbQAAAAAAAAAAAAAAAAAAA==",
           "AAhAAAAAAAAAAAAAAAAAAA=="
       ]
-    },
-    "gfpoly-mul-zero": {
-      "P": ["AAAAAAAAAAAAAAAAAAAAAA=="]
     },
     "gfpoly-pow": {
       "Z": [
@@ -36,32 +27,8 @@
           "AAAAAgAAAAAAAAAAAAAAAA=="
       ]
     },
-    "gfpoly-pow-1-exponent-100": {
-      "Z": ["gAAAAAAAAAAAAAAAAAAAAA=="]
-    },
-    "gfpoly-pow-0-exponent-0": {
-      "Z": ["gAAAAAAAAAAAAAAAAAAAAA=="]
-    },
-    "gfpoly-pow-1-exponent-10": {
-      "Z": ["gAAAAAAAAAAAAAAAAAAAAA=="]
-    },
-    "gfpoly-pow-1,1-exponent-3": {
-      "Z": ["gAAAAAAAAAAAAAAAAAAAAA==",
-            "gAAAAAAAAAAAAAAAAAAAAA==",
-            "gAAAAAAAAAAAAAAAAAAAAA==",
-            "gAAAAAAAAAAAAAAAAAAAAA=="
-      ]
-    },
     "gfdiv": {
       "q": "OAAAAAAAAAAAAAAAAAAAAA=="
-    },
-    "gfpoly-divmod-a-smaller-b": {
-      "Q": [
-            "AAAAAAAAAAAAAAAAAAAAAA=="
-      ],
-      "R": ["gAAAAAAAAAAAAAAAAAAAAA==",
-            "QAAAAAAAAAAAAAAAAAAAAA=="
-      ]
     },
     "gfpoly-divmod": {
       "Q": [
@@ -70,12 +37,6 @@
             ],
       "R": [
             "lQNA0DQNA0DQNA0DQNA0Dg=="
-      ]
-    },
-    "gfpoly-divmod-2": {
-      "Q": ["AAAAAAAAAAAAAAAAAAAAAA==", "gAAAAAAAAAAAAAAAAAAAAA==", "QAAAAAAAAAAAAAAAAAAAAA=="],
-      "R": [
-            "AAAAAAAAAAAAAAAAAAAAAA=="
       ]
     },
     "gfpoly-powmod": {

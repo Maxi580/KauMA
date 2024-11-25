@@ -1,0 +1,13 @@
+{
+  "responses": {
+    "padding-oracle-long": {
+        "plaintext": "SGVsbG8gVGhlcmUgRG9lcyBpdCBSZWFsbHkgUmVhbGx5IFdvcms/CQkJCQkJCQkJ"
+    },
+    "padding-oracle-small": {
+        "plaintext": "SGVsbG8LCwsLCwsLCwsLCw=="
+    },
+    "padding-oracle-block-size": {
+        "plaintext": "U2l4dGVlbkxvbmdXb3JkIRAQEBAQEBAQEBAQEBAQEBA="
+    }
+  }
+}

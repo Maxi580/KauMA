@@ -1,0 +1,24 @@
+{
+  "testcases": {
+    "gfpoly-diff-odd-cnt(lastElementZero)": {
+      "action": "gfpoly_diff",
+      "arguments": {
+        "F":
+          [
+            "IJustWannaTellYouAAAAA==",
+            "HowImFeelingAAAAAAAAAA==",
+            "GottaMakeYouAAAAAAAAAA=="
+          ]
+      }
+    },
+    "gfpoly-diff-single-element": {
+      "action": "gfpoly_diff",
+      "arguments": {
+        "F":
+          [
+            "IJustWannaTellYouAAAAA=="
+          ]
+      }
+    }
+  }
+}

@@ -41,33 +41,6 @@
         "ad": "UknNF3AKBaF/8GUnFUw=",
         "tag": "sN0+1fG+WSOHMswF7IBnZA=="
       }
-    },
-    "padding-oracle-1": {
-      "action": "padding_oracle",
-      "arguments": {
-        "hostname": "localhost",
-        "port": 9999,
-        "iv": "cPdyATy4f0nEkz90Pbbgow==",
-        "ciphertext": "ulF+k/CZUJfcUPkfneP6f+uiG/d21xetySEsoOvRnKCh4Fib/suYPPL7dmbtUwi5"
-      }
-    },
-    "padding-oracle-2": {
-      "action": "padding_oracle",
-      "arguments": {
-        "hostname": "localhost",
-        "port": 9999,
-        "iv": "JJ8C+W8n/qY5r5zbJgu5Yw==",
-        "ciphertext": "d8StT8rIOBN+tH007F7vTg=="
-      }
-    },
-    "padding-oracle-3": {
-      "action": "padding_oracle",
-      "arguments": {
-        "hostname": "localhost",
-        "port": 9999,
-        "iv": "ScKwBsgnO5SIY/Y8uG91Rw==",
-        "ciphertext": "xr2tx0HPN84xkpCh6gFEoQ=="
-      }
     }
   }
 }

@@ -4,12 +4,12 @@ from functools import cached_property
 
 
 class B64(Base):
-    def __init__(self, b64_block: str):
-        self._b64_block = b64_block
+    def __init__(self, b64: str):
+        self._b64 = b64
 
     @property
     def b64(self) -> str:
-        return self._b64_block
+        return self._b64
 
     @cached_property
     def block(self) -> bytes:

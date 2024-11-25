@@ -1,6 +1,6 @@
 {
   "testcases": {
-    "gcm_crack": {
+    "gcm-crack-short": {
       "action": "gcm_crack",
       "arguments": {
         "nonce": "4gF+BtR3ku/PUQci",

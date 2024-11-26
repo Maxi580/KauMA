@@ -48,6 +48,9 @@ class GaloisFieldPolynomial:
     def copy(self) -> 'GaloisFieldPolynomial':
         return GaloisFieldPolynomial(self._gfe_list.copy())
 
+    def is_zero(self) -> bool:
+        return all(int(self[i]) == 0 for i in range(len(self)))
+
     def __getitem__(self, index: int) -> GaloisFieldElement:
         return self._gfe_list[index]
 
@@ -170,6 +173,7 @@ class GaloisFieldPolynomial:
             self[i] /= self[-1]
 
         self[-1] = GaloisFieldElement(1)
+        return self
 
     def sqrt(self) -> 'GaloisFieldPolynomial':
         """Len of GFP always has to be odd since, only even GFE do not equal 0.
@@ -204,13 +208,18 @@ class GaloisFieldPolynomial:
         return derived_poly
 
     def gcd(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
-        a = self.copy()
-        b = other.copy()
+        a = self.copy()._remove_leading_zero()
+        b = other.copy()._remove_leading_zero()
 
-        while b != GaloisFieldPolynomial([GaloisFieldElement(0)]):
-            temp = b
-            b = a % b
-            a = temp
+        if a.is_zero():
+            return b.make_monic()
 
-        a.make_monic()
-        return a
+        if b.is_zero():
+            return a.make_monic()
+
+        while not b.is_zero():
+            temp = a % b
+            a = b
+            b = temp
+
+        return a.make_monic()

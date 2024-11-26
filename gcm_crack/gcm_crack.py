@@ -1,7 +1,7 @@
 from crypto_algorithms.gcm import get_l, get_ghash
+from galoisfield.galoisfieldelement import GaloisFieldElement
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-from gcm_crack.recover_h import recover_h
-
+from gcm_crack.find_roots import find_roots
 from gcm_crack.gcm_types import GCMMessage, GCMForgery
 
 
@@ -23,6 +23,24 @@ def _get_zeroed_poly(message: GCMMessage) -> GaloisFieldPolynomial:
     return poly
 
 
+def _find_correct_h(h_candidates: list[GaloisFieldElement], m1: GCMMessage, m3: GCMMessage) \
+        -> tuple[GaloisFieldElement, GaloisFieldElement]:
+    for potential_auth_key in h_candidates:
+        # Calculate back the ek0 for the given auth key, stays the same due to same nonce etc.
+        m1_l = get_l(m1.ad_bytes, m1.ciphertext_bytes)
+        m1_ghash = get_ghash(potential_auth_key, m1.associated_data, m1.ciphertext, m1_l)
+        ek0 = m1_ghash + m1.tag
+
+        # Try to authenticate m3 with potential auth key
+        m3_l = get_l(m3.ad_bytes, m3.ciphertext_bytes)
+        m3_ghash = get_ghash(potential_auth_key, m3.associated_data, m3.ciphertext, m3_l)
+        tag = ek0 + m3_ghash
+
+        # If Tag is the same, authentication is successful
+        if tag == m3.tag:
+            return potential_auth_key, ek0
+
+
 def gcm_crack(nonce: bytes, m1: GCMMessage, m2: GCMMessage, m3: GCMMessage, forgery: GCMForgery):
     f1 = _get_zeroed_poly(m1)
     f2 = _get_zeroed_poly(m2)
@@ -30,7 +48,11 @@ def gcm_crack(nonce: bytes, m1: GCMMessage, m2: GCMMessage, m3: GCMMessage, forg
     F = f1 - f2
     F.make_monic()
 
-    correct_h, mask = recover_h(F, m1, m3)
+    roots = find_roots(F)
+    h_candidates = [root[0] for root in roots]
+
+    correct_h, mask = _find_correct_h(h_candidates, m1, m3)
+    assert correct_h is not None, "No Correct auth Key has been found"
 
     forgery_l = get_l(forgery.ad_bytes, forgery.ciphertext_bytes)
     forgery_ghash = get_ghash(correct_h, forgery.associated_data, forgery.ciphertext, forgery_l)

@@ -13,7 +13,7 @@ from crypto_algorithms.gcm import gcm_encrypt, gcm_decrypt
 from paddingoracle.paddingOracle import padding_oracle_attack
 from galoisfield.galoisfieldelement import GaloisFieldElement
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-from gcm_crack.recover_h import sff, ddf, edf
+from gcm_crack.find_roots import sff, ddf, edf
 from gcm_crack.gcm_types import json_to_gcm_message, json_to_gcm_forgery_message
 from gcm_crack.gcm_crack import gcm_crack
 

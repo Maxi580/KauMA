@@ -14,11 +14,11 @@ class GaloisFieldElement:
         self._int_value = int_value
 
     @classmethod
-    def from_block_xex(cls, xex_block: bytes):
+    def from_block_xex(cls, xex_block: bytes) -> 'GaloisFieldElement':
         return cls(Block(xex_block).xex_poly)
 
     @classmethod
-    def from_block_gcm(cls, gcm_block: bytes):
+    def from_block_gcm(cls, gcm_block: bytes) -> 'GaloisFieldElement':
         return cls(Block(gcm_block).gcm_poly)
 
     def to_block_gcm(self) -> bytes:
@@ -42,7 +42,6 @@ class GaloisFieldElement:
     def __mul__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
         result = c_multiply(int(self), int(other))
         assert result < (1 << 128), "Gfmul result is bigger than field size"
-
 
         return GaloisFieldElement(result)
 

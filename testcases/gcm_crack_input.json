@@ -24,6 +24,81 @@
         "associated_data": "Hj0MSPPS"
         }
       }
+    },
+    "gcm-crack-middle": {
+      "action": "gcm_crack",
+      "arguments": {
+        "nonce": "4gF+BtR3ku/PUQci",
+        "m1": {
+        "ciphertext": "ZrodJLQaQN43UN0YIsfziuBE6Ypfer3so2a03NY94zfSqvir8cWf",
+        "associated_data": "8Gkl5yfmmuUgsiZek4pBKA4=",
+        "tag": "Bb3qohA6uHkttEjkGbBfNQ=="
+        },
+        "m2": {
+        "ciphertext": "0BCdlMBBFv/xRr9xrXJBRkKxv0ewGOUm7uXtMEssHH0pJ7LRyQ==",
+        "associated_data": "y40kBJa2NSlLvTjUXkD8Bvc=",
+        "tag": "MAYsvHQQJAi1OcLfobGbIA=="
+        },
+        "m3": {
+        "ciphertext": "Oa7vEznAtzlfJ8HABKAIeOK94EOsLOAZvfpWWgr93QD0",
+        "associated_data": "BkEhCnkBWEFJHuqeX8z/5bibHKm5nPI=",
+        "tag": "BUasaRjbUdXZKI+DyHicjw=="
+        },
+        "forgery": {
+        "ciphertext": "B2+z+G7WUQH/jY0Uj5skuus5fTA8S0aGA8ILJS8CWiQ8plqnLaE=",
+        "associated_data": "1+0o8kuz95QiFwSZEeTAvCOeiGSag7NV"
+        }
+      }
+    },
+    "gcm-crack-zero": {
+      "action": "gcm_crack",
+      "arguments": {
+        "nonce": "4gF+BtR3ku/PUQci",
+        "m1": {
+          "ciphertext": "",
+          "associated_data": "",
+          "tag": "/MIQ8w/DHPVvOv4rqm3SbA=="
+        },
+        "m2": {
+          "ciphertext": "kk34FkY=",
+          "associated_data": "DqN5rkiKG6LyTXyLMZ6uww==",
+          "tag": "lW3dn/TQCMUEN5AMm+AI6g=="
+        },
+        "m3": {
+          "ciphertext": "IFlqEDVKCUEyCSeO4qc52w==",
+          "associated_data": "T8BtPuoNBCqpclfgLdrTxw==",
+          "tag": "eNuo4GhSFGUPWplnz/V8aQ=="
+        },
+        "forgery": {
+          "ciphertext": "U36aBZohfND3NO47kcqVJA==",
+          "associated_data": "lQ92P22pxWj/fjzzl4pKCQ=="
+        }
+      }
+    },
+      "gcm-crack-long": {
+      "action": "gcm_crack",
+      "arguments": {
+        "nonce": "4gF+BtR3ku/PUQci",
+        "m1": {
+        "ciphertext": "+MB7qZcwFPQGQOPRjwKqptxzdSP31U5qUsEOOXZWagHNrIjqrjKP1v4VY21CJtg1EzRhmorr9Z89WOWv6+8dJchx4auB0iRx5hxHcKztrCGYVjP9MO97N104QdH2hHTcTstg8g==",
+        "associated_data": "XHbLsnka7OvPMEJrPnwL/n9wPAb1X4Kx78Lfo0E+4EQPbFEdLPBvfhwxUgjg4ma4EzyHKvjsY+sFlix/V4XFkFp+F6ZNt5pJV+nOjBAePOlx7wAZS5g3LgIvm3Fds+6x5KVSTg==",
+        "tag": "hB+ca3Ca1CYwb+apLH5qNw=="
+        },
+        "m2": {
+        "ciphertext": "MaFWbe0=",
+        "associated_data": "Ii6XcPTsvx0YOPhjQWiuSA==",
+        "tag": "n76s35Lr1Zakg9vzsz4Kag=="
+        },
+        "m3": {
+        "ciphertext": "KrOIAMsqi0STBF36i+48iw==",
+        "associated_data": "DfyP/z89tXok6unGJDVsGQ==",
+        "tag": "lqIWEgVKjDBDyjmiB61x6g=="
+        },
+        "forgery": {
+        "ciphertext": "e5POKs6wbfFHH4vkhdqT1g==",
+        "associated_data": "YeGP8Fpjk5OKmAEx1BqQ3g=="
+        }
+      }
     }
   }
 }

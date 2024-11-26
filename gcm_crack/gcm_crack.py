@@ -46,6 +46,9 @@ def gcm_crack(nonce: bytes, m1: GCMMessage, m2: GCMMessage, m3: GCMMessage, forg
     f2 = _get_zeroed_poly(m2)
 
     F = f1 - f2
+
+    assert F != GaloisFieldPolynomial([GaloisFieldElement(0)]), "M1 and m2 are equal"
+
     F.make_monic()
 
     roots = find_roots(F)

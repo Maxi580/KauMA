@@ -4,6 +4,21 @@
       "tag": "d0SjnkjivAWtJokfdXs6ZQ==",
       "H": "bz09YZymF6foIjXadpwsoA==",
       "mask": "woUJZjQXsh4LLfSPgLviXw=="
+    },
+    "gcm-crack-middle": {
+      "tag": "xc4MHB5hjjBJJSlLzvHnRw==",
+      "H": "U+4XuBRjjuxjNJccyzqx9g==",
+      "mask": "YLuz5rI5u5X/MYu1JOo8NQ=="
+    },
+    "gcm-crack-zero": {
+      "tag": "h2E39kfXx8NVXEQAqLKuqw==",
+      "H": "2LIMY9cjGn+Q4xfGTKcSdw==",
+      "mask": "/MIQ8w/DHPVvOv4rqm3SbA=="
+    },
+    "gcm-crack-long": {
+      "tag": "VI3Qs6afwUFy45kXn16GcQ==",
+      "H": "rVDHWny/U9CE7B3LYEVkQg==",
+      "mask": "FbzaBgigCi1bsKfmzndV+A=="
     }
   }
 }

@@ -13,7 +13,7 @@ from crypto_algorithms.gcm import gcm_encrypt, gcm_decrypt
 from paddingoracle.paddingOracle import padding_oracle_attack
 from galoisfield.galoisfieldelement import GaloisFieldElement
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-from gcm_crack.find_roots import sff, ddf, edf
+from gcm_crack.recover_h import sff, ddf, edf
 from gcm_crack.gcm_types import json_to_gcm_message, json_to_gcm_forgery_message
 from gcm_crack.gcm_crack import gcm_crack
 
@@ -247,7 +247,7 @@ def gfpoly_factor_edf_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gcm_crack_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    nonce = B64(arguments["nonce"]).block
+    # nonce = B64(arguments["nonce"]).block
 
     m1 = json_to_gcm_message(arguments["m1"])
     m2 = json_to_gcm_message(arguments["m2"])
@@ -255,7 +255,7 @@ def gcm_crack_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     forgery = json_to_gcm_forgery_message(arguments["forgery"])
 
-    tag, H, mask = gcm_crack(nonce, m1, m2, m3, forgery)
+    tag, H, mask = gcm_crack(m1, m2, m3, forgery)
 
     return {"tag": tag.to_b64_gcm(), "H": H.to_b64_gcm(), "mask": mask.to_b64_gcm()}
 

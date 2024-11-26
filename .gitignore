@@ -6,6 +6,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Not include compiled so and dll files
+*.dll
+*.so
+
 # Distribution / packaging
 .Python
 build/

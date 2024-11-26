@@ -11,7 +11,7 @@ X = GaloisFieldPolynomial([GaloisFieldElement(0), GaloisFieldElement(1)])
 
 def _generate_random_poly(max_degree: int):
     new_poly = GaloisFieldPolynomial([])
-    new_degree = random.randint(0, max_degree - 1)
+    new_degree = random.randint(1, max_degree)
 
     for i in range(new_degree):
         new_poly.add_elements(GaloisFieldElement(random.randint(1, (1 << 128) - 1)))

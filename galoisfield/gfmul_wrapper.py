@@ -1,6 +1,7 @@
-from ctypes import CDLL, c_uint64, POINTER, Structure
+import subprocess
+import sys
+from ctypes import CDLL, c_uint64, Structure
 from pathlib import Path
-import platform
 
 
 class Uint128(Structure):
@@ -8,16 +9,34 @@ class Uint128(Structure):
                 ("high", c_uint64)]
 
 
-def _load_library():
-    """Load the appropriate library file based on platform."""
+def _compile_library():
+    """Compile the gfmul library if it doesn't exist."""
     current_dir = Path(__file__).parent.absolute()
+    source_file = current_dir / "gfmul.c"
 
-    if platform.system() == "Windows":
-        lib_name = "gfmul.dll"
-    else:
-        lib_name = "libgfmul.so"
+    lib_name = "libgfmul.so"
+    compile_cmd = ["gcc", "-O3", "-march=native", "-msse2", "-msse4.1", "-maes",
+                   "-mpclmul", "-fPIC", "-Wall", "-shared",
+                   str(source_file), "-o", lib_name]
 
     lib_path = current_dir / lib_name
+
+    if not lib_path.exists():
+        try:
+            result = subprocess.run(compile_cmd, cwd=str(current_dir),
+                                    capture_output=True, text=True)
+            if result.returncode != 0:
+                raise RuntimeError(f"Compilation failed:\n{result.stderr}")
+        except Exception as e:
+            print(f"Error compiling gfmul library: {e}", file=sys.stderr)
+            raise
+
+    return lib_path
+
+
+def _load_library():
+    """Load the appropriate library file based on platform."""
+    lib_path = _compile_library()
 
     try:
         if not lib_path.exists():

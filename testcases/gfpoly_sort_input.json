@@ -1,0 +1,17 @@
+{
+  "testcases": {
+    "gfpoly-sort-1": {
+      "action": "gfpoly_sort",
+      "arguments": {
+        "polys":
+          [
+            ["SuFn0x7pAAdAOngAAyBS3g==", "gAAAAAAAAAAAAAAAAAAAAA=="],
+            ["HTJwnrhOQU8AXEwJXy1aUg==", "gAAAAAAAAAAAAAAAAAAAAA=="],
+            ["H0xoygev+zqW0KmEJYUciQ==", "gAAAAAAAAAAAAAAAAAAAAA=="],
+            ["AcGukR6uoHpYXpVbZ1DBlw==", "gAAAAAAAAAAAAAAAAAAAAA=="],
+            ["Alk3SWrI6JDPjkdaJGnUWQ==", "gAAAAAAAAAAAAAAAAAAAAA=="]
+          ]
+      }
+    }
+  }
+}

@@ -2,6 +2,7 @@ from typing import Final
 
 from block_poly.block import Block
 from block_poly.poly import Poly
+from galoisfield.gfmul_wrapper import c_multiply
 
 
 class GaloisFieldElement:
@@ -39,19 +40,9 @@ class GaloisFieldElement:
         return self + other
 
     def __mul__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
-        a_poly = int(self)
-        b_poly = int(other)
+        result = c_multiply(int(self), int(other))
+        assert result < (1 << 128), "Gfmul result is bigger than field size"
 
-        result = 0
-
-        for i in range(b_poly.bit_length()):
-            if b_poly & (1 << i):
-                result ^= a_poly
-
-            if a_poly & (1 << (self.FIELD_SIZE - 1)):
-                a_poly = (a_poly << 1) ^ self.REDUCTION_POLYNOM
-            else:
-                a_poly <<= 1
 
         return GaloisFieldElement(result)
 

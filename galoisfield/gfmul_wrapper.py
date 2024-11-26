@@ -34,7 +34,7 @@ def _compile_library():
     return lib_path
 
 
-def _load_library():
+def _load_so_library():
     """Load the appropriate library file based on platform."""
     lib_path = _compile_library()
 
@@ -58,7 +58,38 @@ def _load_library():
         return None
 
 
-lib = _load_library()
+def _load_dll_library():
+    """Helper Script for Local testing on Windows/
+    MSYS2 command: gcc -O3 -march=native -msse2 -msse4.1 -maes -mpclmul -shared gfmul.c -o gfmul.dll"""
+
+    current_dir = Path(__file__).parent.absolute()
+    lib_path = current_dir / "gfmul.dll"
+
+    try:
+        if not lib_path.exists():
+            raise FileNotFoundError(
+                f"gfmul.dll not found at {lib_path}\n"
+                "Please compile it using build_dll.py or manually with:\n"
+                "gcc -O3 -march=native -msse2 -msse4.1 -maes -mpclmul -shared gfmul.c -o gfmul.dll"
+            )
+        lib = CDLL(str(lib_path))
+
+        lib.gfmul.argtypes = [
+            c_uint64,  # a_low
+            c_uint64,  # a_high
+            c_uint64,  # b_low
+            c_uint64,  # b_high
+        ]
+        lib.gfmul.restype = Uint128
+
+        return lib
+    except Exception as e:
+        print(f"Error loading gfmul library: {e}")
+        print(f"Tried to load from: {lib_path}")
+        return None
+
+
+lib = _load_so_library()
 
 
 def c_multiply(a: int, b: int) -> int:

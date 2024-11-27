@@ -3,7 +3,7 @@ import random
 from galoisfield.galoisfieldelement import GaloisFieldElement
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from crypto_algorithms.gcm import get_l, get_ghash
-from gcm_crack.gcm_types import GCMMessage, GCMForgery
+from gcm_crack.gcm_types import GCMMessage
 
 ONE = GaloisFieldPolynomial([GaloisFieldElement(1)])
 X = GaloisFieldPolynomial([GaloisFieldElement(0), GaloisFieldElement(1)])
@@ -11,7 +11,7 @@ X = GaloisFieldPolynomial([GaloisFieldElement(0), GaloisFieldElement(1)])
 
 def _generate_random_poly(max_degree: int):
     new_poly = GaloisFieldPolynomial([])
-    new_degree = random.randint(1, max_degree)
+    new_degree = random.randint(1, max_degree - 1)
 
     for i in range(new_degree):
         new_poly.add_elements(GaloisFieldElement(random.randint(1, (1 << 128) - 1)))

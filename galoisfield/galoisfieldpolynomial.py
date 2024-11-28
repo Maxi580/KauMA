@@ -168,6 +168,7 @@ class GaloisFieldPolynomial:
         return True
 
     def make_monic(self):
+        assert self[-1] != GaloisFieldElement(0), "Dividing through 0 in make monic"
         for i in range(len(self) - 1):
             self[i] /= self[-1]
 

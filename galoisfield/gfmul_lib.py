@@ -34,7 +34,7 @@ def _compile_library():
     return lib_path
 
 
-def _load_so_library():
+def load_so_library():
     """Load the appropriate library file based on platform."""
     lib_path = _compile_library()
 
@@ -58,7 +58,7 @@ def _load_so_library():
         return None
 
 
-def _load_dll_library():
+def load_dll_library():
     """Helper Script for Local testing on Windows/
     MSYS2 command: gcc -O3 -march=native -msse2 -msse4.1 -maes -mpclmul -shared gfmul.c -o gfmul.dll"""
 
@@ -87,20 +87,3 @@ def _load_dll_library():
         print(f"Error loading gfmul library: {e}")
         print(f"Tried to load from: {lib_path}")
         return None
-
-
-lib = _load_so_library()
-
-
-def c_multiply(a: int, b: int) -> int:
-    """Used intel algorithm from:
-       https://www.intel.com/content/dam/develop/external/us/en/documents/clmul-wp-rev-2-02-2014-04-20.pdf
-       needs __m128i, which can be seen as two 64bit values (cant pass __m128i directly)"""
-
-    a_low = a & ((1 << 64) - 1)
-    a_high = a >> 64
-    b_low = b & ((1 << 64) - 1)
-    b_high = b >> 64
-
-    result = lib.gfmul(a_low, a_high, b_low, b_high)
-    return result.low + (result.high << 64)

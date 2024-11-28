@@ -2,7 +2,23 @@ from typing import Final
 
 from block_poly.block import Block
 from block_poly.poly import Poly
-from galoisfield.gfmul_wrapper import c_multiply
+from galoisfield.gfmul_lib import load_so_library as load_library
+
+LIB = load_library()
+
+
+def c_multiply(a: int, b: int) -> int:
+    """Used intel algorithm from:
+       https://www.intel.com/content/dam/develop/external/us/en/documents/clmul-wp-rev-2-02-2014-04-20.pdf
+       needs __m128i, which can be seen as two 64bit values (cant pass __m128i directly)"""
+
+    a_low = a & ((1 << 64) - 1)
+    a_high = a >> 64
+    b_low = b & ((1 << 64) - 1)
+    b_high = b >> 64
+
+    result = LIB.gfmul(a_low, a_high, b_low, b_high)
+    return result.low + (result.high << 64)
 
 
 class GaloisFieldElement:

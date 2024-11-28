@@ -117,7 +117,7 @@ def recover_h(f: GaloisFieldPolynomial, m1, m3):
                 if result:
                     return result
             else:
-                roots = [root[0] for root in edf(f_ddf, degree)]
+                roots = [root[0] for root in edf(f_ddf, degree) if root.degree == 1]
                 # Roots are found => check if they are a correct solution
                 result = _find_correct_h(roots, m1, m3)
                 if result:

@@ -3,7 +3,7 @@ import time
 from block_poly.block import Block
 from crypto_algorithms.gcm import gcm_encrypt, get_eky0, get_auth_key
 from crypto_algorithms.sea128 import aes_encrypt, sea_encrypt
-from gcm_types import GCMMessage, GCMForgery
+from gcm_types import GCMMessage
 from gcm_crack import gcm_crack
 from galoisfield.galoisfieldelement import GaloisFieldElement
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
@@ -23,7 +23,7 @@ def randomize_test_data(encryption_algorithm, reused_nonce, key):
 
 if __name__ == '__main__':
     calc_times = []
-    for i in range(100):
+    for i in range(250):
         reused_nonce = secrets.token_bytes(12)
         key = secrets.token_bytes(16)
         encryption_algorithm = aes_encrypt
@@ -61,9 +61,10 @@ if __name__ == '__main__':
         forgery_ciphertext, forgery_ad, forgery_tag = randomize_test_data(encryption_algorithm, reused_nonce, key)
         """print(
             f"forgery: ciphertext: {Block(forgery_ciphertext).b64} ad: {Block(forgery_ad).b64} tag: {Block(forgery_tag).b64}")"""
-        forgery = GCMForgery(
+        forgery = GCMMessage(
             ciphertext=GaloisFieldPolynomial.from_block(forgery_ciphertext),
             associated_data=GaloisFieldPolynomial.from_block(forgery_ad),
+            tag=None,
             ciphertext_bytes=forgery_ciphertext,
             ad_bytes=forgery_ad
         )
@@ -73,14 +74,9 @@ if __name__ == '__main__':
         end_time = time.time()
         calc_times.append(end_time - start_time)
 
-
-        """print(f"cracked_tag: {cracked_tag.to_b64_gcm()}")
-        print(f"Correct tag: {Block(forgery_tag).b64}")
-        print("\n")
-        print(f"cracked_H: {cracked_H.to_b64_gcm()}")
-        print(f"Correct H: {get_auth_key(key, encryption_algorithm).to_b64_gcm()}")
-        print("\n")
-        print(f"cracked_mask: {cracked_mask.to_b64_gcm()}")
-        print(f"Correct mask: {get_eky0(key, reused_nonce, encryption_algorithm).to_b64_gcm()}")"""
+        assert cracked_tag.to_b64_gcm() == Block(forgery_tag).b64, "Tag is incorrect"
+        assert cracked_H.to_b64_gcm() == get_auth_key(key, encryption_algorithm).to_b64_gcm(), "H is incorrect"
+        assert cracked_mask.to_b64_gcm() == get_eky0(key, reused_nonce, encryption_algorithm).to_b64_gcm(), \
+            "eky0 is incorrect"
 
     print(f"Avg Time: {sum(calc_times) / len(calc_times)}")

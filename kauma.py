@@ -14,7 +14,7 @@ from paddingoracle.paddingOracle import padding_oracle_attack
 from galoisfield.galoisfieldelement import GaloisFieldElement
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from gcm_crack.recover_h import sff, ddf, edf
-from gcm_crack.gcm_types import json_to_gcm_message, json_to_gcm_forgery_message
+from gcm_crack.gcm_types import json_to_gcm_message, json_forgery_to_gcm_message
 from gcm_crack.gcm_crack import gcm_crack
 
 ENCRYPT_MODE = "encrypt"
@@ -253,7 +253,7 @@ def gcm_crack_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     m2 = json_to_gcm_message(arguments["m2"])
     m3 = json_to_gcm_message(arguments["m3"])
 
-    forgery = json_to_gcm_forgery_message(arguments["forgery"])
+    forgery = json_forgery_to_gcm_message(arguments["forgery"])
 
     tag, H, mask = gcm_crack(m1, m2, m3, forgery)
 

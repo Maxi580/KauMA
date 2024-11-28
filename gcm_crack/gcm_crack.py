@@ -1,7 +1,7 @@
 from galoisfield.galoisfieldelement import GaloisFieldElement
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from gcm_crack.recover_h import recover_h
-from gcm_crack.gcm_types import GCMMessage, GCMForgery
+from gcm_crack.gcm_types import GCMMessage
 from crypto_algorithms.gcm import get_l, get_ghash
 
 
@@ -23,7 +23,7 @@ def _get_zeroed_poly(message: GCMMessage) -> GaloisFieldPolynomial:
     return poly
 
 
-def gcm_crack(m1: GCMMessage, m2: GCMMessage, m3: GCMMessage, forgery: GCMForgery):
+def gcm_crack(m1: GCMMessage, m2: GCMMessage, m3: GCMMessage, forgery: GCMMessage):
     f1 = _get_zeroed_poly(m1)
     f2 = _get_zeroed_poly(m2)
 

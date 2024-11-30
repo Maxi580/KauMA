@@ -151,11 +151,11 @@ class GaloisFieldPolynomial:
         return GaloisFieldPolynomial(q)._remove_leading_zero(), r
 
     def __floordiv__(self, other):
-        quotient, _ = self.__divmod__(other)
+        quotient, _ = divmod(self, other)
         return quotient
 
     def __mod__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
-        _, remainder = self.__divmod__(other)
+        _, remainder = divmod(self, other)
         return remainder
 
     def __lt__(self, other: 'GaloisFieldPolynomial') -> bool:

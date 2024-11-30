@@ -17,46 +17,44 @@ class Uint128(Structure):
 def _compile_library():
     """Compile the gfmul library if it doesn't exist."""
     current_dir = Path(__file__).parent.absolute()
-    source_path = current_dir / C_SCRIPT_NAME
-
-    if platform.system() == "Windows":
-        # Need to have mingw64 installed:
-        # https://github.com/niXman/mingw-builds-binaries/releases/download/14.2.0-rt_v12-rev0/x86_64-14.2.0-release-posix-seh-msvcrt-rt_v12-rev0.7z
-        # Install, unpack, add it to path, restart => should be able to compile, (Can be done manually as well)
-        output_name = WINDOWS_LIBRARY_NAME
-        compiler_args = [
-            "gcc",
-            "-O3",
-            "-march=native",
-            "-msse2",
-            "-msse4.1",
-            "-maes",
-            "-mpclmul",
-            "-shared",
-            str(source_path),
-            "-o",
-            current_dir / output_name,
-        ]
-    else:
-        output_name = LINUX_LIBRARY_NAME
-        compiler_args = [
-            "gcc",
-            "-O3",
-            "-march=native",
-            "-msse2",
-            "-msse4.1",
-            "-maes",
-            "-mpclmul",
-            "-shared",
-            "-fPIC",
-            str(source_path),
-            "-o",
-            current_dir / output_name,
-        ]
+    output_name = WINDOWS_LIBRARY_NAME if platform.system() == "Windows" else LINUX_LIBRARY_NAME
 
     lib_path = current_dir / output_name
     if not lib_path.exists():
         try:
+            if output_name == WINDOWS_LIBRARY_NAME:
+                # Need to have mingw64 installed:
+                # https://github.com/niXman/mingw-builds-binaries/releases/download/14.2.0-rt_v12-rev0/x86_64-14.2.0-release-posix-seh-msvcrt-rt_v12-rev0.7z
+                # Install, unpack, add it to path, restart => should be able to compile, (Can be done manually as well)
+                compiler_args = [
+                    "gcc",
+                    "-O3",
+                    "-march=native",
+                    "-msse2",
+                    "-msse4.1",
+                    "-maes",
+                    "-mpclmul",
+                    "-shared",
+                    str(current_dir / C_SCRIPT_NAME),
+                    "-o",
+                    current_dir / output_name,
+                ]
+            else:
+                compiler_args = [
+                    "gcc",
+                    "-O3",
+                    "-march=native",
+                    "-msse2",
+                    "-msse4.1",
+                    "-maes",
+                    "-mpclmul",
+                    "-shared",
+                    "-fPIC",
+                    str(current_dir / C_SCRIPT_NAME),
+                    "-o",
+                    current_dir / output_name,
+                ]
+
             result = subprocess.run(
                 compiler_args,
                 check=True,

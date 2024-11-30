@@ -5,9 +5,6 @@ from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from crypto_algorithms.gcm import get_l, get_ghash
 from gcm_crack.gcm_types import GCMMessage
 
-ONE = GaloisFieldPolynomial([GaloisFieldElement(1)])
-X = GaloisFieldPolynomial([GaloisFieldElement(0), GaloisFieldElement(1)])
-
 
 def _generate_random_poly(max_degree: int):
     new_poly = GaloisFieldPolynomial([])
@@ -44,7 +41,7 @@ def sff(f: GaloisFieldPolynomial) -> list[tuple[GaloisFieldPolynomial, int]]:
     z = []
     exponent = 1
 
-    while f != ONE:
+    while f != GaloisFieldPolynomial.one():
         y = f.gcd(c)
 
         if f != y:
@@ -54,7 +51,7 @@ def sff(f: GaloisFieldPolynomial) -> list[tuple[GaloisFieldPolynomial, int]]:
         c = c // y
         exponent += 1
 
-    if c != ONE:
+    if c != GaloisFieldPolynomial.one():
         for (fstar, estar) in sff(c.sqrt()):
             z.append((fstar, estar * 2))
     return sorted(z)
@@ -67,14 +64,14 @@ def ddf(f: GaloisFieldPolynomial) -> list[tuple[GaloisFieldPolynomial, int]]:
     fstar = f
 
     while fstar.degree >= 2 * d:
-        h = (pow(X, (q ** d), fstar) - X) % fstar
+        h = (pow(GaloisFieldPolynomial.x(), (q ** d), fstar) - GaloisFieldPolynomial.x()) % fstar
         g = h.gcd(fstar)
-        if g != ONE:
+        if g != GaloisFieldPolynomial.one():
             z.append((g, d))
             fstar = fstar // g
         d += 1
 
-    if fstar != ONE:
+    if fstar != GaloisFieldPolynomial.one():
         z.append((fstar, fstar.degree))
     elif len(z) == 0:
         z.append((f, 1))
@@ -88,12 +85,12 @@ def edf(f: GaloisFieldPolynomial, d: int) -> list[GaloisFieldPolynomial]:
 
     while len(z) < n:
         h = _generate_random_poly(f.degree)
-        g = (pow(h, (q ** d - 1) // 3, f) - ONE) % f
+        g = (pow(h, (q ** d - 1) // 3, f) - GaloisFieldPolynomial.one()) % f
 
         for u in z:
             if u.degree > d:
                 j = u.gcd(g)
-                if j != ONE and j != u:
+                if j != GaloisFieldPolynomial.one() and j != u:
                     z.remove(u)
                     z.append(j)
                     z.append(u // j)

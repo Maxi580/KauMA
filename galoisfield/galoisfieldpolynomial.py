@@ -21,6 +21,14 @@ class GaloisFieldPolynomial:
         return cls([GaloisFieldElement.from_block_gcm(block[i: i + BLOCK_SIZE])
                     for i in range(0, len(block), BLOCK_SIZE)])
 
+    @classmethod
+    def one(cls):
+        return cls([GaloisFieldElement.one()])
+
+    @classmethod
+    def x(cls):
+        return cls([GaloisFieldElement.zero(), GaloisFieldElement.one()])
+
     @property
     def degree(self) -> int:
         return len(self) - 1
@@ -65,8 +73,8 @@ class GaloisFieldPolynomial:
     def __add__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
         max_len = max(len(self), len(other))
 
-        padded_self = self.copy().add_elements([GaloisFieldElement(0)] * (max_len - len(self)))
-        padded_other = other.copy().add_elements([GaloisFieldElement(0)] * (max_len - len(other)))
+        padded_self = self.copy().add_elements([GaloisFieldElement.zero()] * (max_len - len(self)))
+        padded_other = other.copy().add_elements([GaloisFieldElement.zero()] * (max_len - len(other)))
 
         return GaloisFieldPolynomial(
             [gfe_a + gfe_b for gfe_a, gfe_b in zip(padded_self, padded_other)])._remove_leading_zero()
@@ -77,7 +85,7 @@ class GaloisFieldPolynomial:
     def __mul__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
         result_len = len(self) + len(other) - 1
 
-        result = [GaloisFieldElement(0) for _ in range(result_len)]
+        result = [GaloisFieldElement.zero() for _ in range(result_len)]
 
         for i in range(len(self)):
             for j in range(len(other)):
@@ -88,7 +96,7 @@ class GaloisFieldPolynomial:
         return GaloisFieldPolynomial(result)._remove_leading_zero()
 
     def __pow__(self, k: int, modulo: Optional['GaloisFieldPolynomial'] = None) -> 'GaloisFieldPolynomial':
-        result = GaloisFieldPolynomial([GaloisFieldElement(1)])
+        result = GaloisFieldPolynomial([GaloisFieldElement.one()])
 
         if k == 0:
             return result
@@ -108,21 +116,24 @@ class GaloisFieldPolynomial:
         return result._remove_leading_zero()
 
     def __divmod__(self, other: 'GaloisFieldPolynomial') -> ('GaloisFieldPolynomial', 'GaloisFieldPolynomial'):
+        assert not other.is_zero(), "Dividing FieldPoly through 0"
+
         q = []
+
         r = self.copy()._remove_leading_zero()
         b = other.copy()._remove_leading_zero()
 
-        if len(r) < len(b):
-            return GaloisFieldPolynomial([GaloisFieldElement(0)]), r
+        if r.degree < b.degree:
+            return GaloisFieldPolynomial([GaloisFieldElement.zero()]), r
 
-        while len(r) >= len(b):
+        while r.degree >= b.degree:
             deg_diff = r.degree - b.degree
 
             quotient_coeff = r[-1] / b[-1]
 
             # Increase Quotient
             while len(q) <= deg_diff:
-                q.append(GaloisFieldElement(0))
+                q.append(GaloisFieldElement.zero())
             q[deg_diff] = quotient_coeff
 
             # Reduce Remainder
@@ -168,11 +179,10 @@ class GaloisFieldPolynomial:
         return True
 
     def make_monic(self):
-        assert self[-1] != GaloisFieldElement(0), "Dividing through 0 in make monic"
         for i in range(len(self) - 1):
             self[i] /= self[-1]
 
-        self[-1] = GaloisFieldElement(1)
+        self[-1] = GaloisFieldElement.one()
         return self
 
     def sqrt(self) -> 'GaloisFieldPolynomial':
@@ -195,13 +205,13 @@ class GaloisFieldPolynomial:
         derived_poly = self.copy()
 
         if len(derived_poly) == 1:
-            derived_poly[0] = GaloisFieldElement(0)
+            derived_poly[0] = GaloisFieldElement.zero()
 
         else:
             derived_poly.pop(0)
 
             for i in range(1, len(derived_poly), 2):
-                derived_poly[i] = GaloisFieldElement(0)
+                derived_poly[i] = GaloisFieldElement.zero()
 
             derived_poly._remove_leading_zero()
 

@@ -2,7 +2,7 @@ from typing import Final
 
 from block_poly.block import Block
 from block_poly.poly import Poly
-from galoisfield.gfmul_lib import load_so_library as load_library
+from galoisfield.gfmul_lib import load_library
 
 LIB = load_library()
 
@@ -36,6 +36,14 @@ class GaloisFieldElement:
     @classmethod
     def from_block_gcm(cls, gcm_block: bytes) -> 'GaloisFieldElement':
         return cls(Block(gcm_block).gcm_poly)
+
+    @classmethod
+    def zero(cls) -> 'GaloisFieldElement':
+        return cls(0)
+
+    @classmethod
+    def one(cls) -> 'GaloisFieldElement':
+        return cls(1)
 
     def to_block_gcm(self) -> bytes:
         return Poly.from_gcm_semantic(self._int_value).block
@@ -80,6 +88,7 @@ class GaloisFieldElement:
         return result
 
     def __truediv__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
+        assert int(other) != 0, "Dividing FieldElement through 0"
         _, inverse, _ = other.extended_gcd(GaloisFieldElement(self.REDUCTION_POLYNOM))
 
         return self * inverse

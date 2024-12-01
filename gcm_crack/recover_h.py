@@ -8,9 +8,9 @@ from gcm_crack.gcm_types import GCMMessage
 
 def _generate_random_poly(max_degree: int):
     new_poly = GaloisFieldPolynomial([])
-    new_degree = random.randint(1, max_degree)
+    new_len = random.randint(1, max_degree)
 
-    for i in range(new_degree):
+    for i in range(new_len):
         new_poly.add_elements(GaloisFieldElement(random.randint(1, (1 << 128) - 1)))
 
     return new_poly

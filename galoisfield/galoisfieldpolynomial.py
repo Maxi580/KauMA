@@ -1,4 +1,5 @@
 from typing import Optional, Union
+from copy import copy
 
 from block_poly.b64 import B64
 from block_poly.block import Block
@@ -43,7 +44,7 @@ class GaloisFieldPolynomial:
         return self
 
     def add_elements(self, elements: Union[GaloisFieldElement, list[GaloisFieldElement]]) -> 'GaloisFieldPolynomial':
-        if isinstance(elements, GaloisFieldElement):
+        if type(elements) is GaloisFieldElement:
             self._gfe_list.append(elements)
         else:
             self._gfe_list.extend(elements)
@@ -51,9 +52,6 @@ class GaloisFieldPolynomial:
 
     def pop(self, index: int = -1):
         self._gfe_list.pop(index)
-
-    def copy(self) -> 'GaloisFieldPolynomial':
-        return GaloisFieldPolynomial(self._gfe_list.copy())
 
     def is_zero(self) -> bool:
         return all(int(self[i]) == 0 for i in range(len(self)))
@@ -70,11 +68,14 @@ class GaloisFieldPolynomial:
     def __len__(self) -> int:
         return len(self._gfe_list)
 
+    def __copy__(self) -> 'GaloisFieldPolynomial':
+        return GaloisFieldPolynomial(self._gfe_list.copy())
+
     def __add__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
         max_len = max(len(self), len(other))
 
-        padded_self = self.copy().add_elements([GaloisFieldElement.zero()] * (max_len - len(self)))
-        padded_other = other.copy().add_elements([GaloisFieldElement.zero()] * (max_len - len(other)))
+        padded_self = copy(self).add_elements([GaloisFieldElement.zero()] * (max_len - len(self)))
+        padded_other = copy(other).add_elements([GaloisFieldElement.zero()] * (max_len - len(other)))
 
         return GaloisFieldPolynomial(
             [gfe_a + gfe_b for gfe_a, gfe_b in zip(padded_self, padded_other)])._remove_leading_zero()
@@ -120,8 +121,8 @@ class GaloisFieldPolynomial:
 
         q = []
 
-        r = self.copy()._remove_leading_zero()
-        b = other.copy()._remove_leading_zero()
+        r = copy(self)._remove_leading_zero()
+        b = copy(other)._remove_leading_zero()
 
         if r.degree < b.degree:
             return GaloisFieldPolynomial([GaloisFieldElement.zero()]), r
@@ -189,7 +190,7 @@ class GaloisFieldPolynomial:
         """Len of GFP always has to be odd since, only even GFE do not equal 0.
            => there are len(self)//2 odd gfe´s that need to be popped
            => take sqrt of even, pop the odd one behind until the last one as there is no odd behind."""
-        sqrt_poly = self.copy()
+        sqrt_poly = copy(self)
 
         odd_poly_cntr = len(sqrt_poly) // 2
         for i in range(odd_poly_cntr):
@@ -202,7 +203,7 @@ class GaloisFieldPolynomial:
         return sqrt_poly
 
     def diff(self) -> 'GaloisFieldPolynomial':
-        derived_poly = self.copy()
+        derived_poly = copy(self)
 
         if len(derived_poly) == 1:
             derived_poly[0] = GaloisFieldElement.zero()
@@ -218,8 +219,8 @@ class GaloisFieldPolynomial:
         return derived_poly
 
     def gcd(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
-        a = self.copy()._remove_leading_zero()
-        b = other.copy()._remove_leading_zero()
+        a = copy(self)._remove_leading_zero()
+        b = copy(other)._remove_leading_zero()
 
         if a.is_zero():
             return b.make_monic()

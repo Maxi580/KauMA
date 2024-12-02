@@ -6,13 +6,6 @@ from galoisfield.galoisfieldelement import GaloisFieldElement
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 
 
-def _poly_to_bytes(poly: GaloisFieldPolynomial, original_length: int) -> bytes:
-    result = bytearray()
-    for gfe in poly:
-        result.extend(gfe.to_block_gcm())
-    return result[:original_length]
-
-
 def apply_key_stream(text: bytes, key: bytes, nonce: bytes, encryption_algorithm: Callable) -> bytes:
     result = bytearray()
 

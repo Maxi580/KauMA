@@ -26,6 +26,915 @@
         "iv": "iwa77I4amb/t7TD1kRHM8A==",
         "ciphertext": "hOJk4QIEGKUSIOBbMh5raHKh+TZYhKHUQazkveqepx4="
       }
+    },
+    "padding-oracle-empty-plaintext": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "rI1qq+8G9nhdlaxbZW5zCQ==",
+        "ciphertext": "MNpbm290rUU/LIZs+vs9gw=="
+      }
+    },
+    "padding-oracle-35bb3d05-9256-41a2-837c-c67af7db9b35": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "C1Ez5b7NZK60ZSN4ZNLEfg==",
+        "ciphertext": "uBbdO3QoszZubfSietmrwUCH6Nsjz/GRB4Q2+xZ/8Uc="
+      }
+    },
+    "padding-oracle-fdc35017-17a1-45a9-bcc8-1512839e074a": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "Fvg51Am6B1PRLmnnYahtsQ==",
+        "ciphertext": "mEz/mbmQQnCSenc7axxIKA=="
+      }
+    },
+    "padding-oracle-bdf7fcff-a61f-4499-93ec-6e6a6b0b0ce6": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "68y0CXyBacodKcMAzDe8dg==",
+        "ciphertext": "qLjrPtCfRrhlbpsxTIx5cdzoPBc3YDmHDfKz2WJ9ONI="
+      }
+    },
+    "padding-oracle-c949608a-0850-4c09-8dca-98995e14241f": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "+MoTJRAg1mcH6IY2fHo5Bg==",
+        "ciphertext": "AoZEDZaeR6aWziQ3rsUEdVZzKyWgHrA2OHNK3/870usZ/+soh7dQPbXsTmXgnBe+cAJVeuANAgTdoaI/JzuWGA=="
+      }
+    },
+    "padding-oracle-042f37e9-e8ee-4a35-ab33-ba0310fe78d6": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "YhLB28lWhToLnW1iwxp9vQ==",
+        "ciphertext": "95K6nXePK4TuUSONIyZaepmBm+ocfufhvBUpj2keDBo="
+      }
+    },
+    "padding-oracle-ac1076ec-e379-4908-a890-9b30154c6b59": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "y9oJL6S1qJ+EQJzQoLu8dw==",
+        "ciphertext": "GidqHXCwzskoRHAMRqj+Iw=="
+      }
+    },
+    "padding-oracle-3fa0a044-8209-4685-8734-ad49fd329fdb": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "UHuJbWUQbaN/ObYvbRXtlQ==",
+        "ciphertext": "i0LkODXiOgdKUp/VuNQ43g=="
+      }
+    },
+    "padding-oracle-da8e545b-2412-42da-ac46-b6eca41fd81f": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "17q244CT16pE5vnKWgK8+w==",
+        "ciphertext": "6rRA3lX/IbpxsVTC0tnBuA=="
+      }
+    },
+    "padding-oracle-08f49d37-7286-438c-ad57-55d31eb7a510": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "iLfCZhyiQc+g2xnxOeDT0A==",
+        "ciphertext": "UPKCtBlVSGs22FRk+T8GFeYnCghxL7EYFGeJ/nZeZhBk19V5APpEWWei//CN8WPP"
+      }
+    },
+    "padding-oracle-c80c133b-99de-4eab-ab22-937542183ef8": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "S22/1CTL1YU9d4wwbsUTSA==",
+        "ciphertext": "ccpUp7FzQsIqKMm3Hzo7SQ=="
+      }
+    },
+    "padding-oracle-3cab52b8-03fa-497f-a44d-8da67856065d": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "2eT6gKTcbVZQxsSUFYpqhA==",
+        "ciphertext": "dmG7/q25a2l0FIVuTm6Fp5ocVM9FQfr637xpilEB2ExDaBss8wx7y761FecROfjSyT7I0tCsFXGDbU+izCHFcg=="
+      }
+    },
+    "padding-oracle-eea64c38-b162-4495-9581-3f2efcc60d48": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "e7IyPWANcHoNi+YaXivQew==",
+        "ciphertext": "JxEy5qMwHflDq/WdZjuyFamANOIxa04R0+ZdLqkMwfs59kf/MGkZ/L6fozNRsAFI"
+      }
+    },
+    "padding-oracle-e06ad6a7-36e3-4feb-8bdf-569229462e69": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "lNuTQSJbKvySXyzCNV1wWQ==",
+        "ciphertext": "wtN+4aNYCRRATVO64nbih5HgFZzABcG4/tz8xOSr7E2lpioL0SwYFylh77q/f/9d"
+      }
+    },
+    "padding-oracle-ec76f4a9-f639-45e8-b4fb-b193c471f2a0": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "dmfXQ6ZsIDnnFKwB2OvXcw==",
+        "ciphertext": "4BZj3YoOErtVbZMBMVsYMw=="
+      }
+    },
+    "padding-oracle-32f77f11-7685-4698-81bc-8af9dbfb5ed0": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "9Knh3GHNVsdTNZtJuLhCWg==",
+        "ciphertext": "ZCWZKOvqkrx7iERGdZNC/F3QehL8b6r+H5GqnlJ15L4h7OLL6lPL3zS3uNzhAJWV"
+      }
+    },
+    "padding-oracle-a9746f33-a95b-4de7-afe6-d88a568b08b0": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "w/FQw7COcSzz0vUHp3tQiQ==",
+        "ciphertext": "YZlbcIaLEFVRRpowb2BbVxFcKaui4WSvP2Mpu0zAttM="
+      }
+    },
+    "padding-oracle-a4e47d88-ac3c-40a4-98c1-3fa7271e2a75": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "k7z3fpUQycUEglpo2qgEWA==",
+        "ciphertext": "CNIe4Q/+dxebWaGtHU1uVQ=="
+      }
+    },
+    "padding-oracle-e9a9846b-601a-4240-be66-9bc3c9c3cedf": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "UFD9QYotX5Lz2sF+wr2hDw==",
+        "ciphertext": "VeYJVfjILlIo+BTqdHXQLHXtUrugyoI8ChjqNTJjktc="
+      }
+    },
+    "padding-oracle-3eef9738-764f-43e7-9f23-25c29e834e08": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "7Ql/N2cK+Gfcw48axiNQmg==",
+        "ciphertext": "cAOXF5WoBDgJbEvCxGULWrSXZ5920P2chValHJaN40Dk5tsSNNl4nxctTuxE1wT+6WfCxkx2ZVLKE8y7mOQshzpPZ3o0WJzALRjaTVKK1Ps="
+      }
+    },
+    "padding-oracle-a3fa914b-f519-461a-9031-a9c69accffe3": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "GSTr2khH8CMSZv8C6m4w4A==",
+        "ciphertext": "MqideZq6Jz51ZTHXGPef6WnUo9QOuye7pAFdc4nbYOjP8E9Sp0NwLOPA7WN0Spc58LP/jrCtTFgLoT1WP0ytmA=="
+      }
+    },
+    "padding-oracle-3406d6bb-7182-411a-902f-03e2de1df389": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "TcOXeah9Oc2T5HaqleYTVA==",
+        "ciphertext": "EWfACWmzeSpuLP9EnnHwzD8JILR2+jLlI7K9kbwpHvVWt4LaR2n+K0mdRrpUsj1DYwGz6vnIh8/TPCYycGcoMQ=="
+      }
+    },
+    "padding-oracle-2b5c8e10-8b18-4b28-8c30-f3a8f3782e14": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "zkifPKso7qoLWx1zMVlV8g==",
+        "ciphertext": "U3GCPYud/mfJStO5wBj96AjW8TMkGLxDd0YyHqzIFHA="
+      }
+    },
+    "padding-oracle-264daa17-87c7-498b-b25e-35c5a97e9cc1": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "DOUAXBQIC1IMq8GKSO8/rw==",
+        "ciphertext": "9KJNm878h/0Bf5zyJmlZS2QI4ghkyqt7+Fm44QXmLEs="
+      }
+    },
+    "padding-oracle-87f1bb5b-2248-4ee9-9736-4a0f27dedeea": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "G3ShSQlrEoikyIXNb5/ALA==",
+        "ciphertext": "wquYFLvQmNgJL5xQZN090H9LxHXT/1LfnE2LlYH1oos="
+      }
+    },
+    "padding-oracle-16fb277f-0035-4f16-83fa-b2207312b8ce": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "2X5vkLvnaqIBKHB7+n4FvA==",
+        "ciphertext": "EGNCp+oG/RrO8STpWQ8tsBou1Npq/n9ZOkkb/h+4CX09PeVqXwxxlaaES15hZtC+AIk4aaGkVGiB1dZuyoijbA=="
+      }
+    },
+    "padding-oracle-9d84ef8c-ea2d-4786-86ba-c5024bff3cd9": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "aXCqukvP6OVUZJ9iI30flA==",
+        "ciphertext": "tBm54Oj9vZg+DVevWeU21Lzejv8wfO/ihsF65Xuupqv1RHPtBNsCzXwOFRmgLUyGEmO8e04udbOXvKJVVYrQIQ=="
+      }
+    },
+    "padding-oracle-6d9b76cc-b843-4bda-9911-fbcb09a51df5": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "+pVwJ/mNNDUh5JBL9IEprw==",
+        "ciphertext": "OyLgEA7BPBSjtjhvRGut7g=="
+      }
+    },
+    "padding-oracle-864320e6-56b1-4d4e-8f1b-fb7b5418940d": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "4qbvV9BzVeZGuxI71pvCiA==",
+        "ciphertext": "haF/cV2FLefISL1Csz4kcl4kkZY/lMaOdbrcKJ1+g/JEOoHAWIRMh7hEuWVyMcci"
+      }
+    },
+    "padding-oracle-d3900865-893f-4be0-877e-92595a17dffc": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "ff/kuR/+7QZeKjmSea3D5Q==",
+        "ciphertext": "TUBv2CS2PRe7gQjDO1s90XdlSv9venhcNRXuajiBX18="
+      }
+    },
+    "padding-oracle-a412a8d2-0e60-418e-a129-a0b1a77264d9": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "owraWRYPGabfQmDt363G4w==",
+        "ciphertext": "7jHwrICtajN42ASyphUYNoSRnZ0WZUFnlGRcUjfjb27SEoWD0J0z/WprJ1Tiiy82uacUs87F9IUzhE7q4zYrew=="
+      }
+    },
+    "padding-oracle-0288a4b8-b316-4207-9cbe-937821bd3de4": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "SiAq/c09YvorMtCg/5ZDiQ==",
+        "ciphertext": "Sri48jNindSDilqc5TrCKz7W4Rge4F1USmheyPLT1BWvgceG+kbwnaM6C58OZEnMg4YUhgwzFyQWhV40G3EtEQ=="
+      }
+    },
+    "padding-oracle-98c5a265-e1a0-458e-b914-a87757e3f96b": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "Y/ZRjLXygoZ2lr17eiKEDg==",
+        "ciphertext": "xkwdiO8rqF7dg68+kU25VmTBueDVxkcxMc00QLxtRjDRHjIqA54VnOghMrYjjNZY9tGkngcCwdiAi7y4NT+UfA=="
+      }
+    },
+    "padding-oracle-4123c837-38fd-450a-bf09-0cef21922e06": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "vakIW+S1FMniiSJsx12Z+w==",
+        "ciphertext": "RZU7ndYUGh1fh4RKN0QzFA=="
+      }
+    },
+    "padding-oracle-c325424e-6385-48dc-9589-624de8ed408c": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "I66xZ1mA4ldYmWi8jDI+2A==",
+        "ciphertext": "Q1S2ZCbkaa5EHHkm7Bdz44jaAI3hBdNg2NRijapr9pdPV4+IFxGvY53SmWPia5yA"
+      }
+    },
+    "padding-oracle-7ae591a9-7cf5-4275-a366-451e8ed6b419": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "RpWrmU4a0HLZm1zcONatpQ==",
+        "ciphertext": "h4coRJBGTIN8QiD0b2kZLPunImTJxBX6NgWxF+XAbB68cGEGzaL+f+ZokdxY+5Ge724DFW5pIJnVSKj0poYwHnVkswa69DZEDt6dHYixbq8="
+      }
+    },
+    "padding-oracle-ab9fcfa9-e9bc-4d3d-97d1-75c465685ac6": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "H+Il2a9IChPxm7Q+H0lKEg==",
+        "ciphertext": "v7TNm7rlugzi+wxWPShybHLtGRm/Ha2KLYT+UOlpI3znZPJfYleBlhYFzNib/CpLyPn5TWBpSkun3odLPtXDXchw98dEvGV3pv8hPisBRbE="
+      }
+    },
+    "padding-oracle-5a57c024-2ee4-485a-88a2-6e017d2ace85": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "gUIvqsZPhmEsVDjrC+cdwQ==",
+        "ciphertext": "xOMRDIQtpVAa0elmVeKqGg=="
+      }
+    },
+    "padding-oracle-ab2ba9b2-ebfa-4138-98e9-1b4a97a6f9ee": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "19Jvsyvd/gTB5VDaAn6zHw==",
+        "ciphertext": "x+5ECYBRAurOe7miXdajF4FkYdSLH6gU5FGeLnjpW3Q="
+      }
+    },
+    "padding-oracle-ac230244-7e88-42ad-a637-9e5a43da78ac": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "KDo+h2e3W+P8CGs4VrxCew==",
+        "ciphertext": "U/AeDNbEYMZi11BMTCmRmTfQNQhBx1IhxGYk2xW9Egc="
+      }
+    },
+    "padding-oracle-ceccc1d2-b064-4570-b1c4-cd85d1e37f32": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "C9rarkID7duf+gvG7CDGgw==",
+        "ciphertext": "8EXfhOaadl9NHLxrin26+C4ZVYXurVu6LBNhy4ojZgbv8XFT3NJWIwpKFyhOR2was5aqq7E2ckDMeSVdL1NpTQ=="
+      }
+    },
+    "padding-oracle-386184ec-a735-4912-a5f5-247e3897c328": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "h5vpDmdD9G28U8MSZHZU4Q==",
+        "ciphertext": "osVsvdawQ3ufIVQWCCaJhwTjSKu0ax7qGJZ5I3GAYM8="
+      }
+    },
+    "padding-oracle-8b94eda8-fa80-4211-bd6f-8aaa362df12d": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "x9Lodlpzi0WUJIIH5nXdCQ==",
+        "ciphertext": "npyw2X3nYaWwunC8n76kzUV41Tc6crZLoYpV9qn48eR3oFzDM0db2GgmQ5O3iAkW"
+      }
+    },
+    "padding-oracle-68ad5017-87a6-406c-a94c-9852b4cde32c": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "3wImONt/MT8NJewSxaWb/A==",
+        "ciphertext": "4Wcn704T2Dt+8UaZ4/QpXQ=="
+      }
+    },
+    "padding-oracle-21a1721d-347b-4b23-bfa0-41bbe92bb5d7": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "mHVLteX74TOiHGsSTiur1g==",
+        "ciphertext": "1jeGScYknqUBEXutLD6sgeG6xzj6uoyNAXmCcEP4DkQBGcnz1pBpaC4bMSDwngJr"
+      }
+    },
+    "padding-oracle-d214b906-0fc1-4921-92e4-23118a5be8f3": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "DYn9bTEufTf/TkrMm6rH0A==",
+        "ciphertext": "eXoducZVEvaWDvkIUxWbSELQxfU3vXoQa+lASEh1s0wbYGZVp/EWd6efDLeQ2OVXOHBNQ6fW5rUqEZi3VHX6Mg=="
+      }
+    },
+    "padding-oracle-83c8dab6-731e-4826-a31d-55562191cfba": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "pJhjoWqbS1d1gQ8HgrvkUA==",
+        "ciphertext": "vU0wJFIe4LkKifx3qJhpDGifloROwBqyKVKCxXTuFQytWQkU5Fw07GkAPA1MmrXi"
+      }
+    },
+    "padding-oracle-2b47958c-6967-403b-b3cc-90b82e829f77": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "cIzA8t2M4Qwo/kacvdH2/g==",
+        "ciphertext": "DHL+y1H4qY7OPUBHbYvHSw=="
+      }
+    },
+    "padding-oracle-3d3c1dde-234d-4eb6-813f-40fa6aa5f192": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "3w8nm4ZLK+Bj6oY2Asnnxg==",
+        "ciphertext": "6V1aTdmBJZWIltesXDt1AoKFrmtEM0wSF29IC+mUhOE="
+      }
+    },
+    "padding-oracle-498ea017-0bee-49ac-9942-77797bbc693e": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "yKHcvRUKVTajyyH2VzeIPw==",
+        "ciphertext": "gQlr2IuXqEyKPI8AGws2U/3BZ8vcW2wsf+dppVswqvjoO7L4eoqrv6GiQZ90ry3f"
+      }
+    },
+    "padding-oracle-946d8c11-4600-4d58-8cb3-8c414c845471": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "jrqldBE/cV5A+2xtL3wPjQ==",
+        "ciphertext": "eo/u6QQeo0c0RzdwXBQ2xjebYq401YtGidwZ90HpJcI="
+      }
+    },
+    "padding-oracle-ee2d85db-7b36-46e8-bac8-2fe0e94d3b41": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "OMOW283x3x23vgQF61ZQrA==",
+        "ciphertext": "1712lEZjKJjKQkmK1Krt1kZR+hLSY67K9brBWhIHPpmqURIoKr9DBLhvArm8uBUJ"
+      }
+    },
+    "padding-oracle-7844abb5-7b41-4481-bd38-3cc195c1959a": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "MHP6NlLTxSO0aCuGQpMjyA==",
+        "ciphertext": "cYCVF8uQUPF34Gr/hFEBHHcT5gxeY+VBaB1SEA560YM="
+      }
+    },
+    "padding-oracle-2921334c-805b-4f5d-afb2-cdb49951c47c": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "IPs1OJXqDfd6r63utQ5ZpA==",
+        "ciphertext": "EX0S5i+whLvokKC1DXa0yjbiUpWz5VUDFxg064nQuIVy0UTIJ9HEckkX3tHpPY2v"
+      }
+    },
+    "padding-oracle-9bc38dd3-fa38-424a-b4d1-519eda61886f": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "6Q3rdOWJ6mV5epAVEa19HQ==",
+        "ciphertext": "5+xxr1U6Y7SlzxMwVoTUg3uAfFwwh/0YK4CKCKSuEkQ="
+      }
+    },
+    "padding-oracle-21f1cc7c-e427-4a08-b4c0-6f6d54546ef8": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "30kBg7rPE7XMl0R/QEkT+Q==",
+        "ciphertext": "KVk82xRNFsXzd4/Y1XKpDyKzkkWXNz+rSZKdv0zjX2Q="
+      }
+    },
+    "padding-oracle-7e61f781-7d3c-4d94-8428-56c03e92ba87": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "By1K99W47CZB28Czy8W2Ng==",
+        "ciphertext": "LRu4bdBcpLWo6n/ZhW86QeowuIMAZCAbrSfiV5dx4Mw0AfftDKeBe3cYRRBiI26h"
+      }
+    },
+    "padding-oracle-5c9519fe-9e5a-4875-a8f4-e430dc637f26": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "qFl5lNlOf/vyzquqOP9nlQ==",
+        "ciphertext": "BwCDxz5eMGKugNV8RTY8jneYNvEV8hpCZB4uUz3mgVjr9qCP8YviYHAv1TfMa1NivvlvAer54i/xFKnjvdaR2Q=="
+      }
+    },
+    "padding-oracle-77791925-d007-4014-bf7f-0703062094fc": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "BUIPAMTRkcjLgO8o0eRGiA==",
+        "ciphertext": "H3cytDcGBa7KjRouEQPyjnMq6TC9VAr9HeWoXASZ0DOtUwdlathVFrCw1E4niZ7J"
+      }
+    },
+    "padding-oracle-5949163b-3acf-4a1d-a6f6-6f5c26422f69": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "Z9QlmOOqWFNvU1Yxb/PnmA==",
+        "ciphertext": "wnZNHTKuM6BwNoF4MAws+jZs3ABRftXZP61QXQzB+yslZm9NI1ieuKBBa0INtuQ04x1jnugrV/u3ZizzCns7LQ=="
+      }
+    },
+    "padding-oracle-0bd49816-b645-4dfa-b034-db51f521c3ee": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "pw0H8NLsIMqFLCpUS8yrWA==",
+        "ciphertext": "nKgaQiS5okGycL6R5aPxhGrLHGoBQ47DoFcIb1axHNEtVcsC+n9LTrDzR7RZ3p02"
+      }
+    },
+    "padding-oracle-dbb8135e-ee11-41c9-b517-bf34e5a635f7": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "zAYGeZbZwzXINfauJKkdrQ==",
+        "ciphertext": "rhbI6/V4vmcTD6uxSnIfed6PFlI1QXaHT0QkKZLvYyD44k2NpyFgDunnPjb3zcjMnHmgITc//ZaY9ASqDO3AtdaMUsYOggSsxhRxnEqLy+c="
+      }
+    },
+    "padding-oracle-dd60b82e-c475-490e-9c2e-6ab218beaa97": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "a9yM7fbSBvPD+eDyPnTTjA==",
+        "ciphertext": "KzDmog63gB7rwtqbLjdzvQ=="
+      }
+    },
+    "padding-oracle-4432237f-8620-4175-badc-255f60bc55f1": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "inlSSjhLXTdxc2zI8bvFNQ==",
+        "ciphertext": "XWD9WPLYXeo4PpuCqEKLjJJW+ZWrX86CyhlxHNsr4xDVDBVayEWiMLOwpm6L37RU"
+      }
+    },
+    "padding-oracle-c18661d4-66d7-4429-becf-c7a7eab29ca1": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "G3/tiG48200SN2jwmTj//A==",
+        "ciphertext": "pFFo59AD4Ula16EvLIPixZOibFGUgstVthqHde3EwxsxoJ/iDsuQbPYUzMZgXw/r"
+      }
+    },
+    "padding-oracle-79527785-2824-462c-b67f-21f9ca59c45a": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "8avs6Tc7GftsfDHAqgtJlA==",
+        "ciphertext": "QgobXsVSpEZ2OSMCtC3QbMmm/GEU/ANgXCHUoZx2iRA="
+      }
+    },
+    "padding-oracle-42597730-31aa-4882-bb3c-2ac78b67ca4a": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "xQs40n9c2dtLypr8TSQxkQ==",
+        "ciphertext": "rp8ByLkcYyTOG6+/b3cCiHij1mGMQV1KDGWUt1sM/dvXZz3nW603erVxq80CXpMDaba1fTvk5MMO/LtAft/vrA=="
+      }
+    },
+    "padding-oracle-dc1767f6-d9b2-4084-91df-5541f3bace50": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "AHI2gWS0nc0xgirLUHl+jg==",
+        "ciphertext": "Ay4rsmJUqVsQ1KpMhDoOv6ttqaKI0qDrFeYVGivz541ZPzT8bf6GlawXK0VVWmWpi8U1xclWwwfpimJleO7+8Q=="
+      }
+    },
+    "padding-oracle-0276af93-7c54-44ac-b666-517b5cdcd9c7": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "XxjxFz2UBiGLiALwHB/YEQ==",
+        "ciphertext": "FBYSYGczy02KYibUPuNfFw=="
+      }
+    },
+    "padding-oracle-de601e8f-3dd2-4405-9795-8585666bc33e": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "qJx/Y4LtUM+1mc0/QFsViQ==",
+        "ciphertext": "GHHLN6rxDaIDR3Viqu6BkmHygBxu1UZg/Dk1r3UX2mdFdbVui59iB8rPk9G6x9mP"
+      }
+    },
+    "padding-oracle-b0d9385d-f9bb-4f1b-bed5-c83a97f67b46": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "UPygn0YeyA1Z69idoUeEqA==",
+        "ciphertext": "0kL9Eqc1SPsNJPeYYC522RCbwLaBS6F80uqeI+Lv900="
+      }
+    },
+    "padding-oracle-2271d0b0-73e3-4814-875e-62034c9d4a37": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "dQ7YpDpjWP8JsAJ1WE1p5w==",
+        "ciphertext": "sXHP62mstJxpoiwAeCEa9ojWA4fXHnWm2zHPIZBMVMM="
+      }
+    },
+    "padding-oracle-65c61eb1-503e-448f-b54f-b17fa038360f": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "pk2M5SjBB6cVLqJPPBN5lA==",
+        "ciphertext": "h6Bgi3kqGrVyDzmNqFU+fs9TLb8x/US2iGNgc3z0D4Q="
+      }
+    },
+    "padding-oracle-87d07f90-1d85-405d-a91d-64236fbd8250": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "6FfLFOa2BIY70lzJC0Vejw==",
+        "ciphertext": "3p7Uk5F1RfyERgcx7S8q8BJTpjJFxXVG0PCpfnI8py5cW0bA7o6nVIBtJJqSEV598HtWuCxQeq/phQV/LCrfDQ=="
+      }
+    },
+    "padding-oracle-2cb79025-23de-4e5a-831f-29ce180899c5": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "3QrDoi10D1q1dkpb7kPdqw==",
+        "ciphertext": "TTyNYkX42x0j4a/8vIrzWmqgzlNE/NoLYvTaT6XMpSu8kw161fQGJEskVLeuc1Sj"
+      }
+    },
+    "padding-oracle-2fa39481-020d-4de1-b0f2-92142175e582": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "7Dgpa6yxDjM7qkEMu4JgOQ==",
+        "ciphertext": "D8jmKrmSn5/aHmr7kKXu+ZfD9oByqMEL/5a6Rubo6KA="
+      }
+    },
+    "padding-oracle-0f8560be-2464-4a53-8fb3-8c7bb47a0f10": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "fC5mlhOKhaSI8qvri7Rz1A==",
+        "ciphertext": "ICJUaAPwI+eu8ArPODwnXQ=="
+      }
+    },
+    "padding-oracle-1e33b76f-8384-475f-a351-890255544ca9": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "gYGev+edYLUgG+byEX7Hwg==",
+        "ciphertext": "O0Bb07kajCECaFXLD469TZ9uck2oDqU3bcrrkGnCaaxngfsCk4AtdCfQZzBHBYIysRtxXych6GPwzdmS0MX6yQ=="
+      }
+    },
+    "padding-oracle-c23c0f7c-e9ca-4920-8c29-656a9ed49d39": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "xVyyoS32qQa9fNKBPU/6hg==",
+        "ciphertext": "mQRtVwx6p9bGjBMXsZuZiiRyektQWA9Y5oUHsp/sUVw="
+      }
+    },
+    "padding-oracle-f4d1be82-23b5-46bb-8375-a9a3487bbd1c": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "W8z9EkMAxDHrxUWLGDhHpw==",
+        "ciphertext": "xwK2m/JNA28jKSoYRByRsQ=="
+      }
+    },
+    "padding-oracle-990a2d5b-048d-4b0d-a3e9-c80207330c62": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "EqLNr27WK1PBfc6KZ4vteA==",
+        "ciphertext": "IrT7e4SbH0lhM05hdgHDbxb6NjNzbuSQS33hl39YxnIRH1uZpKB3SC4KruSU45OZ"
+      }
+    },
+    "padding-oracle-ca1a42c6-a7c5-401d-bc2a-c511e87a3d2b": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "1zse9CxfZwR2G1q+XvBX+g==",
+        "ciphertext": "4/Dk6JNdU5t2R72H/6ePDIGtV32JoO15+UAens/JRE6I0JZpOS1x3MIMMBZnzcXp"
+      }
+    },
+    "padding-oracle-76a38ddd-9b21-4c16-9c8c-ffea09724a74": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "WlERU8jsMtgsVmNkSu+fuQ==",
+        "ciphertext": "f74lvJ5RaLDcoVzAzzjq3TOtIkxMI8GT+TyA4WfGGKQQoIoyzjXWYYvLY7hSHdjI"
+      }
+    },
+    "padding-oracle-7a0175c5-9c60-44ca-933c-c0dec3da6162": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "iqaKNrbm060MUDGMWzYdeg==",
+        "ciphertext": "rHdTFeFLKxDzpivQvhQ8RUS73zQhIV4RMhNqQI11VeCWOCIJciDrhvlASiTXu/DS4kreq1KbwIMzN81gD7UIR8d/6Z49lPDAsB/6El8Ahlg="
+      }
+    },
+    "padding-oracle-5bc09653-7766-45cb-a826-8b1725917f82": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "djiWkMD3/cDZFeXwmvl3LA==",
+        "ciphertext": "zDgw/xs9QTQ7Pk7UwRkxyw=="
+      }
+    },
+    "padding-oracle-574eb41c-e2e7-4818-91dc-e1a7180f61b4": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "ZqFC56P19VD3mav6ut5tRg==",
+        "ciphertext": "xTaxW92ZEbaAn3kTGm/ZQF3eWcs/VEiq3oreG+nZpMFxp6jELyde4lg98hxU2ZW9z2oy6qU6QGjmF1S1xYZSIyffFZgrJoEvDKPoGf3FTQQ="
+      }
+    },
+    "padding-oracle-8dcb691f-5435-4905-9a9c-de045da67e6f": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "WE97dp+Tj7B/TCx8eAkhGg==",
+        "ciphertext": "JXyfF0HGK5zIzcczbs8DJa8SnACYCRFoLUc+4xN862k="
+      }
+    },
+    "padding-oracle-c0f38874-ffa2-4aa7-971f-cc3698844ca2": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "C4A2imv9xvJo0fmOlVXP+g==",
+        "ciphertext": "Y7cABd8RhgmyB8ZEj4nBfAnRx1zhfofDSYFKhOA+XU8="
+      }
+    },
+    "padding-oracle-28c0e400-8ad8-4398-8243-b3392bc962e4": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "R9aaqNG2m1q7LZbkPvEiAA==",
+        "ciphertext": "AN41D/3uaA/elq4bsw1bkVeixnom7/bRhsI9Dgm+DjrtFcMFdwdw045jWzH66N6jx417rmbwYmrXqZy3n05zMw=="
+      }
+    },
+    "padding-oracle-60c5df87-d1ed-471e-a068-95221e253dd6": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "qQ+vI3Y4wSYH3TwHRA9o2g==",
+        "ciphertext": "NFZPcbIQl58h1Z/fP4rxhQ=="
+      }
+    },
+    "padding-oracle-b269e9b4-e24a-4f6f-b422-9a95ae741c78": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "l1POtX1oC57SV+A+p5uVtg==",
+        "ciphertext": "K/CemYlCsMoOhbjc64zNrgUa2rp/gqM8Jf0flEXT3EL6MegjmrLKf0Dd+w8Bxx3CisGkz1746jutmzoTKVaiow=="
+      }
+    },
+    "padding-oracle-9e170d8f-8341-4e3c-9764-78ad61c41556": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "RTHU5i8lcg4adAThMc1a4w==",
+        "ciphertext": "N5uiBha6x7Bx9bSWlr/fm/l6IVxQZ3saWHlgGbG0znw="
+      }
+    },
+    "padding-oracle-6a795da3-1eff-4038-965d-458689e88962": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "p4XPamYajGzvMoehTq2C/w==",
+        "ciphertext": "qg0O/2mqWiWKS5w2oduzcUnpDKQsLnQ5a1H3W+IVarO7QLqM+lx2ir3hkqCpfChZ6Aazq1m2vIVtLIFki4aaig=="
+      }
+    },
+    "padding-oracle-d1092747-ccb5-4382-b448-ac77514284c4": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "5BWJBbjUy5ePQ1hkMkuKFg==",
+        "ciphertext": "Srb0Ifie3SGThZPhQ10oF1netCCQyIC7XIcdNRDjDEU="
+      }
+    },
+    "padding-oracle-ece4a545-df07-4f15-9158-107e9f4b9523": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "ZhyGhm37ndGaN9QA7hnuxQ==",
+        "ciphertext": "vJDiUImOGGGAZO9LYDZZzbXCNkaB6sYmdiKpBtNK93xfQty7Vo7Z1MfLv1oXiELx"
+      }
+    },
+    "padding-oracle-272b0a73-7506-405e-befe-9976743971b7": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "sGEML8KGtB6Tt/BenP2tjw==",
+        "ciphertext": "9Cq1djFc29dhjcfxyq26fvhMizS1v0GSZ21PeQVt6QojgJYpGrdL+cdqFfKKdHeAlw4ZqWanPAElC3/64uwM9A=="
+      }
+    },
+    "padding-oracle-1f554ff1-32ce-4e4a-bc01-562f8be0167a": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "SjwA0Dv30HarC7sSAx0fUA==",
+        "ciphertext": "2tg7roxbqaNS0j6KLhsKB/WFRIjqkjKqITGi/SxogL0="
+      }
+    },
+    "padding-oracle-1e3548d0-9e2a-4f2f-8215-4d9393ea7fd1": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "g3wrCr/7sIq3+QjSvhGqZQ==",
+        "ciphertext": "Dl4PNKHlevKY1Bpmry8ZOscAieu6o+dOnFo+lZihkh7waagdP51hABmrGMAh8fF3"
+      }
+    },
+    "padding-oracle-b0bb966a-0301-4c57-96bc-bb58995f3e9f": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "ra/UigMPzadQ/6h8wuYPWw==",
+        "ciphertext": "iMfvM7sk+MUweGGyllpzSvFv/sROs8O1s7A8rHcXhLMrZHe8QbAXTilWKdyqNRj3sexNMbLFMCYytvvF7XtFpw=="
+      }
+    },
+    "padding-oracle-b0befc9c-2338-4373-87b2-3d5b995447a5": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "tfUiHNfm/899oFGjNM9XQA==",
+        "ciphertext": "fA0zDXT63mdbCrW0alQNrw=="
+      }
+    },
+    "padding-oracle-47f2f741-8519-4609-8479-3fbd5eed090b": {
+      "action": "padding_oracle",
+      "arguments": {
+        "hostname": "localhost",
+        "port": 9999,
+        "iv": "kHdnXm5+pw7MbZNuIHA7WQ==",
+        "ciphertext": "D/xOCukNpjoXqkxFYSX7jRClX8eJjLd2ktBApjlEryg="
+      }
     }
   }
 }

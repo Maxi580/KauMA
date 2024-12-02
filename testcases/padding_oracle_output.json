@@ -8,6 +8,309 @@
     },
     "padding-oracle-block-size": {
         "plaintext": "U2l4dGVlbkxvbmdXb3JkIRAQEBAQEBAQEBAQEBAQEBA="
+    },
+    "padding-oracle-empty-plaintext": {
+        "plaintext": "EBAQEBAQEBAQEBAQEBAQEA=="
+    },
+    "padding-oracle-35bb3d05-9256-41a2-837c-c67af7db9b35": {
+      "plaintext": "IyUJBPUo+6jnmKPQfuteoBAQEBAQEBAQEBAQEBAQEBA="
+    },
+    "padding-oracle-fdc35017-17a1-45a9-bcc8-1512839e074a": {
+      "plaintext": "OtUOn5sLIOLRBwcHBwcHBw=="
+    },
+    "padding-oracle-bdf7fcff-a61f-4499-93ec-6e6a6b0b0ce6": {
+      "plaintext": "WKBP8ZTG2JRbSacqrznBuRAQEBAQEBAQEBAQEBAQEBA="
+    },
+    "padding-oracle-c949608a-0850-4c09-8dca-98995e14241f": {
+      "plaintext": "+2587zDomDp+FgFt3mvckN3ZswZLXWZ9nEo62aHvsImFK3D/koCLFoaukTSrs0JhvpRkQ1P7vQkJCQkJCQkJCQ=="
+    },
+    "padding-oracle-042f37e9-e8ee-4a35-ab33-ba0310fe78d6": {
+      "plaintext": "Ool6lZOJIEG9gEMKsqkrD+5lCUxtCwsLCwsLCwsLCws="
+    },
+    "padding-oracle-ac1076ec-e379-4908-a890-9b30154c6b59": {
+      "plaintext": "GKtlLAEPc0VbF1wYBAQEBA=="
+    },
+    "padding-oracle-3fa0a044-8209-4685-8734-ad49fd329fdb": {
+      "plaintext": "QHgCVe9u/E84BwcHBwcHBw=="
+    },
+    "padding-oracle-da8e545b-2412-42da-ac46-b6eca41fd81f": {
+      "plaintext": "Pcvt9ZoxGdiEv0T65c45AQ=="
+    },
+    "padding-oracle-08f49d37-7286-438c-ad57-55d31eb7a510": {
+      "plaintext": "LnPaj4rDzxFeO4/ME4Y4+SsJy/Ws0jLlqlIsx5iSj7ytsAMeHgtzCQkJCQkJCQkJ"
+    },
+    "padding-oracle-c80c133b-99de-4eab-ab22-937542183ef8": {
+      "plaintext": "1NkODg4ODg4ODg4ODg4ODg=="
+    },
+    "padding-oracle-3cab52b8-03fa-497f-a44d-8da67856065d": {
+      "plaintext": "qd6BDRnPYQcQ3caKkGA8NYfmLeuYeYPo3l5Ho6Ana6L0tr6k7pnv0xhRnVBtHpxbwg8PDw8PDw8PDw8PDw8PDw=="
+    },
+    "padding-oracle-eea64c38-b162-4495-9581-3f2efcc60d48": {
+      "plaintext": "Oj8+wbBn7KOhl51p3bOl58vmR4Ha5vZMTIBrZtdv8UZjm8OQfzA2AmZmBgYGBgYG"
+    },
+    "padding-oracle-e06ad6a7-36e3-4feb-8bdf-569229462e69": {
+      "plaintext": "s9IrsPq+6Oo7NQ2OMuanKp9lQRxjgfaoYp+Jd8Vt8h8QEBAQEBAQEBAQEBAQEBAQ"
+    },
+    "padding-oracle-ec76f4a9-f639-45e8-b4fb-b193c471f2a0": {
+      "plaintext": "RUDqN6UW9GXOgAYGBgYGBg=="
+    },
+    "padding-oracle-32f77f11-7685-4698-81bc-8af9dbfb5ed0": {
+      "plaintext": "F211opGpTZ3g9IR0sHwsIi/uSRit04iBYVoMdU/gxlhOWiHW8gsLCwsLCwsLCwsL"
+    },
+    "padding-oracle-a9746f33-a95b-4de7-afe6-d88a568b08b0": {
+      "plaintext": "jeItA9y04Wepp3KfneYF87VxDg4ODg4ODg4ODg4ODg4="
+    },
+    "padding-oracle-a4e47d88-ac3c-40a4-98c1-3fa7271e2a75": {
+      "plaintext": "WR6z3NgP1h4vuwYGBgYGBg=="
+    },
+    "padding-oracle-e9a9846b-601a-4240-be66-9bc3c9c3cedf": {
+      "plaintext": "Ik6nqyFZllJ/6I4LUjzg1gub+eRNCwsLCwsLCwsLCws="
+    },
+    "padding-oracle-3eef9738-764f-43e7-9f23-25c29e834e08": {
+      "plaintext": "mMkpkUSUDk+SpiiwEcjDwYvYmfT6f0vm5pHyh+danQgYQLriBDuUmpNk2H/Dy8Rxw8cp46fp1WbUHSUTpgF10EwSDg4ODg4ODg4ODg4ODg4="
+    },
+    "padding-oracle-a3fa914b-f519-461a-9031-a9c69accffe3": {
+      "plaintext": "i+Bl8E5O4tnBOvdUOAwyMvGvju+AKnh08vdHJBPzwZmxm0nDhoUlRr0BkgM2e7oRSxRwDQ0NDQ0NDQ0NDQ0NDQ=="
+    },
+    "padding-oracle-3406d6bb-7182-411a-902f-03e2de1df389": {
+      "plaintext": "1XPjRQcwQ4Iz/X9xH8tCBO+4JyuWhCX2gjqcks6rmLAjA/bKvPkDm2uND+hmXEngu6mXd4NsHKUlagYGBgYGBg=="
+    },
+    "padding-oracle-2b5c8e10-8b18-4b28-8c30-f3a8f3782e14": {
+      "plaintext": "uHvvtjbG1DciznXZJwJo/N8cASM/vJ7hpiySFQQEBAQ="
+    },
+    "padding-oracle-264daa17-87c7-498b-b25e-35c5a97e9cc1": {
+      "plaintext": "2M8yKc0KnJvtCCwthtJgNBAQEBAQEBAQEBAQEBAQEBA="
+    },
+    "padding-oracle-87f1bb5b-2248-4ee9-9736-4a0f27dedeea": {
+      "plaintext": "APBSzhjPbsdoDeJPRExPF5b0vp1BCwsLCwsLCwsLCws="
+    },
+    "padding-oracle-16fb277f-0035-4f16-83fa-b2207312b8ce": {
+      "plaintext": "fAK/KPuXNBt+bIOSnjY0UM1yLYoygrC+mcmQglqOJEa41LO4m7DIBXyv6iRIvFqLEBAQEBAQEBAQEBAQEBAQEA=="
+    },
+    "padding-oracle-9d84ef8c-ea2d-4786-86ba-c5024bff3cd9": {
+      "plaintext": "CuFzu9hg01o1+ulwmsgFLfUcngWFIZH8uY9E1UeOzlMNzbf3wqxOMSTR++0bq5c+3PF7RwSWT+rjFQYGBgYGBg=="
+    },
+    "padding-oracle-6d9b76cc-b843-4bda-9911-fbcb09a51df5": {
+      "plaintext": "rJ4uDQ0NDQ0NDQ0NDQ0NDQ=="
+    },
+    "padding-oracle-864320e6-56b1-4d4e-8f1b-fb7b5418940d": {
+      "plaintext": "o6oOce5s8Lq0KdmOeRy2Rh10kPGP/xt+8Mctu1kqi8M1Dw8PDw8PDw8PDw8PDw8P"
+    },
+    "padding-oracle-d3900865-893f-4be0-877e-92595a17dffc": {
+      "plaintext": "jqt2hBR9ZmrI2WZKsQ0712BALOYNGQoKCgoKCgoKCgo="
+    },
+    "padding-oracle-a412a8d2-0e60-418e-a129-a0b1a77264d9": {
+      "plaintext": "MEj+uEmj5kkhZRHJLddn8NdfF2roGLb/W2zZEpPNEq9uACc40SRvvv0aniDXvO9ygmJ4Nk/r9gkJCQkJCQkJCQ=="
+    },
+    "padding-oracle-0288a4b8-b316-4207-9cbe-937821bd3de4": {
+      "plaintext": "wdrIyXH5lNLnge/4Q58OMU9VYtoBmeyS+yBflVpBIm6N3BkqOlAzDcUGtmctDSoDywgfDQ0NDQ0NDQ0NDQ0NDQ=="
+    },
+    "padding-oracle-98c5a265-e1a0-458e-b914-a87757e3f96b": {
+      "plaintext": "Q/NOd+ModUFPUmI5sFWr2Y4STGsid1KK48JTmUXH9RcIurVQbq4XKPqm+2oPusJ0DYAQehh3PgkJCQkJCQkJCQ=="
+    },
+    "padding-oracle-4123c837-38fd-450a-bf09-0cef21922e06": {
+      "plaintext": "EBs6M+Aw/ZhVXKV5BAQEBA=="
+    },
+    "padding-oracle-c325424e-6385-48dc-9589-624de8ed408c": {
+      "plaintext": "42anXJvQVtKDXO9COVxtauJWSVMS1PhJZds/rh4F5zvEDtu3tQsLCwsLCwsLCwsL"
+    },
+    "padding-oracle-7ae591a9-7cf5-4275-a366-451e8ed6b419": {
+      "plaintext": "jCZXCHDiBhfYaOmupwgt1sdJYyq5ChRERfa8EVGcLMan8W5z8CWJOvk4P80JoPid+sNxdozEaUhxA3D4Qu10r92YDg4ODg4ODg4ODg4ODg4="
+    },
+    "padding-oracle-ab9fcfa9-e9bc-4d3d-97d1-75c465685ac6": {
+      "plaintext": "mhQag2TTBH5hcnfg32oOC73I97AaqIkrvF0qQJI9fgYUZWg+LX0I3kJ8FAc5A3qozjDzvxPfYeoOYBjKjVNsdRAQEBAQEBAQEBAQEBAQEBA="
+    },
+    "padding-oracle-5a57c024-2ee4-485a-88a2-6e017d2ace85": {
+      "plaintext": "1p0ODg4ODg4ODg4ODg4ODg=="
+    },
+    "padding-oracle-ab2ba9b2-ebfa-4138-98e9-1b4a97a6f9ee": {
+      "plaintext": "ZhxKSt9A3wEKUZlZZZbgvgKADg4ODg4ODg4ODg4ODg4="
+    },
+    "padding-oracle-ac230244-7e88-42ad-a637-9e5a43da78ac": {
+      "plaintext": "up92TG/6ZyD++IDEp7URj/PQdNUzCwsLCwsLCwsLCws="
+    },
+    "padding-oracle-ceccc1d2-b064-4570-b1c4-cd85d1e37f32": {
+      "plaintext": "ky+y3ZgVAOTPlAHwSMoBtlvguEvDvPe4efnlGPKh1U+NqSlEYTSQbjNqDOdx/qcofIj5zLgLCwsLCwsLCwsLCw=="
+    },
+    "padding-oracle-386184ec-a735-4912-a5f5-247e3897c328": {
+      "plaintext": "jgwrG7NFTeQ6nLb8mFOKKzaMdyt+BfffaCWeFQQEBAQ="
+    },
+    "padding-oracle-8b94eda8-fa80-4211-bd6f-8aaa362df12d": {
+      "plaintext": "FRXX0d0tNPUnEZZf6Sg1h0W7ssv8jnuR5miXNvl+R/lOEL4NDQ0NDQ0NDQ0NDQ0N"
+    },
+    "padding-oracle-68ad5017-87a6-406c-a94c-9852b4cde32c": {
+      "plaintext": "Uog+DQ0NDQ0NDQ0NDQ0NDQ=="
+    },
+    "padding-oracle-21a1721d-347b-4b23-bfa0-41bbe92bb5d7": {
+      "plaintext": "m9etYUR71W8LOVysrfuiFq2a0V8RTQdnaQEIn8frDPIDDw8PDw8PDw8PDw8PDw8P"
+    },
+    "padding-oracle-d214b906-0fc1-4921-92e4-23118a5be8f3": {
+      "plaintext": "nnGr6l+C6BZ9W6TWHzVmYySZUqdzJhXimyu6OG4tKCee2uwwPDz9hW48jSPilIbZ+YLVv7O/3pa1lZW2ijgCAg=="
+    },
+    "padding-oracle-83c8dab6-731e-4826-a31d-55562191cfba": {
+      "plaintext": "NJ/s7glzlm1l37G7zSsoI4qpUsk6zOVcuPciji/7bt/8hIiWv9zvRfQHBwcHBwcH"
+    },
+    "padding-oracle-2b47958c-6967-403b-b3cc-90b82e829f77": {
+      "plaintext": "h0e07aKbAxMICAgICAgICA=="
+    },
+    "padding-oracle-3d3c1dde-234d-4eb6-813f-40fa6aa5f192": {
+      "plaintext": "5xua4vRCNE8BNeW9MXrvs2SUs/6tDLIJCQkJCQkJCQk="
+    },
+    "padding-oracle-498ea017-0bee-49ac-9942-77797bbc693e": {
+      "plaintext": "Snr13LbtAfhsPXnj8AvsYjQ/0p6fqjzTFvQjz2tXDDR8Ry0xDAwMDAwMDAwMDAwM"
+    },
+    "padding-oracle-946d8c11-4600-4d58-8cb3-8c414c845471": {
+      "plaintext": "PBeUBZVI13VDp7II2iVC4a38bSgDBSmzCAgICAgICAg="
+    },
+    "padding-oracle-ee2d85db-7b36-46e8-bac8-2fe0e94d3b41": {
+      "plaintext": "iTtS7J5/0aslSBZGBdOtEe4Ys9WQ0HT2dNs9+hS39L0vET0XDAwMDAwMDAwMDAwM"
+    },
+    "padding-oracle-7844abb5-7b41-4481-bd38-3cc195c1959a": {
+      "plaintext": "7Q8V8KRrXzjVgGrEMs88SRAQEBAQEBAQEBAQEBAQEBA="
+    },
+    "padding-oracle-2921334c-805b-4f5d-afb2-cdb49951c47c": {
+      "plaintext": "wyCPMqBvYV0Ux6U5a5szTaJX5Hpr1RhrpsFQpopM4LXTM8JEbi6HUN2evadeLQIC"
+    },
+    "padding-oracle-9bc38dd3-fa38-424a-b4d1-519eda61886f": {
+      "plaintext": "ajJFb2ehvVT7C5W8aj90VnDAj4larYyTBjEemfoDAwM="
+    },
+    "padding-oracle-21f1cc7c-e427-4a08-b4c0-6f6d54546ef8": {
+      "plaintext": "eHK7El6MDAhzd3MYrCtjk1IVfcJCfgoKCgoKCgoKCgo="
+    },
+    "padding-oracle-7e61f781-7d3c-4d94-8428-56c03e92ba87": {
+      "plaintext": "Q+wW48OhrMXbhqjzGWFMxfI9+NNBr9IxUw7dxsE1yxIQEBAQEBAQEBAQEBAQEBAQ"
+    },
+    "padding-oracle-5c9519fe-9e5a-4875-a8f4-e430dc637f26": {
+      "plaintext": "+qXnmG4D9/uwqrE98FVH2W2uErfiEs5nAfiHECnI0yLR5ixi/J7QRieRwYsmCc8L6B9KgemCOIIuzeLEBAQEBA=="
+    },
+    "padding-oracle-77791925-d007-4014-bf7f-0703062094fc": {
+      "plaintext": "+fWxnEn0lPEHQWn0zap0ZlHd2YDjk1Dq5eQImKv9ML9kxMuAp3RJLBODk+TyvMYB"
+    },
+    "padding-oracle-5949163b-3acf-4a1d-a6f6-6f5c26422f69": {
+      "plaintext": "i6VcodWqcB3lY5+VN0zJBHmC4/hkAE0o3PNWu3LCkBFP+Flwn0N5cuxdN3EvvDAeHie7Cqw+r55n8SJu4osCAg=="
+    },
+    "padding-oracle-0bd49816-b645-4dfa-b034-db51f521c3ee": {
+      "plaintext": "C8bJBbDgA+MEoBE6oMgTHyOXDWn3ICe/CSmLR6JdprV+yDQNDQ0NDQ0NDQ0NDQ0N"
+    },
+    "padding-oracle-dbb8135e-ee11-41c9-b517-bf34e5a635f7": {
+      "plaintext": "0nkscdgk8opDkkkvbfzTMMkXPuAXCoCa7aD8qTvp0+mhp1diSE+cgBO+adym+TaoE2vGBpDyC76iE2hn070/sZRJCasMDAwMDAwMDAwMDAw="
+    },
+    "padding-oracle-dd60b82e-c475-490e-9c2e-6ab218beaa97": {
+      "plaintext": "5xnSJaXeZDRJ7ZEFBQUFBQ=="
+    },
+    "padding-oracle-4432237f-8620-4175-badc-255f60bc55f1": {
+      "plaintext": "Mkj1m/L8rPGE2CSNUI+432GtnnBRDHdzsO9yZcN2iskQEBAQEBAQEBAQEBAQEBAQ"
+    },
+    "padding-oracle-c18661d4-66d7-4429-becf-c7a7eab29ca1": {
+      "plaintext": "FxjjsKiPBbim2vgTjXND4afNOLUhYtI8ZdG0Tccu0t724fENDQ0NDQ0NDQ0NDQ0N"
+    },
+    "padding-oracle-79527785-2824-462c-b67f-21f9ca59c45a": {
+      "plaintext": "zJRufm8rckPrKzgZM6Uyvyequy0k+Jz9CAgICAgICAg="
+    },
+    "padding-oracle-42597730-31aa-4882-bb3c-2ac78b67ca4a": {
+      "plaintext": "B9lSuq7WM9+oERIFgudApa4jZ23bJiaacgbsivjPHbKUeK5HRoP/EQ8IPV7/qoIuYy7KIl0pQhaMk9V8BAQEBA=="
+    },
+    "padding-oracle-dc1767f6-d9b2-4084-91df-5541f3bace50": {
+      "plaintext": "KJzi2qlpBa1gOYdh3uvY9TL2kRetVhCR/NoMeGixbTWxCPx5M8iEq7TOoRK8cZRLahMOoD3JCgoKCgoKCgoKCg=="
+    },
+    "padding-oracle-0276af93-7c54-44ac-b666-517b5cdcd9c7": {
+      "plaintext": "JaDaP5YQtSEICAgICAgICA=="
+    },
+    "padding-oracle-de601e8f-3dd2-4405-9795-8585666bc33e": {
+      "plaintext": "VwRFgcYZBKQ3/5KtOd6KXJkDGcd58WWVzoQ8OAycIkNvVzG9DAwMDAwMDAwMDAwM"
+    },
+    "padding-oracle-b0d9385d-f9bb-4f1b-bed5-c83a97f67b46": {
+      "plaintext": "UeWy9ZGSDMIO5JTLzgnVhtPKdn0DCwsLCwsLCwsLCws="
+    },
+    "padding-oracle-2271d0b0-73e3-4814-875e-62034c9d4a37": {
+      "plaintext": "+32GpeawykXcqPpp4PB4WxAQEBAQEBAQEBAQEBAQEBA="
+    },
+    "padding-oracle-65c61eb1-503e-448f-b54f-b17fa038360f": {
+      "plaintext": "Y86NdTujVT9yd4EhiS4uIiRsCNJwThbsfb9CBQUFBQU="
+    },
+    "padding-oracle-87d07f90-1d85-405d-a91d-64236fbd8250": {
+      "plaintext": "oagiCk0tMQzqdPG13IG5Erd1VVcWNyOmqVZqcZOXJi3oaDDbMzwvKHSlJWKgwjAHnHQ3DQ0NDQ0NDQ0NDQ0NDQ=="
+    },
+    "padding-oracle-2cb79025-23de-4e5a-831f-29ce180899c5": {
+      "plaintext": "kpHmgTUR6EZtb6qfyGQzqxENVqjILiywo6as6uQALNh1Ju0WyQ0KCgoKCgoKCgoK"
+    },
+    "padding-oracle-2fa39481-020d-4de1-b0f2-92142175e582": {
+      "plaintext": "2AwS7neYrhRBxJPsMCfqpG53VEOsxgONthm5wgQEBAQ="
+    },
+    "padding-oracle-0f8560be-2464-4a53-8fb3-8c7bb47a0f10": {
+      "plaintext": "Z4ALtP11OP4dhYZRrQMDAw=="
+    },
+    "padding-oracle-1e33b76f-8384-475f-a351-890255544ca9": {
+      "plaintext": "p4yPHy/FNmACeEd/ZGZutzwCsR6H6/RmAgr4culHncwt+f52w0c3V1Mj3tu9K83nBvgtDQ0NDQ0NDQ0NDQ0NDQ=="
+    },
+    "padding-oracle-c23c0f7c-e9ca-4920-8c29-656a9ed49d39": {
+      "plaintext": "bF3iWzk/AyUcRZVIU/gHvRkObDkKCwsLCwsLCwsLCws="
+    },
+    "padding-oracle-f4d1be82-23b5-46bb-8375-a9a3487bbd1c": {
+      "plaintext": "Ag4kFAqeKixLyhQFBQUFBQ=="
+    },
+    "padding-oracle-990a2d5b-048d-4b0d-a3e9-c80207330c62": {
+      "plaintext": "fkr3RHaSWM8B4wW7DNBmkxrrml/bmoziBZWgmAliOivHcMN2x35EhzmVApKpAwMD"
+    },
+    "padding-oracle-ca1a42c6-a7c5-401d-bc2a-c511e87a3d2b": {
+      "plaintext": "0OJwPdvUDhk1zcpba8414n005Os1Kw3x5k2wdzkDh4WXYRhaWH4KCgoKCgoKCgoK"
+    },
+    "padding-oracle-76a38ddd-9b21-4c16-9c8c-ffea09724a74": {
+      "plaintext": "JJPOOPMAhDwUBxmzlbhCdX6lageX7hZ9Yl/WO9p4WGvxVQ4ODg4ODg4ODg4ODg4O"
+    },
+    "padding-oracle-7a0175c5-9c60-44ca-933c-c0dec3da6162": {
+      "plaintext": "JWw8bWRjiYEoj+fcZ1yEzs+Jj2Mz9OaZIfKsgPr+e5GM5AKP48r2idkEv82QMO+EtS1kfFNq7Di4miCalTQR+RAQEBAQEBAQEBAQEBAQEBA="
+    },
+    "padding-oracle-5bc09653-7766-45cb-a826-8b1725917f82": {
+      "plaintext": "iUEODg4ODg4ODg4ODg4ODg=="
+    },
+    "padding-oracle-574eb41c-e2e7-4818-91dc-e1a7180f61b4": {
+      "plaintext": "K+1ckyY1a+w7xEd0fKu7tQQWSQy/wXgZRuOHr5Ih3QYg7OM1LFzynWDlyQDV0R628LFZwUHd3/OmEnOZIKK+3GNlostBCwsLCwsLCwsLCws="
+    },
+    "padding-oracle-8dcb691f-5435-4905-9a9c-de045da67e6f": {
+      "plaintext": "EgSfzCvvZafJyahl/t+Y5+MPDw8PDw8PDw8PDw8PDw8="
+    },
+    "padding-oracle-c0f38874-ffa2-4aa7-971f-cc3698844ca2": {
+      "plaintext": "EmVwY11dUIj4Udr4fuuNAuBn9V9fkYcyejkyMWqFOQE="
+    },
+    "padding-oracle-28c0e400-8ad8-4398-8243-b3392bc962e4": {
+      "plaintext": "QKlkUkpdm/cOXXvxcj2moV0xbknF8FSbRmUgmTTrF5zAHzsMWknpmI2XXztpMo/uLk9ODQ0NDQ0NDQ0NDQ0NDQ=="
+    },
+    "padding-oracle-60c5df87-d1ed-471e-a068-95221e253dd6": {
+      "plaintext": "lP1sDQ0NDQ0NDQ0NDQ0NDQ=="
+    },
+    "padding-oracle-b269e9b4-e24a-4f6f-b422-9a95ae741c78": {
+      "plaintext": "N1lF7p/XrYPJ9AvJxx8PxQS3brz0iF2MwTkA9Ge5pSE4fDHyjSyX/oNj2B24pnz5r90VDf8d6EoICAgICAgICA=="
+    },
+    "padding-oracle-9e170d8f-8341-4e3c-9764-78ad61c41556": {
+      "plaintext": "srpDHK74ZydN8gs1Or1rINoPDw8PDw8PDw8PDw8PDw8="
+    },
+    "padding-oracle-6a795da3-1eff-4038-965d-458689e88962": {
+      "plaintext": "gkdd2iqgHWFNZyIFd9H6/YVE4FM/8lMc7X2zGkVKC24X/JgExFfs5l+TuGt4aIyZ3m1HEuTMNUaq93pj/NMQAQ=="
+    },
+    "padding-oracle-d1092747-ccb5-4382-b448-ac77514284c4": {
+      "plaintext": "Sl4VggJrQLG6zJcOsO+ZX6Y1vsp039ceTpsGBgYGBgY="
+    },
+    "padding-oracle-ece4a545-df07-4f15-9158-107e9f4b9523": {
+      "plaintext": "1R7jrDTYCAGLfeO/nFKiibuzcyqflgv1gtIjwNt1LOxrirV+JZ4KCgoKCgoKCgoK"
+    },
+    "padding-oracle-272b0a73-7506-405e-befe-9976743971b7": {
+      "plaintext": "OJVeHMnw4Y4vUZ/yhF8rXltP3kLd23ltICiF5UBOu7eMitVwFN5RjYowIYFncOrDYo2d2NuyIAkJCQkJCQkJCQ=="
+    },
+    "padding-oracle-1f554ff1-32ce-4e4a-bc01-562f8be0167a": {
+      "plaintext": "Rnp9lEfXhByt4JCwTkmSPBwfAW3DwwlKYkH0uAQEBAQ="
+    },
+    "padding-oracle-1e3548d0-9e2a-4f2f-8215-4d9393ea7fd1": {
+      "plaintext": "2WU/mvaafugelOEFxxa99R7tQxskyixj7RP+qYq6CBNSpsW70eoSgmhwFrcEBAQE"
+    },
+    "padding-oracle-b0bb966a-0301-4c57-96bc-bb58995f3e9f": {
+      "plaintext": "VddjP6hYpExeWfQYrh17JxqCvMfGlpQZOJ/hMbrk8rJ/BmcnaeryMHB74XA571PyEBAQEBAQEBAQEBAQEBAQEA=="
+    },
+    "padding-oracle-b0befc9c-2338-4373-87b2-3d5b995447a5": {
+      "plaintext": "jnP+yMZ1VvAOHgYGBgYGBg=="
+    },
+    "padding-oracle-47f2f741-8519-4609-8479-3fbd5eed090b": {
+      "plaintext": "e+yzEKX8JpprTSf91xHqmdk5aoYvTjXlgf4T3QQEBAQ="
     }
   }
 }

@@ -9,6 +9,14 @@
         "ZQ==",
         "P3ixhiNIbxur"
       ]
+    },
+    "glasskey-prng-int-bits": {
+      "ints": [
+        22,
+        45,
+        118,
+        101
+      ]
     }
   }
 }

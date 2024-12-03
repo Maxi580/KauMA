@@ -1,0 +1,19 @@
+{
+  "testcases": {
+    "glasskey-prng": {
+      "action": "glasskey_prng",
+      "arguments": {
+        "agency_key": "T01HV1RG",
+        "seed": "ur1EoxDElJs=",
+        "lengths": [
+          4,
+          8,
+          13,
+          12,
+          1,
+          9
+        ]
+      }
+    }
+  }
+}

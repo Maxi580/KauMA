@@ -16,6 +16,7 @@ from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from gcm_crack.recover_h import sff, ddf, edf
 from gcm_crack.gcm_types import json_to_gcm_message, json_forgery_to_gcm_message
 from gcm_crack.gcm_crack import gcm_crack
+from rsa_backdoor.rsa_backdoor import glasskey_prng
 
 ENCRYPT_MODE = "encrypt"
 DECRYPT_MODE = "decrypt"
@@ -260,6 +261,17 @@ def gcm_crack_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     return {"tag": tag.to_b64_gcm(), "H": H.to_b64_gcm(), "mask": mask.to_b64_gcm()}
 
 
+def gcm_glasskey_prng_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    agency_key = B64(arguments["agency_key"]).block
+    seed = B64(arguments["seed"]).block
+    lengths = arguments["lengths"]
+
+    blocks = glasskey_prng(agency_key, seed, lengths)
+    b64_blocks = [Block(block).b64 for block in blocks]
+
+    return {"blocks": b64_blocks}
+
+
 ACTION_PROCESSORS = {
     "poly2block": poly2block_action,
     "block2poly": block2poly_action,
@@ -284,6 +296,7 @@ ACTION_PROCESSORS = {
     "gfpoly_factor_ddf": gfpoly_factor_ddf_action,
     "gfpoly_factor_edf": gfpoly_factor_edf_action,
     "gcm_crack": gcm_crack_action,
+    "glasskey_prng": gcm_glasskey_prng_action,
 }
 
 

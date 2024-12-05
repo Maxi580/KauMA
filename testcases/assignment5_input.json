@@ -27,6 +27,39 @@
           8
         ]
       }
+    },
+    "glasskey-prng-int-min-max": {
+      "action": "glasskey_prng_int_min_max",
+      "arguments": {
+        "agency_key": "T01HV1RG",
+        "seed": "ur1EoxDElJs=",
+        "specification": [
+          {
+          "min": 0,
+          "max": 10
+          },
+          {
+          "min": 12,
+          "max": 14
+          },
+          {
+          "min": 0,
+          "max": 3
+          },
+          {
+          "min": 0,
+          "max": 1
+          },
+          {
+          "min": 0,
+          "max": 0
+          },
+          {
+          "min": 14,
+          "max": 99
+          }
+        ]
+      }
     }
   }
 }

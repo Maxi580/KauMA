@@ -20,25 +20,26 @@ def _get_messages_with_correct_padding(bruteforce_messages: list[bytes], server_
     return successful_padding_messages
 
 
-class PaddingOracleBlockDecryption:
-    def __init__(self, ciphertext: bytes, iv: bytes, client: Client):
+class PaddingOracleBlock:
+    """Logic to Recover a 16 Byte block via Padding Oracle"""
+    def __init__(self, ciphertext: bytes, iv: bytes, host: str, port: int):
         self.ciphertext = ciphertext
         self.iv = iv
 
-        self.client = client
+        self.client = Client(host, port)
 
+        # Message that is manipulated byte by byte to achieve the desired padding
         self.crafted_message: bytearray = bytearray(BLOCK_SIZE)
-        self.found_dc: bytearray = bytearray(BLOCK_SIZE)
-        self.position = BLOCK_SIZE - 1
         self.padding_value = 1
+        self.position = BLOCK_SIZE - 1
+        self.found_dc: bytearray = bytearray(BLOCK_SIZE)
 
     def _generate_bruteforce_messages(self) -> list[bytes]:
         bruteforce_messages = []
 
         for i in range(256):
-            bruteforce_value = i.to_bytes(1, 'big')
             new_message = bytearray(self.crafted_message)
-            new_message[self.position] = bruteforce_value[0]
+            new_message[self.position] = i
 
             bruteforce_messages.append(bytes(new_message))
         return bruteforce_messages
@@ -54,27 +55,24 @@ class PaddingOracleBlockDecryption:
         for i in range(1, self.padding_value):
             self.crafted_message[-i] = self.found_dc[-i] ^ self.padding_value
 
-    def get_plaintext_block(self):
+    def recover_plaintext_block(self):
         self.client.send_ciphertext(self.ciphertext)
 
         for i in range(BLOCK_SIZE):
             bruteforce_messages = self._generate_bruteforce_messages()
-
             successful_messages = []
-            if i > 0:
+
+            # Get Messages that result in successful padding
+            if i != 0:
                 for chunk_start in range(0, len(bruteforce_messages), BRUTEFORCE_CHUNK_SIZE):
                     chunk_end = chunk_start + BRUTEFORCE_CHUNK_SIZE
                     bruteforce_chunk = bruteforce_messages[chunk_start: chunk_end]
-
                     response = self.client.send_q_blocks(bruteforce_chunk)
-
                     successful_messages = _get_messages_with_correct_padding(bruteforce_chunk, response)
-                    if len(successful_messages) > 0:
-                        break
 
             else:
+                # In First Iteration there can be more than one valid padding message
                 response = self.client.send_q_blocks(bruteforce_messages)
-
                 successful_messages = _get_messages_with_correct_padding(bruteforce_messages, response)
 
                 if len(successful_messages) > 1:
@@ -82,12 +80,10 @@ class PaddingOracleBlockDecryption:
                     response = self.client.send_q_blocks(inverted_messages)
                     successful_messages = _get_messages_with_correct_padding(inverted_messages, response)
 
-            [successful_message] = successful_messages
-
+            assert len(successful_messages) == 1, "More than one successful after invert message (iter 1)"
+            successful_message = successful_messages[0]
             self.found_dc[self.position] = self._calculate_dc(successful_message)
-
             self._increase_padding()
-
             self.position -= 1
 
         self.client.close()
@@ -95,7 +91,8 @@ class PaddingOracleBlockDecryption:
         return plaintext
 
 
-def padding_oracle_attack(ciphertext: bytes, iv: bytes, host: str, port: int):
+def recover_padding_oracle_plaintext(ciphertext: bytes, iv: bytes, host: str, port: int):
+    """Recover Plaintext, 16 byte block by 16 byte block, because server handles 16 bytes a time"""
     plaintext = bytearray()
 
     blocks = [iv] + [ciphertext[i:i + BLOCK_SIZE] for i in range(0, len(ciphertext), BLOCK_SIZE)]
@@ -104,10 +101,9 @@ def padding_oracle_attack(ciphertext: bytes, iv: bytes, host: str, port: int):
         current_block = blocks[i]
         iv = blocks[i - 1]
 
-        client = Client(host, port)
-        pd = PaddingOracleBlockDecryption(current_block, iv, client)
+        pd = PaddingOracleBlock(current_block, iv, host, port)
 
-        plaintext_block = pd.get_plaintext_block()
+        plaintext_block = pd.recover_plaintext_block()
         plaintext.extend(plaintext_block)
 
     return bytes(plaintext)

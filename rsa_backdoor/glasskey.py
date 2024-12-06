@@ -3,7 +3,7 @@ import hmac
 import math
 import random
 
-NUMBER_OF_ROUNDS = 20
+NUMBER_OF_MR_ROUNDS = 20
 
 
 def is_prime(n: int) -> bool:
@@ -19,7 +19,7 @@ def is_prime(n: int) -> bool:
     while s % 2 == 0:
         r += 1
         s //= 2
-    for _ in range(NUMBER_OF_ROUNDS):
+    for _ in range(NUMBER_OF_MR_ROUNDS):
         a = random.randrange(2, n - 1)
         x = pow(a, s, n)
         if x == 1 or x == n - 1:
@@ -92,41 +92,23 @@ class Glasskey:
                 return r + m
 
     def genkey(self, l: int):
-        lp = math.floor(l / 2)
-        print(f"lp: {lp}")
+        lp = l // 2
         p = self.prng_int_bits(lp)
-        print(f"Bitlength: {p.bit_length()}")
-        print(f"Before p bit set: {bin(p)}")
-        p |= 1 | 3 << (lp - 2)
-        print(f"After p bit set: {bin(p)}")
+        p |= 1 | 3 << (lp - 2)  # LSB | 2 MSB
         while not is_prime(p):
             p += 2
-        print(f"p is found {p}")
 
-        r_power = 1 << (l - 64)
-        nl = int.from_bytes(self.seed, "little") * r_power
-        nh = nl + (r_power - 1)
+        r = 1 << (l - 64)
+        nl = int.from_bytes(self.seed, "big") * r
+        nh = nl + (r - 1)
         assert nl < nh, "nl is bigger than nh"
-        print(f"nl: {nl} \nnh: {nh}")
-
-        ql = math.floor(nl / p)
-        qh = math.floor(nh / p)
-
-        print(f"ql: {ql} \n qh: {qh}")
-
-        print("Reached int_min_max")
+        ql = (nl // p) + 1
+        qh = nh // p
         assert ql <= qh, "ql is bigger than qh"
-        q = self.prng_int_min_max(ql, qh)
-        print(f"Int_min_max found: {q}")
-        print(f"Before q bit set: {bin(q)}")
-        q |= 1
-        print(f"After q bit set: {bin(q)}")
 
-        print(f"Searching for q")
+        q = self.prng_int_min_max(ql, qh)
+        q |= 1  # LSB
         while not is_prime(q):
             q += 2
-        print(f"q found: {q}")
-
-        print(f"returned p, q {p, q}")
 
         return p, q

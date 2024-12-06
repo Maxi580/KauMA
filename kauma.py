@@ -10,7 +10,7 @@ from block_poly.poly import Poly
 from crypto_algorithms.sea128 import sea_encrypt, sea_decrypt, aes_encrypt
 from crypto_algorithms.fde import encrypt_fde, decrypt_fde
 from crypto_algorithms.gcm import gcm_encrypt, gcm_decrypt
-from paddingoracle.paddingOracle import padding_oracle_attack
+from paddingoracle.paddingOracle import recover_padding_oracle_plaintext
 from galoisfield.galoisfieldelement import GaloisFieldElement
 from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from gcm_crack.recover_h import sff, ddf, edf
@@ -116,7 +116,7 @@ def padding_oracle_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     iv = B64(arguments["iv"]).block
     ciphertext = B64(arguments["ciphertext"]).block
 
-    plaintext = padding_oracle_attack(ciphertext, iv, hostname, port)
+    plaintext = recover_padding_oracle_plaintext(ciphertext, iv, hostname, port)
 
     return {"plaintext": Block(plaintext).b64}
 

@@ -295,6 +295,17 @@ def glasskey_prng_int_min_max_action(arguments: Dict[str, Any]) -> Dict[str, Any
     return {"ints": ints}
 
 
+def glasskey_genkey_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    agency_key = B64(arguments["agency_key"]).block
+    seed = B64(arguments["seed"]).block
+    bit_length = arguments["bit_length"]
+
+    gk = Glasskey(agency_key, seed)
+    der = gk.genkey(bit_length)
+
+    return {"der": der}
+
+
 ACTION_PROCESSORS = {
     "poly2block": poly2block_action,
     "block2poly": block2poly_action,
@@ -321,7 +332,8 @@ ACTION_PROCESSORS = {
     "gcm_crack": gcm_crack_action,
     "glasskey_prng": gcm_glasskey_prng_action,
     "glasskey_prng_int_bits": gcm_prng_int_bits_action,
-    "glasskey_prng_int_min_max": glasskey_prng_int_min_max_action
+    "glasskey_prng_int_min_max": glasskey_prng_int_min_max_action,
+    "glasskey_genkey": glasskey_genkey_action
 }
 
 

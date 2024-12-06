@@ -1,6 +1,7 @@
 import hashlib
 import hmac
 import math
+from rsa_backdoor.miller_rabin import is_prime
 
 
 class Glasskey:
@@ -59,3 +60,36 @@ class Glasskey:
             r = self.prng_int_bits(b)
             if r < s:
                 return r + m
+
+    def genkey(self, l: int):
+        lp = math.floor(l / 2)
+        print(f"lp: {lp}")
+        p = self.prng_int_bits(lp)
+        print(f"Before p bit set: {bin(p)}")
+        p |= 1 | 3 << (lp - 2)
+        print(f"After p bit set: {bin(p)}")
+        while not is_prime(p):
+            p += 2
+        print(f"p is found {p}")
+
+        r_power = 1 << (l - 64)
+        nl = int.from_bytes(self.seed, "little") * r_power
+        nh = nl + (r_power - 1)
+        ql = math.floor(nl / p) + 1
+        qh = math.floor(nh / p)
+
+        print("Reached int_min_max")
+        q = self.prng_int_min_max(ql, qh)
+        print(f"Int_min_max found: {q}")
+        print(f"Before q bit set: {bin(q)}")
+        q |= 1
+        print(f"After q bit set: {bin(q)}")
+
+        print(f"Searching for q")
+        while not is_prime(q):
+            q += 2
+        print(f"q found: {q}")
+
+        print(f"returned p, q {p, q}")
+
+        return p, q

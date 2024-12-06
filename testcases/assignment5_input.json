@@ -60,6 +60,14 @@
           }
         ]
       }
+    },
+    "glasskey-genkey": {
+      "action": "glasskey_genkey",
+      "arguments": {
+        "agency_key": "T01HV1RG",
+        "seed": "3q2+78wA/+4=",
+        "bit_length": 1024
+      }
     }
   }
 }

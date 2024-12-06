@@ -17,6 +17,7 @@ from gcm_crack.recover_h import sff, ddf, edf
 from gcm_crack.gcm_types import json_to_gcm_message, json_forgery_to_gcm_message
 from gcm_crack.gcm_crack import gcm_crack
 from rsa_backdoor.glasskey import Glasskey
+from rsa_backdoor.rsa_private_key import generate_rsa_key_from_primes
 
 ENCRYPT_MODE = "encrypt"
 DECRYPT_MODE = "decrypt"
@@ -301,9 +302,10 @@ def glasskey_genkey_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     bit_length = arguments["bit_length"]
 
     gk = Glasskey(agency_key, seed)
-    der = gk.genkey(bit_length)
+    p, q = gk.genkey(bit_length)
+    der = generate_rsa_key_from_primes(p, q)
 
-    return {"der": der}
+    return {"der": Block(der).b64}
 
 
 ACTION_PROCESSORS = {

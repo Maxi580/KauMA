@@ -1,4 +1,4 @@
-from rsa_backdoor.miller_rabin import is_prime
+from rsa_backdoor.glasskey import is_prime
 
 NON_PRIMES = [
     4, 6, 8, 9, 10, 15, 16, 25, 27,
@@ -20,7 +20,7 @@ NON_PRIMES = [
     # Large composites
     65536,  # 2^16
     # Semi-primes (product of two primes)
-    15477, # 89 * 173
+    15477,  # 89 * 173
     32767,  # 2^15 - 1 = 7 * 73 * 127
 ]
 PRIMES = [

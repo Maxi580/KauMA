@@ -100,7 +100,7 @@ def edf(f: GaloisFieldPolynomial, d: int) -> list[GaloisFieldPolynomial]:
 
 def recover_h(f: GaloisFieldPolynomial, m1, m3):
     """Combines Root finding and checking if they are a correct H
-       We do this because we don't want to continue root searching, after we found correct H"""
+       We do this because we don't want to continue root searching, after we have found a correct H"""
     for factor_sff in sff(f):
         f_sff = factor_sff[0]
 

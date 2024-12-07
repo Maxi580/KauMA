@@ -1,29 +1,39 @@
 import base64
 from functools import cached_property
+from typing import Optional
 
 from constants import BLOCK_SIZE
 from block_poly.base import Base
 
 
 class Coefficients(Base):
-    def __init__(self, xex_coefficients: list[int], gcm_coefficients: list[int]):
+    """Gets passed Coefficients in one semantic. Calculates all other values only if they are needed"""
+    def __init__(self, xex_coefficients: Optional[list[int]] = None, gcm_coefficients: Optional[list[int]] = None):
+        assert xex_coefficients is not None or gcm_coefficients is not None, \
+            "Cant create a Coefficients if both base values are None"
         self._gcm_coefficients: list[int] = gcm_coefficients
         self._xex_coefficients: list[int] = xex_coefficients
 
     @classmethod
     def from_xex_semantic(cls, coefficients: list[int]):
-        return cls(coefficients, cls._gcm_coefficient_inverse(coefficients))
+        return cls(xex_coefficients=coefficients)
 
     @classmethod
     def from_gcm_semantic(cls, coefficients: list[int]):
-        return cls(cls._gcm_coefficient_inverse(coefficients), coefficients)
+        return cls(gcm_coefficients=coefficients)
 
-    @property
+    @cached_property
     def gcm_coefficients(self) -> list[int]:
+        if not self._gcm_coefficients:
+            assert self._xex_coefficients is not None, "If one coefficients is not defined the other must be"
+            return self._coefficient_inverse(self._xex_coefficients)
         return self._gcm_coefficients
 
-    @property
+    @cached_property
     def xex_coefficients(self) -> list[int]:
+        if not self._xex_coefficients:
+            assert self._gcm_coefficients is not None, "If one coefficients is not defined the other must be"
+            return self._coefficient_inverse(self._gcm_coefficients)
         return self._xex_coefficients
 
     @cached_property

@@ -3,7 +3,8 @@ from abc import ABC, abstractmethod
 
 class Base(ABC):
     @staticmethod
-    def _gcm_bit_inverse(poly: int) -> int:
+    def _bit_inverse(poly: int) -> int:
+        """Inverses Poly bits to get from xex => gcm or gcm => xex semantic"""
         result = 0
         for i in range(poly.bit_length()):
             if poly & (1 << i):
@@ -15,7 +16,8 @@ class Base(ABC):
         return result
 
     @staticmethod
-    def _gcm_coefficient_inverse(coefficients: list[int]) -> list[int]:
+    def _coefficient_inverse(coefficients: list[int]) -> list[int]:
+        """Inverses Coefficients to get from xex => gcm or gcm => xex semantic"""
         reversed_coefficients = []
         for coefficient in coefficients:
             byte_pos = coefficient // 8

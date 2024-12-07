@@ -1,29 +1,38 @@
 import base64
 from functools import cached_property
+from typing import Optional
 
 from constants import BLOCK_SIZE
 from block_poly.base import Base
 
 
 class Poly(Base):
-    def __init__(self, xex_poly: int, gcm_poly: int):
-        self._xex_poly: int = xex_poly
-        self._gcm_poly: int = gcm_poly
+    """Gets passed a poly in one semantic. Calculates all other values only if they are needed"""
+    def __init__(self, xex_poly: Optional[int] = None, gcm_poly: Optional[int] = None):
+        assert xex_poly is not None or gcm_poly is not None, "Cant create a poly if both base values are None"
+        self._xex_poly: Optional[int] = xex_poly
+        self._gcm_poly: Optional[int] = gcm_poly
 
     @classmethod
     def from_xex_semantic(cls, xex_poly: int):
-        return cls(xex_poly, cls._gcm_bit_inverse(xex_poly))
+        return cls(xex_poly=xex_poly)
 
     @classmethod
     def from_gcm_semantic(cls, gcm_poly: int):
-        return cls(cls._gcm_bit_inverse(gcm_poly), gcm_poly)
+        return cls(gcm_poly=gcm_poly)
 
-    @property
+    @cached_property
     def gcm_poly(self) -> int:
+        if self._gcm_poly is None:
+            assert self._xex_poly is not None, "If one poly is not defined the other must be"
+            self._gcm_poly = self._bit_inverse(self.xex_poly)
         return self._gcm_poly
 
-    @property
+    @cached_property
     def xex_poly(self) -> int:
+        if self._xex_poly is None:
+            assert self._gcm_poly is not None, "If one poly is not defined the other must be"
+            self._xex_poly = self._bit_inverse(self.gcm_poly)
         return self._xex_poly
 
     @cached_property

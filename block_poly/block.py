@@ -21,7 +21,7 @@ class Block(Base):
 
     @cached_property
     def gcm_poly(self) -> int:
-        return self._gcm_bit_inverse(self.xex_poly)
+        return self._bit_inverse(self.xex_poly)
 
     @cached_property
     def xex_coefficients(self) -> list[int]:

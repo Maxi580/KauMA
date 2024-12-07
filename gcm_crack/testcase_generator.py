@@ -22,6 +22,7 @@ def randomize_test_data(encryption_algorithm, reused_nonce, key):
 
     return ciphertext, ad, tag, plaintext
 
+
 def save_test_cases(input_cases: Dict, expected_outputs: Dict,
                     input_file: str = "generated_gcm_crack_input.json",
                     output_file: str = "generated_gcm_crack_output.json"):
@@ -30,6 +31,7 @@ def save_test_cases(input_cases: Dict, expected_outputs: Dict,
 
     with open(output_file, 'w') as f:
         json.dump(expected_outputs, f, indent=2)
+
 
 def generate_test_case():
     reused_nonce = secrets.token_bytes(12)
@@ -63,7 +65,8 @@ def generate_test_case():
         ad_bytes=ad
     )
 
-    forgery_ciphertext, forgery_ad, forgery_tag, plaintext = randomize_test_data(encryption_algorithm, reused_nonce, key)
+    forgery_ciphertext, forgery_ad, forgery_tag, plaintext = randomize_test_data(encryption_algorithm, reused_nonce,
+                                                                                 key)
     forgery = GCMMessage(
         ciphertext=GaloisFieldPolynomial.from_block(forgery_ciphertext),
         associated_data=GaloisFieldPolynomial.from_block(forgery_ad),
@@ -81,23 +84,23 @@ def generate_test_case():
             "arguments": {
                 "nonce": Block(reused_nonce).b64,
                 "m1": {
-                "ciphertext": Block(m1.ciphertext_bytes).b64,
-                "associated_data": Block(m1.ad_bytes).b64,
-                "tag": m1.tag.to_b64_gcm()
+                    "ciphertext": Block(m1.ciphertext_bytes).b64,
+                    "associated_data": Block(m1.ad_bytes).b64,
+                    "tag": m1.tag.to_b64_gcm()
                 },
                 "m2": {
-                "ciphertext": Block(m2.ciphertext_bytes).b64,
-                "associated_data": Block(m2.ad_bytes).b64,
-                "tag": m2.tag.to_b64_gcm()
+                    "ciphertext": Block(m2.ciphertext_bytes).b64,
+                    "associated_data": Block(m2.ad_bytes).b64,
+                    "tag": m2.tag.to_b64_gcm()
                 },
                 "m3": {
-                "ciphertext": Block(m3.ciphertext_bytes).b64,
-                "associated_data": Block(m3.ad_bytes).b64,
-                "tag": m3.tag.to_b64_gcm()
+                    "ciphertext": Block(m3.ciphertext_bytes).b64,
+                    "associated_data": Block(m3.ad_bytes).b64,
+                    "tag": m3.tag.to_b64_gcm()
                 },
                 "forgery": {
-                "ciphertext": Block(forgery.ciphertext_bytes).b64,
-                "associated_data": Block(forgery.ad_bytes).b64
+                    "ciphertext": Block(forgery.ciphertext_bytes).b64,
+                    "associated_data": Block(forgery.ad_bytes).b64
                 }
             }
         }

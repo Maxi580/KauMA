@@ -12,12 +12,9 @@ def apply_key_stream(text: bytes, key: bytes, nonce: bytes, encryption_algorithm
     ctr = 2
     for i in range(0, len(text), BLOCK_SIZE):
         yi = nonce[-12:] + ctr.to_bytes(4, byteorder='big')
-
         key_block = encryption_algorithm(key, yi)
         text_block = text[i:i + BLOCK_SIZE]
-
         result.extend(xor_bytes(key_block[:len(text_block)], text_block))
-
         ctr += 1
 
     return result
@@ -58,8 +55,8 @@ def get_ghash(h: GaloisFieldElement, ad: GaloisFieldPolynomial, ciphertext: Galo
 def get_l(ad: bytes, ciphertext: bytes) -> GaloisFieldElement:
     ad_bit_length = len(ad) * 8
     cipher_bit_length = len(ciphertext) * 8
-
     l = ad_bit_length.to_bytes(8, byteorder='big') + cipher_bit_length.to_bytes(8, byteorder='big')
+
     return GaloisFieldElement.from_block_gcm(l)
 
 
@@ -82,9 +79,7 @@ def calculate_tag(key: bytes, ad: bytes, ciphertext: bytes, nonce: bytes, encryp
 def gcm_encrypt(encryption_algorithm: Callable, nonce: bytes, key: bytes, plaintext: bytes, ad: bytes) \
         -> tuple[bytes, bytes, bytes, bytes]:
     """nonce: 12 bytes, key: 16: bytes"""
-
     ciphertext = apply_key_stream(plaintext, key, nonce, encryption_algorithm)
-
     tag, l, auth_key = calculate_tag(key, ad, ciphertext, nonce, encryption_algorithm)
 
     return ciphertext, tag.to_block_gcm(), l.to_block_gcm(), auth_key.to_block_gcm()
@@ -93,9 +88,7 @@ def gcm_encrypt(encryption_algorithm: Callable, nonce: bytes, key: bytes, plaint
 def gcm_decrypt(nonce: bytes, key: bytes, ciphertext: bytes, ad: bytes, provided_auth_tag: bytes,
                 encryption_algorithm: Callable) -> tuple[bool, bytes]:
     """nonce: 12 bytes, key: 16: bytes"""
-
     plaintext = apply_key_stream(ciphertext, key, nonce, encryption_algorithm)
-
     tag, _, _ = calculate_tag(key, ad, ciphertext, nonce, encryption_algorithm)
 
     return tag.to_block_gcm() == provided_auth_tag, plaintext

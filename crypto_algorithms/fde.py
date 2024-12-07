@@ -18,15 +18,10 @@ def encrypt_fde(key: bytes, tweak: bytes, plaintext: bytes):
     ciphertext = bytearray()
     for i in range(0, len(plaintext), 16):
         plaintext_block = plaintext[i:i + 16]
-
         xor_plaintext_block = xor_bytes(plaintext_block, xor)
-
         encrypted_block = sea_encrypt(key1, xor_plaintext_block)
-
         xor_ciphertext_block = xor_bytes(encrypted_block, xor)
-
         ciphertext.extend(xor_ciphertext_block)
-
         xor = (GaloisFieldElement.from_block_xex(alpha) * GaloisFieldElement.from_block_xex(xor)).to_block_xex()
 
     return bytes(ciphertext)
@@ -41,15 +36,10 @@ def decrypt_fde(key: bytes, tweak: bytes, ciphertext: bytes):
     plaintext = bytearray()
     for i in range(0, len(ciphertext), 16):
         ciphertext_block = ciphertext[i:i + 16]
-
         xor_ciphertext_block = xor_bytes(ciphertext_block, xor)
-
         decrypted_block = sea_decrypt(key1, xor_ciphertext_block)
-
         xor_plaintext_block = xor_bytes(decrypted_block, xor)
-
         plaintext.extend(xor_plaintext_block)
-
         xor = (GaloisFieldElement.from_block_xex(alpha) * GaloisFieldElement.from_block_xex(xor)).to_block_xex()
 
     return bytes(plaintext)

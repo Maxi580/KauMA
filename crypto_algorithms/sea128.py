@@ -21,7 +21,6 @@ def aes_decrypt(key: bytes, ciphertext: bytes) -> bytes:
 
 def sea_encrypt(key: bytes, plaintext: bytes) -> bytes:
     aes_encrypted = aes_encrypt(key, plaintext)
-
     sea_encrypted = xor_bytes(CONSTANT_BYTES, aes_encrypted)
 
     return sea_encrypted
@@ -29,7 +28,6 @@ def sea_encrypt(key: bytes, plaintext: bytes) -> bytes:
 
 def sea_decrypt(key: bytes, ciphertext: bytes) -> bytes:
     sea_decrypted = xor_bytes(CONSTANT_BYTES, ciphertext)
-
     aes_decrypted = aes_decrypt(key, sea_decrypted)
 
     return aes_decrypted

@@ -18,6 +18,65 @@
             "AndDesertYouAAAAAAAAAA=="
           ]
       }
+    },
+    "sage-1": {
+      "action": "gfpoly_add",
+      "arguments": {
+        "A":
+          [
+            "gAAAAAAAAAAAAAAAAAAAAA=="
+          ],
+        "B":
+          [
+            "QAAAAAAAAAAAAAAAAAAAAA=="
+          ]
+      }
+    },
+    "sage-2": {
+      "action": "gfpoly_add",
+      "arguments": {
+        "A":
+          [
+            "8+AAAAAAAAAAAAAAAAAAAA==",
+            "BAAAAAAAAAAAAAAAAAAAAA==",
+            "ybAAAAAAAAAAAAAAAAAAAA==",
+            "JgAAAAAAAAAAAAAAAAAAAA=="
+          ],
+        "B":
+          [
+            "/xAAAAAAAAAAAAAAAAAAAA==",
+            "AAAAAAAAAAAAAAAAAAAAAA==",
+            "KYAAAAAAAAAAAAAAAAAAAA=="
+          ]
+      }
+    },
+     "sage-3": {
+      "action": "gfpoly_add",
+      "arguments": {
+        "A":
+          [
+            "QAAAAAAAAAAAAAAAAAAAAA==",
+            "yQwAAAAAAAAAAAAAAAAAAA==",
+            "kAAAAAAAAAAAAAAAAAAAAA==",
+            "gAAAAAAAAAAAAAAAAAAAAA==",
+            "/0AAAAAAAAAAAAAAAAAAAA==",
+            "VwAAAAAAAAAAAAAAAAAAAA==",
+            "tQAAAAAAAAAAAAAAAAAAAA==",
+            "HUQAAAAAAAAAAAAAAAAAAA=="
+          ],
+        "B":
+          [
+            "C+AAAAAAAAAAAAAAAAAAAA==",
+            "1AAAAAAAAAAAAAAAAAAAAA==",
+            "QgyAAAAAAAAAAAAAAAAAAA==",
+            "zagAAAAAAAAAAAAAAAAAAA==",
+            "toAAAAAAAAAAAAAAAAAAAA==",
+            "SMAAAAAAAAAAAAAAAAAAAA==",
+            "wgAAAAAAAAAAAAAAAAAAAA==",
+            "hZAAAAAAAAAAAAAAAAAAAA=="
+          ]
+      }
     }
+
   }
 }

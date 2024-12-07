@@ -3,25 +3,15 @@ from rsa_backdoor.glasskey import is_prime
 NON_PRIMES = [
     4, 6, 8, 9, 10, 15, 16, 25, 27,
     # Carmichael numbers (these pass some primality tests)
-    561,
-    1105,
-    1729,
-    2465,
-    2821,
-    6601,
-    8911,
+    561, 1105, 1729, 2465, 2821, 6601, 8911,
     # Powers of primes
-    128,    # 2^7
-    243,    # 3^5
-    625,    # 5^4
+    128, 243, 625,
     # Products of several primes
-    901,    # 17 * 53
-    1001,   # 7 * 11 * 13
+    901, 1001,
     # Large composites
     65536,  # 2^16
-    # Semi-primes (product of two primes)
-    15477,  # 89 * 173
-    32767,  # 2^15 - 1 = 7 * 73 * 127
+    # product of two primes
+    15477, 32767,
 ]
 PRIMES = [
     2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47,

@@ -1,6 +1,6 @@
 {
   "testcases": {
-    "gfpoly-divmod-2": {
+    "gfpoly-divmod-divide-by-1": {
       "action": "gfpoly_divmod",
       "arguments": {
         "A":
@@ -13,6 +13,34 @@
         "B":
           [
             "gAAAAAAAAAAAAAAAAAAAAA=="
+          ]
+      }
+    },
+    "gfpoly-divmod-zero": {
+      "action": "gfpoly_divmod",
+      "arguments": {
+        "A":
+          [
+            "AAAAAAAAAAAAAAAAAAAAAA=="
+          ],
+
+        "B":
+          [
+            "gAAAAAAAAAAAAAAAAAAAAA=="
+          ]
+      }
+    },
+    "gfpoly-divmod-no-remainder": {
+      "action": "gfpoly_divmod",
+      "arguments": {
+        "A":
+          [
+            "JgAAAAAAAAAAAAAAAAAAAA=="
+          ],
+
+        "B":
+          [
+            "QAAAAAAAAAAAAAAAAAAAAA=="
           ]
       }
     },

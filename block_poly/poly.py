@@ -21,14 +21,14 @@ class Poly(Base):
     def from_gcm_semantic(cls, gcm_poly: int):
         return cls(gcm_poly=gcm_poly)
 
-    @cached_property
+    @property
     def gcm_poly(self) -> int:
         if self._gcm_poly is None:
             assert self._xex_poly is not None, "If one poly is not defined the other must be"
             self._gcm_poly = self._bit_inverse(self.xex_poly)
         return self._gcm_poly
 
-    @cached_property
+    @property
     def xex_poly(self) -> int:
         if self._xex_poly is None:
             assert self._gcm_poly is not None, "If one poly is not defined the other must be"

@@ -22,16 +22,16 @@ class Coefficients(Base):
     def from_gcm_semantic(cls, coefficients: list[int]):
         return cls(gcm_coefficients=coefficients)
 
-    @cached_property
+    @property
     def gcm_coefficients(self) -> list[int]:
-        if not self._gcm_coefficients:
+        if self._gcm_coefficients is None:
             assert self._xex_coefficients is not None, "If one coefficients is not defined the other must be"
             return self._coefficient_inverse(self._xex_coefficients)
         return self._gcm_coefficients
 
-    @cached_property
+    @property
     def xex_coefficients(self) -> list[int]:
-        if not self._xex_coefficients:
+        if self._xex_coefficients is None:
             assert self._gcm_coefficients is not None, "If one coefficients is not defined the other must be"
             return self._coefficient_inverse(self._gcm_coefficients)
         return self._xex_coefficients

@@ -1,24 +1,15 @@
 from typing import Final
-from functools import lru_cache
 
 from block_poly.block import Block
 from block_poly.poly import Poly
 from galoisfield.gfmul_lib import load_library
 
 
-@lru_cache(maxsize=1)
-def get_lib():
-    """The Library only gets loaded once and gets cached for further calls.
-        Also it doesn't get loaded on the GaloisfieldElement import
-        (maxsize: remembers the result of one function call => perfect since we return same thing everytime"""
-    return load_library()
-
-
 def c_multiply(a: int, b: int) -> int:
     """Used intel algorithm from:
        https://www.intel.com/content/dam/develop/external/us/en/documents/clmul-wp-rev-2-02-2014-04-20.pdf
        needs __m128i, which can be seen as two 64bit values (cant pass __m128i directly)"""
-    lib = get_lib()
+    lib = load_library()
 
     a_low = a & ((1 << 64) - 1)
     a_high = a >> 64

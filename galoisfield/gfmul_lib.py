@@ -1,5 +1,5 @@
 import subprocess
-import sys
+from functools import lru_cache
 from ctypes import CDLL, c_uint64, Structure
 from pathlib import Path
 import platform
@@ -75,8 +75,12 @@ def _compile_library():
     return lib_path
 
 
+@lru_cache(maxsize=1)
 def load_library():
-    """Load the appropriate library file based on platform."""
+    """Load the appropriate library file based on platform.
+       The Library only gets loaded once (lru_cache) and gets cached for further calls.
+       also it doesn't get loaded on the GaloisfieldElement import
+       (maxsize: remembers the result of one function call => perfect since we return same thing everytime"""
     lib_path = _compile_library()
 
     try:

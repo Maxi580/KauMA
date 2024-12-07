@@ -38,7 +38,7 @@ class GaloisFieldPolynomial:
         # Uses GCM Semantic
         return [Block(gfe.to_block_gcm()).b64 for gfe in self._gfe_list]
 
-    def _remove_leading_zero(self) -> 'GaloisFieldPolynomial':
+    def remove_leading_zero(self) -> 'GaloisFieldPolynomial':
         while len(self) > 1 and int(self[-1]) == 0:
             self._gfe_list.pop()
         return self
@@ -78,7 +78,7 @@ class GaloisFieldPolynomial:
         padded_other = copy(other).add_elements([GaloisFieldElement.zero()] * (max_len - len(other)))
 
         return GaloisFieldPolynomial(
-            [gfe_a + gfe_b for gfe_a, gfe_b in zip(padded_self, padded_other)])._remove_leading_zero()
+            [gfe_a + gfe_b for gfe_a, gfe_b in zip(padded_self, padded_other)]).remove_leading_zero()
 
     def __sub__(self, other: 'GaloisFieldPolynomial'):
         return self + other
@@ -94,7 +94,7 @@ class GaloisFieldPolynomial:
 
                 result[i + j] = result[i + j] + prod
 
-        return GaloisFieldPolynomial(result)._remove_leading_zero()
+        return GaloisFieldPolynomial(result).remove_leading_zero()
 
     def __pow__(self, k: int, modulo: Optional['GaloisFieldPolynomial'] = None) -> 'GaloisFieldPolynomial':
         result = GaloisFieldPolynomial([GaloisFieldElement.one()])
@@ -114,15 +114,15 @@ class GaloisFieldPolynomial:
             if k > 0:
                 base = (base * base) % modulo if modulo else base * base
 
-        return result._remove_leading_zero()
+        return result.remove_leading_zero()
 
     def __divmod__(self, other: 'GaloisFieldPolynomial') -> ('GaloisFieldPolynomial', 'GaloisFieldPolynomial'):
         assert not other.is_zero(), "Dividing FieldPoly through 0"
 
         q = []
 
-        r = copy(self)._remove_leading_zero()
-        b = copy(other)._remove_leading_zero()
+        r = copy(self).remove_leading_zero()
+        b = copy(other).remove_leading_zero()
 
         if r.degree < b.degree:
             return GaloisFieldPolynomial([GaloisFieldElement.zero()]), r
@@ -144,12 +144,12 @@ class GaloisFieldPolynomial:
 
                 r[pos] = r[pos] + prod
 
-            r._remove_leading_zero()
+            r.remove_leading_zero()
             # If remainder is 0, the len would still be 1 => endless loop
             if int(r[-1]) == 0:
                 break
 
-        return GaloisFieldPolynomial(q)._remove_leading_zero(), r
+        return GaloisFieldPolynomial(q).remove_leading_zero(), r
 
     def __floordiv__(self, other):
         quotient, _ = divmod(self, other)
@@ -160,8 +160,8 @@ class GaloisFieldPolynomial:
         return remainder
 
     def __lt__(self, other: 'GaloisFieldPolynomial') -> bool:
-        if len(self) != len(other):
-            return len(self) < len(other)
+        if self.degree != other.degree:
+            return self.degree < other.degree
 
         for gfe_self, gfe_other in zip(reversed(self), reversed(other)):
             if gfe_self != gfe_other:
@@ -170,7 +170,7 @@ class GaloisFieldPolynomial:
         return False
 
     def __eq__(self, other: 'GaloisFieldPolynomial') -> bool:
-        if len(self) != len(other):
+        if self.degree != other.degree:
             return False
 
         for gfe_self, gfe_other in zip(reversed(self), reversed(other)):
@@ -198,7 +198,7 @@ class GaloisFieldPolynomial:
             sqrt_poly.pop(i + 1)
 
         sqrt_poly[-1].sqrt()
-        sqrt_poly._remove_leading_zero()  # In case last gfe turns 0 on sqrt
+        sqrt_poly.remove_leading_zero()  # In case last gfe turns 0 on sqrt
 
         return sqrt_poly
 
@@ -214,13 +214,13 @@ class GaloisFieldPolynomial:
             for i in range(1, len(derived_poly), 2):
                 derived_poly[i] = GaloisFieldElement.zero()
 
-            derived_poly._remove_leading_zero()
+            derived_poly.remove_leading_zero()
 
         return derived_poly
 
     def gcd(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
-        a = copy(self)._remove_leading_zero()
-        b = copy(other)._remove_leading_zero()
+        a = copy(self).remove_leading_zero()
+        b = copy(other).remove_leading_zero()
 
         if a.is_zero():
             return b.make_monic()

@@ -3,9 +3,8 @@ from cryptography.hazmat.backends import default_backend
 import secrets
 import random
 import uuid
-from typing import Dict, Tuple
-import json
 from block_poly.block import Block
+from utils import save_test_cases
 
 
 def pkcs7_pad(data: bytes, block_size: int = 16) -> bytes:
@@ -52,16 +51,6 @@ def generate_test_case():
     }
 
     return input_case, expected_output
-
-
-def save_test_cases(input_cases: Dict, expected_outputs: Dict,
-                    input_file: str = "generated_padding_oracle_input.json",
-                    output_file: str = "generated_padding_oracle_output.json"):
-    with open(input_file, 'w') as f:
-        json.dump(input_cases, f, indent=2)
-
-    with open(output_file, 'w') as f:
-        json.dump(expected_outputs, f, indent=2)
 
 
 if __name__ == '__main__':

@@ -13,6 +13,97 @@
             "gAAAAAAAAAAAAAAAAAAAAA=="
           ]
       }
+    },
+    "gfpoly-mul-one": {
+      "action": "gfpoly_mul",
+      "arguments": {
+        "A":
+          [
+            "gAAAAAAAAAAAAAAAAAAAAA=="
+          ],
+        "B":
+          [
+            "0VbKz4cmumbAjeHxt/BCdQ==",
+            "U15Q8gYKQtkVnuT6ILjRlA==",
+            "gF8GAvxN8MB6ZVYT2ZzpOg==",
+            "zeIHEBRlf/hfzS6/A5ItLQ==",
+            "fYhJRReeLk+Sgr+Cv8O84w=="
+          ]
+      }
+    },
+    "gfpoly-mul-zero-zero": {
+      "action": "gfpoly_mul",
+      "arguments": {
+        "A":
+          [
+            "AAAAAAAAAAAAAAAAAAAAAA=="
+          ],
+        "B":
+          [
+            "AAAAAAAAAAAAAAAAAAAAAA=="
+          ]
+      }
+    },
+    "gfpoly-mul-one-one": {
+      "action": "gfpoly_mul",
+      "arguments": {
+        "A":
+          [
+            "gAAAAAAAAAAAAAAAAAAAAA=="
+          ],
+        "B":
+          [
+            "gAAAAAAAAAAAAAAAAAAAAA=="
+          ]
+      }
+    },
+    "gfpoly-mul-large-numbers": {
+      "action": "gfpoly_mul",
+      "arguments": {
+        "A":
+          [
+            "/////////////////////w=="
+          ],
+        "B":
+          [
+            "/////////////////////w=="
+          ]
+      }
+    },
+    "sage-1": {
+      "action": "gfpoly_mul",
+      "arguments": {
+        "A":
+          [
+            "UbN60HhaSMZuQZZYx9cklw=="
+          ],
+        "B":
+          [
+            "GXh+t4djRk+J2cB18mRa/w==",
+            "PDAy6u8vsqrTqaVCPYvoxg==",
+            "3Idz3d+xQ5XH7M4LEf7Y6w==",
+            "OcuBRagclDICbGKdkq0MkQ=="
+          ]
+      }
+    },
+    "sage-2": {
+      "action": "gfpoly_mul",
+      "arguments": {
+        "A":
+          [
+            "ppGb9IeDf/XTObQ/wpPzlw==",
+            "85rjfQ2QNtJzbue8nDJQcQ==",
+            "PSbepnL5sMhpTbawzX4F+Q==",
+            "4ECN2Ij4hubR/v+UPxehMg==",
+            "tUGLBCN7s0wOgzGRlHXoDQ=="
+          ],
+        "B":
+          [
+            "S8QrIIrcdeejx5fVZzFXdw==",
+            "BOCiap0nS1JAUS0kEPI4dQ==",
+            "4DKIrE3xGmWDn1/rYUs7rg=="
+          ]
+      }
     }
   }
 }

@@ -2,6 +2,53 @@
   "responses": {
     "gfpoly-mul-zero": {
       "P": ["AAAAAAAAAAAAAAAAAAAAAA=="]
+    },
+    "gfpoly-mul-one": {
+      "P":
+      [
+        "0VbKz4cmumbAjeHxt/BCdQ==",
+        "U15Q8gYKQtkVnuT6ILjRlA==",
+        "gF8GAvxN8MB6ZVYT2ZzpOg==",
+        "zeIHEBRlf/hfzS6/A5ItLQ==",
+        "fYhJRReeLk+Sgr+Cv8O84w=="
+      ]
+    },
+    "gfpoly-mul-zero-zero": {
+      "P":
+      [
+        "AAAAAAAAAAAAAAAAAAAAAA=="
+      ]
+    },
+    "gfpoly-mul-one-one": {
+      "P":
+      [
+        "gAAAAAAAAAAAAAAAAAAAAA=="
+      ]
+    },
+    "gfpoly-mul-large-numbers": {
+      "P":
+      [
+        "9AKqqqqqqqqqqqqqqqqqqg=="
+      ]
+    },
+    "sage-1": {
+      "P": [
+        "grQP6fqZ+0HnZaqByaOVRw==",
+        "RUk3GARkgXOpp8DToCv1Xg==",
+        "pn7N/VwyGgtTryoLzG2FxA==",
+        "N/UBXkp7j30ZNh8bPWbhzg=="
+      ]
+    },
+    "sage-2": {
+      "P": [
+        "1Q9vh+fkL/lFqCmJ8oIvMw==",
+        "xPmWVrKnDGNEVr4mlxR4DQ==",
+        "41PAQXyVAphk7ZsdppWNAg==",
+        "uL8P6nxRpnqOE+nZ5YDtFg==",
+        "JbmCmnkvyj/mjQBtz388Dg==",
+        "6AyWsSJgxDOQcOaLCH4aEg==",
+        "pJJ+f1uXiOPOVJU1yeeocQ=="
+      ]
     }
   }
 }

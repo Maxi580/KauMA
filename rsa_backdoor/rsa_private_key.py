@@ -1,6 +1,5 @@
 from pyasn1.type import namedtype, univ
 from pyasn1.codec.der import encoder, decoder
-
 from block_poly.b64 import B64
 
 
@@ -21,9 +20,7 @@ class RSAPrivateKey(univ.Sequence):
 def generate_rsa_key_from_primes(p: int, q: int, e: int = 65537) -> bytes:
     n = p * q
     phi = (p - 1) * (q - 1)
-
     d = pow(e, -1, phi)
-
     exp1 = d % (p - 1)
     exp2 = d % (q - 1)
     coef = pow(q, -1, p)

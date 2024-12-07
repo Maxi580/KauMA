@@ -5,21 +5,6 @@ from block_poly.poly import Poly
 from galoisfield.gfmul_lib import load_library
 
 
-def c_multiply(a: int, b: int) -> int:
-    """Used intel algorithm from:
-       https://www.intel.com/content/dam/develop/external/us/en/documents/clmul-wp-rev-2-02-2014-04-20.pdf
-       needs __m128i, which can be seen as two 64bit values (cant pass __m128i directly)"""
-    lib = load_library()
-
-    a_low = a & ((1 << 64) - 1)
-    a_high = a >> 64
-    b_low = b & ((1 << 64) - 1)
-    b_high = b >> 64
-
-    result = lib.gfmul(a_low, a_high, b_low, b_high)
-    return result.low + (result.high << 64)
-
-
 class GaloisFieldElement:
     FIELD_SIZE: Final[int] = 128
     REDUCTION_POLYNOM: Final[int] = (1 << 128) | (1 << 7) | (1 << 2) | (1 << 1) | 1
@@ -27,6 +12,7 @@ class GaloisFieldElement:
 
     def __init__(self, int_value: int):
         self._int_value = int_value
+        self.mul_lib = load_library()  # library is cached
 
     @classmethod
     def from_block_xex(cls, xex_block: bytes) -> 'GaloisFieldElement':
@@ -63,9 +49,19 @@ class GaloisFieldElement:
         return self + other
 
     def __mul__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
-        result = c_multiply(int(self), int(other))
-        assert result < (1 << 128), "Gfmul result is bigger than field size"
+        """Used intel algorithm from:
+               https://www.intel.com/content/dam/develop/external/us/en/documents/clmul-wp-rev-2-02-2014-04-20.pdf
+               needs __m128i, which can be seen as two 64bit values (cant pass __m128i directly)"""
+        a, b = int(self), int(other)
 
+        a_low = a & ((1 << 64) - 1)
+        a_high = a >> 64
+        b_low = b & ((1 << 64) - 1)
+        b_high = b >> 64
+        m128i_result = self.mul_lib.gfmul(a_low, a_high, b_low, b_high)
+
+        result = (m128i_result.high << 64) + m128i_result.low
+        assert result < (1 << 128), "Gfmul result is bigger than field size"
         return GaloisFieldElement(result)
 
     def __pow__(self, power: int) -> 'GaloisFieldElement':

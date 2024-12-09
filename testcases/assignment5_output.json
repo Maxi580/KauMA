@@ -30,6 +30,9 @@
     },
     "glasskey-genkey": {
       "der": "MIICXAIBAAKBgQDerb7vzAD/7icmAUKB1ufxU7rSB1KCvFJbYI4MfgMGIS7y1Ju/EOJ0snGit9FSsiskHIU0E8Co28mvpV69qwo5fdiOaL/c1oLp/ANVk+qmaOTKL/xRIUkXfh6X1LwfljejHxKw8N977rZ/ChT4srM4nNFrXdV6fAiE5NrZ+lDjfQIDAQABAoGBAIVLP+ZPGbIZnvmS+3q5Z/H/iu86TtvPWwUz0RQNQkYjCvV06x3+P3BXeMpMelKkMErXf6zivgrWNe6ccQ/cGKuZmmFVWAIuIsM5GTiEz0Ov7unkoqBoP0+9dUEiL6GvPataViHmiNscLf2JotD00hFqDZ26RINmBeWYazwZr0fBAkEAwodaEDHYM+Liw11EBsEUNBDc5wUAMDylJRdN0CoJEWhQCl/07fJcdOAMezjzh/LPMbg9IKTAxD7dk+nEdbl0KQJBASULn0of17maKMo7e0rWYRmL/VdK/nBkMLHtUDUxz1GP1uX3DlxBzTu7k6vlacgGftJTsNSYnZAaftRFWj1f/zUCQF+5r24suRG/Yot0x9bzCHgenDXq1g7mqPW5pAb9yHyScmDIm4TEMQ8qebnhaqXJrH/xA9Oef2WS8gKplI3B9xECQDbgy07FUc/XN8ZPh1JHfV2cYrAjQizoBlp7t6aOkmWSy0q7jnvmcrm58fih+MJVvRBETfwyLGedHp0/85tEy/UCQHSvm3HtEvR7u7FQxT3shRZYr0BbSw5mZMJAnIvjvAg6c4RtVNOxOMimiovaL+R6BoiPAdDmGUkYWVNNAEC/9S0="
+    },
+    "glasskey-break": {
+      "plaintext": "U2FwcGVybG90dAo="
     }
   }
 }

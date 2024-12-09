@@ -17,7 +17,8 @@ from gcm_crack.recover_h import sff, ddf, edf
 from gcm_crack.gcm_types import json_to_gcm_message, json_forgery_to_gcm_message
 from gcm_crack.gcm_crack import gcm_crack
 from rsa_backdoor.glasskey import Glasskey
-from rsa_backdoor.rsa_private_key import generate_rsa_key_from_primes
+from rsa_backdoor.rsa import generate_rsa_key, rsa_key_to_bytes
+from rsa_backdoor.glasskey_break import glasskey_break
 
 ENCRYPT_MODE = "encrypt"
 DECRYPT_MODE = "decrypt"
@@ -303,9 +304,20 @@ def glasskey_genkey_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
     gk = Glasskey(agency_key, seed)
     p, q = gk.genkey(bit_length)
-    der = generate_rsa_key_from_primes(p, q)
+    der = generate_rsa_key(p, q)
+    der_bytes = rsa_key_to_bytes(der)
 
-    return {"der": Block(der).b64}
+    return {"der": Block(der_bytes).b64}
+
+
+def glasskey_break_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    x509_crt = B64(arguments["x509_crt"]).block
+    agency_key = B64(arguments["agency_key"]).block
+    cms_msg = B64(arguments["cms_msg"]).block
+
+    plaintext = glasskey_break(x509_crt, agency_key, cms_msg)
+
+    return {"plaintext": Block(plaintext).b64}
 
 
 ACTION_PROCESSORS = {
@@ -335,7 +347,8 @@ ACTION_PROCESSORS = {
     "glasskey_prng": gcm_glasskey_prng_action,
     "glasskey_prng_int_bits": gcm_prng_int_bits_action,
     "glasskey_prng_int_min_max": glasskey_prng_int_min_max_action,
-    "glasskey_genkey": glasskey_genkey_action
+    "glasskey_genkey": glasskey_genkey_action,
+    "glasskey_break": glasskey_break_action
 }
 
 

@@ -2,13 +2,6 @@ import hashlib
 import hmac
 import math
 import random
-from cryptography.hazmat.primitives.asymmetric import rsa, padding
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms
-from cryptography.x509 import load_der_x509_certificate
-from asn1crypto import cms
-
-from block_poly.b64 import B64
 
 NUMBER_OF_MR_ROUNDS = 20
 
@@ -119,76 +112,3 @@ class Glasskey:
             q += 2
 
         return p, q
-
-
-def glasskey_break(cert_der: bytes, agency_key: bytes, msg: bytes):
-    cert = load_der_x509_certificate(cert_der)
-
-    public_key = cert.public_key()
-    public_numbers = public_key.public_numbers()
-    n = public_numbers.n
-
-    # topmost 64 bit of modulo are seed
-    seed = n >> (n.bit_length() - 64)
-    assert seed.bit_length() == 64, "seed length is wrong"
-
-    # Now we can calculate private key, because its deterministic
-    gk = Glasskey(agency_key, seed.to_bytes(8, byteorder='big'))
-    p, q = gk.genkey(1024)
-
-    e = 65537
-    phi = (p - 1) * (q - 1)
-    d = pow(e, -1, phi)
-    print(f"private key: {d}")
-
-    private_numbers = rsa.RSAPrivateNumbers(
-        p=p,
-        q=q,
-        d=d,
-        dmp1=d % (p - 1),
-        dmq1=d % (q - 1),
-        iqmp=pow(q, -1, p),
-        public_numbers=rsa.RSAPublicNumbers(e=e, n=n)
-    )
-    private_key = private_numbers.private_key()
-
-    # Parse CMS message
-    content_info = cms.ContentInfo.load(msg)
-    enveloped_data = content_info['content']
-
-    # Get the encrypted content encryption key
-    recipient_info = enveloped_data['recipient_infos'][0]  # This is a RecipientInfo object
-    # Access the encrypted_key through the proper attribute
-    encrypted_key = recipient_info.encrypted_key
-
-    # Get the encrypted content and algorithm
-    encrypted_content_info = enveloped_data['encrypted_content_info']
-    algorithm = encrypted_content_info['content_encryption_algorithm']
-    encrypted_content = encrypted_content_info['encrypted_content'].native
-
-    # Create cipher based on algorithm and decrypt
-    cipher = Cipher(
-        algorithms.AES(decrypted_key),
-        modes.CBC(algorithm['parameters'].native)
-    )
-    decryptor = cipher.decryptor()
-    decrypted_content = decryptor.update(encrypted_content) + decryptor.finalize()
-
-    # Remove PKCS7 padding
-    padding_length = decrypted_content[-1]
-    content = decrypted_content[:-padding_length]
-
-    return content
-
-
-
-cert_b64 = "MIICGDCCAYGgAwIBAgIUXJpxiVXlkxEenX2rjEwbsHGv8DcwDQYJKoZIhvcNAQELBQAwHjEcMBoGA1UEAwwTQmFja2Rvb3JlZCBHbGFzc2tleTAeFw0yNDEyMDIxODU3MTNaFw0yNTAxMDExODU3MTNaMB4xHDAaBgNVBAMTE0JhY2tkb29yZWQgR2xhc3NrZXkwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAN6tvu/MAP/uJyYBQoHW5/FTutIHUoK8Ultgjgx+AwYhLvLUm78Q4nSycaK30VKyKyQchTQTwKjbya+lXr2rCjl92I5ov9zWgun8A1WT6qZo5Mov/FEhSRd+HpfUvB+WN6MfErDw33vutn8KFPiyszic0Wtd1Xp8CITk2tn6UON9AgMBAAGjUzBRMB0GA1UdDgQWBBTL5u3Jeoj2RjQP57PdTR8Twt+kTzAfBgNVHSMEGDAWgBTL5u3Jeoj2RjQP57PdTR8Twt+kTzAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4GBAJxUCHVwawZotoi8/qhFTBNz0iD3DwkYN6SFDaQbgQXtLfi8JgVM44IYRTtNtC1uD9KYOhGzal3C7+Xk1qVukzHDM1xeZ0idxwbvnv/dyDSYGoqpcedfy8zGU/xG1QDcCeKjzePV7Y6eZufnFGVsN0zUu5cRFNnFyNKa+HKalQcW"
-cms_b64 = "MIIBJwYJKoZIhvcNAQcDoIIBGDCCARQCAQAxgdAwgc0CAQAwNjAeMRwwGgYDVQQDDBNCYWNrZG9vcmVkIEdsYXNza2V5AhRcmnGJVeWTER6dfauMTBuwca/wNzANBgkqhkiG9w0BAQEFAASBgIWOQpYga5Ixa0s74wtDZQtrtjQCEm/kxnPHhkHZf4Sl627pPe8dtzxh8B4qC7Fmu73UugMDS0lbbeWABt7Wu2fOnf2fXRXBFfYiJfmVM4bBBLW9gcPzjNsswTfw48dQzw+L1oi/+PZmCxUQ7NztkAhPWawj/iFRxRrAtmhDNLZVMDwGCSqGSIb3DQEHATAdBglghkgBZQMEAQIEEGasAhJ6oXdmSsElQV3686qAECE9U0KMqoujqKLgHQapxZc="
-agency_key_b64 = "T01HV1RG"
-
-cert = B64(cert_b64).block
-cms_message = B64(cms_b64).block
-agency_key = B64(agency_key_b64).block
-
-glasskey_break(cert, agency_key, cms_message)
-

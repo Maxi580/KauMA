@@ -76,7 +76,7 @@ def _compile_library():
 
 
 @lru_cache(maxsize=1)
-def load_library():
+def _load_library():
     """Load the appropriate library file based on platform.
        The Library only gets loaded once (lru_cache) and gets cached for further calls.
        also it doesn't get loaded on the GaloisfieldElement import
@@ -101,3 +101,20 @@ def load_library():
         print(f"Error loading gfmul library: {e}")
         print(f"Tried to load from: {lib_path}")
         return None
+
+
+def c_multiply(a: int, b: int) -> int:
+    """Used intel algorithm from:
+       https://www.intel.com/content/dam/develop/external/us/en/documents/clmul-wp-rev-2-02-2014-04-20.pdf
+       needs __m128i, which can be seen as two 64bit values (cant pass __m128i directly)"""
+    library = _load_library()  # Library is cached
+
+    a_low = a & ((1 << 64) - 1)
+    a_high = a >> 64
+    b_low = b & ((1 << 64) - 1)
+    b_high = b >> 64
+    m128i_result = library.gfmul(a_low, a_high, b_low, b_high)
+
+    result = (m128i_result.high << 64) + m128i_result.low
+    assert result < (1 << 128), "Gfmul result is bigger than field size"
+    return result

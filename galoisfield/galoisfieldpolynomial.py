@@ -84,17 +84,19 @@ class GaloisFieldPolynomial:
         return self + other
 
     def __mul__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
-        result_len = len(self) + len(other) - 1
+        return copy(self).__imul__(other)
 
+    def __imul__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
+        result_len = len(self) + len(other) - 1
         result = [GaloisFieldElement.zero() for _ in range(result_len)]
 
         for i in range(len(self)):
             for j in range(len(other)):
                 prod = self[i] * other[j]
+                result[i + j] += prod
 
-                result[i + j] = result[i + j] + prod
-
-        return GaloisFieldPolynomial(result).remove_leading_zero()
+        self._gfe_list = result
+        return self.remove_leading_zero()
 
     def __pow__(self, k: int, modulo: Optional['GaloisFieldPolynomial'] = None) -> 'GaloisFieldPolynomial':
         result = GaloisFieldPolynomial([GaloisFieldElement.one()])
@@ -109,10 +111,12 @@ class GaloisFieldPolynomial:
 
         while k > 0:
             if k & 1:
-                result = (result * base) % modulo if modulo else result * base
+                result *= base
+                result = result % modulo if modulo else result
             k >>= 1
             if k > 0:
-                base = (base * base) % modulo if modulo else base * base
+                base *= base
+                base = base % modulo if modulo else base
 
         return result.remove_leading_zero()
 

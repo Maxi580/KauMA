@@ -1,8 +1,9 @@
 from typing import Final
+from copy import copy
 
 from block_poly.block import Block
 from block_poly.poly import Poly
-from galoisfield.gfmul_lib import load_library
+from galoisfield.gfmul_lib import c_multiply
 
 
 class GaloisFieldElement:
@@ -12,7 +13,6 @@ class GaloisFieldElement:
 
     def __init__(self, int_value: int):
         self._int_value = int_value
-        self.mul_lib = load_library()  # library is cached
 
     @classmethod
     def from_block_xex(cls, xex_block: bytes) -> 'GaloisFieldElement':
@@ -42,27 +42,30 @@ class GaloisFieldElement:
     def __int__(self) -> int:
         return self._int_value
 
+    def __copy__(self) -> 'GaloisFieldElement':
+        return GaloisFieldElement(self._int_value)
+
     def __add__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
-        return GaloisFieldElement(self._int_value ^ other._int_value)
+        return copy(self).__iadd__(other)
+
+    def __iadd__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
+        self._int_value = self._int_value ^ other._int_value
+        return self
 
     def __sub__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
         return self + other
 
     def __mul__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
-        """Used intel algorithm from:
-               https://www.intel.com/content/dam/develop/external/us/en/documents/clmul-wp-rev-2-02-2014-04-20.pdf
-               needs __m128i, which can be seen as two 64bit values (cant pass __m128i directly)"""
+        return copy(self).__imul__(other)
+
+    def __imul__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
+        """For efficiency, we don't want to create a new instance on every mul"""
         a, b = int(self), int(other)
 
-        a_low = a & ((1 << 64) - 1)
-        a_high = a >> 64
-        b_low = b & ((1 << 64) - 1)
-        b_high = b >> 64
-        m128i_result = self.mul_lib.gfmul(a_low, a_high, b_low, b_high)
+        result = c_multiply(a, b)
 
-        result = (m128i_result.high << 64) + m128i_result.low
-        assert result < (1 << 128), "Gfmul result is bigger than field size"
-        return GaloisFieldElement(result)
+        self._int_value = result
+        return self
 
     def __pow__(self, power: int) -> 'GaloisFieldElement':
         result = GaloisFieldElement(1)
@@ -76,8 +79,8 @@ class GaloisFieldElement:
 
         while power > 0:
             if power & 1:
-                result = factor * result
-            factor = factor * factor
+                result *= factor
+            factor *= factor
             power >>= 1
 
         return result

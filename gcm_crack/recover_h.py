@@ -85,7 +85,7 @@ def edf(f: GaloisFieldPolynomial, d: int) -> list[GaloisFieldPolynomial]:
 
     while len(z) < n:
         h = _generate_random_poly(f.degree)
-        g = (pow(h, (q ** d - 1) // 3, f) - GaloisFieldPolynomial.one()) % f
+        g = (pow(h, (q ** d - 1) // 3, f) - GaloisFieldPolynomial.one())
 
         for u in z:
             if u.degree > d:

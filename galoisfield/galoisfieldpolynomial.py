@@ -87,6 +87,7 @@ class GaloisFieldPolynomial:
         return copy(self).__imul__(other)
 
     def __imul__(self, other: 'GaloisFieldPolynomial') -> 'GaloisFieldPolynomial':
+        """For efficiency, we don't want to create a new instance on every mul"""
         result_len = len(self) + len(other) - 1
         result = [GaloisFieldElement.zero() for _ in range(result_len)]
 

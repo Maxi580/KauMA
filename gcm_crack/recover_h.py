@@ -7,6 +7,7 @@ from gcm_crack.gcm_types import GCMMessage
 
 
 def _generate_random_poly(max_degree: int):
+    """Generates a random GaloisFieldPoly with degree in range [0, max_degree - 1]"""
     new_poly = GaloisFieldPolynomial([])
     new_len = random.randint(1, max_degree)
 
@@ -18,6 +19,8 @@ def _generate_random_poly(max_degree: int):
 
 def _find_correct_h(h_candidates: list[GaloisFieldElement], m1: GCMMessage, m3: GCMMessage) \
         -> tuple[GaloisFieldElement, GaloisFieldElement]:
+    """Gets passed potentially correct H candidates
+    and checks if they are really correct by trying to authenticate m3"""
     for potential_auth_key in h_candidates:
         # Calculate back the ek0 for the given auth key, stays the same due to same nonce etc.
         m1_l = get_l(m1.ad_bytes, m1.ciphertext_bytes)

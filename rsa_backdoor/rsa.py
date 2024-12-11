@@ -19,7 +19,7 @@ class RSAKey(univ.Sequence):
 
 
 def generate_rsa_key(p: int, q: int) -> RSAKey:
-    """Calculates every rsa value from p and q"""
+    """Derives every rsa value from p and q"""
     n = p * q
     phi = (p - 1) * (q - 1)
     d = pow(RSA_PUBLIC_KEY, -1, phi)

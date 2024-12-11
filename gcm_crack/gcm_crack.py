@@ -26,13 +26,11 @@ def _get_zeroed_poly(message: GCMMessage) -> GaloisFieldPolynomial:
 def gcm_crack(m1: GCMMessage, m2: GCMMessage, m3: GCMMessage, forgery: GCMMessage):
     f1 = _get_zeroed_poly(m1)
     f2 = _get_zeroed_poly(m2)
-
     F = f1 - f2
 
     assert F != GaloisFieldPolynomial([GaloisFieldElement(0)]), "M1 and m2 are equal"
 
     F.make_monic()
-
     correct_h, mask = recover_h(F, m1, m3)
 
     forgery_l = get_l(forgery.ad_bytes, forgery.ciphertext_bytes)

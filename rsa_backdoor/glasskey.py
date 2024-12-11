@@ -81,6 +81,7 @@ class Glasskey:
         return s_star & mask
 
     def prng_int_min_max(self, m: int, M: int) -> int:
+        """Generates ints in a given range"""
         assert m <= M, "min is bigger than Max"
         s = M - m + 1
         assert s >= 0, "s must be positive"

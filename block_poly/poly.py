@@ -7,7 +7,8 @@ from block_poly.base import Base
 
 
 class Poly(Base):
-    """Gets passed a poly in one semantic. Calculates all other values only if they are needed"""
+    """Gets passed Coefficients in one semantic.Calculating every derived value if needed,
+       not using cached_properties for efficiency"""
     def __init__(self, xex_poly: Optional[int] = None, gcm_poly: Optional[int] = None):
         assert xex_poly is not None or gcm_poly is not None, "Cant create a poly if both base values are None"
         self._xex_poly: Optional[int] = xex_poly
@@ -35,18 +36,18 @@ class Poly(Base):
             self._xex_poly = self._bit_inverse(self.gcm_poly)
         return self._xex_poly
 
-    @cached_property
+    @property
     def xex_coefficients(self) -> list[int]:
         return [i for i in range(self.xex_poly.bit_length()) if self.xex_poly & (1 << i)]
 
-    @cached_property
+    @property
     def gcm_coefficients(self) -> list[int]:
         return [i for i in range(self.gcm_poly.bit_length()) if self.gcm_poly & (1 << i)]
 
-    @cached_property
+    @property
     def block(self) -> bytes:
         return self.xex_poly.to_bytes(BLOCK_SIZE, byteorder='little')
 
-    @cached_property
+    @property
     def b64(self) -> str:
         return base64.b64encode(self.block).decode()

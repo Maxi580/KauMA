@@ -2,6 +2,7 @@ from typing import Dict, Any
 
 
 def gcm_glasskey_prng_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from block_poly.b64 import B64
     from block_poly.block import Block
     from rsa_backdoor.glasskey import Glasskey
@@ -18,6 +19,7 @@ def gcm_glasskey_prng_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gcm_prng_int_bits_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from block_poly.b64 import B64
     from rsa_backdoor.glasskey import Glasskey
 
@@ -32,6 +34,7 @@ def gcm_prng_int_bits_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def glasskey_prng_int_min_max_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from block_poly.b64 import B64
     from rsa_backdoor.glasskey import Glasskey
 
@@ -46,6 +49,7 @@ def glasskey_prng_int_min_max_action(arguments: Dict[str, Any]) -> Dict[str, Any
 
 
 def glasskey_genkey_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from block_poly.b64 import B64
     from block_poly.block import Block
     from rsa_backdoor.glasskey import Glasskey
@@ -64,6 +68,7 @@ def glasskey_genkey_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def glasskey_break_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from block_poly.b64 import B64
     from block_poly.block import Block
     from rsa_backdoor.glasskey_break import glasskey_break

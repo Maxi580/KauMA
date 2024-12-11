@@ -2,6 +2,7 @@ from typing import Dict, Any
 
 
 def gfpoly_add_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 
     A = GaloisFieldPolynomial.from_b64(arguments["A"])
@@ -13,6 +14,7 @@ def gfpoly_add_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_mul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 
     A = GaloisFieldPolynomial.from_b64(arguments["A"])
@@ -24,6 +26,7 @@ def gfpoly_mul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_pow_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 
     k = arguments["k"]
@@ -35,6 +38,7 @@ def gfpoly_pow_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfdiv_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from galoisfield.galoisfieldelement import GaloisFieldElement
     from block_poly.poly import Poly
     from block_poly.b64 import B64
@@ -48,6 +52,7 @@ def gfdiv_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_divmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 
     a = GaloisFieldPolynomial.from_b64(arguments["A"])
@@ -59,6 +64,7 @@ def gfpoly_divmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_powmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 
     A = arguments["A"]
@@ -74,6 +80,7 @@ def gfpoly_powmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_sort_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 
     b64_polys = arguments["polys"]
@@ -87,6 +94,7 @@ def gfpoly_sort_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_make_monic_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 
     A = GaloisFieldPolynomial.from_b64(arguments["A"])
@@ -96,6 +104,7 @@ def gfpoly_make_monic_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_sqrt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 
     Q = GaloisFieldPolynomial.from_b64(arguments["Q"])
@@ -105,6 +114,7 @@ def gfpoly_sqrt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_diff_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 
     F = GaloisFieldPolynomial.from_b64(arguments["F"])
@@ -114,6 +124,7 @@ def gfpoly_diff_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_gcd_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 
     A = GaloisFieldPolynomial.from_b64(arguments["A"])
@@ -125,6 +136,7 @@ def gfpoly_gcd_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_factor_sff_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
     from gcm_crack.recover_h import sff
 
@@ -135,6 +147,7 @@ def gfpoly_factor_sff_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_factor_ddf_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
     from gcm_crack.recover_h import ddf
 
@@ -145,6 +158,7 @@ def gfpoly_factor_ddf_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_factor_edf_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
     from gcm_crack.recover_h import edf
 

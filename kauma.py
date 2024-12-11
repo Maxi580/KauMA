@@ -2,8 +2,7 @@ import json
 import sys
 from pathlib import Path
 
-from actions.poly2block_action import poly2block_action
-from actions.block2poly_action import block2poly_action
+from actions.blockpoly_action import poly2block_action, block2poly_action
 from actions.gfmul_action import gfmul_action
 from actions.sea128_action import sea128_action
 from actions.fde_action import fde_action

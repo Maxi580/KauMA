@@ -2,6 +2,7 @@ from typing import Dict, Any
 
 
 def gcm_encrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from block_poly.b64 import B64
     from block_poly.block import Block
     from crypto_algorithms.sea128 import sea_encrypt, aes_encrypt
@@ -23,6 +24,7 @@ def gcm_encrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gcm_decrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
     from block_poly.b64 import B64
     from block_poly.block import Block
     from crypto_algorithms.sea128 import sea_encrypt, aes_encrypt

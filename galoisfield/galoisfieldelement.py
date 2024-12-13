@@ -36,7 +36,7 @@ class GaloisFieldElement:
     def to_block_xex(self) -> bytes:
         return Poly.from_xex_semantic(self._int_value).block
 
-    def to_b64_gcm(self) -> bytes:
+    def to_b64_gcm(self) -> str:
         return Poly.from_gcm_semantic(self._int_value).b64
 
     def __int__(self) -> int:
@@ -46,11 +46,7 @@ class GaloisFieldElement:
         return GaloisFieldElement(self._int_value)
 
     def __add__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
-        return copy(self).__iadd__(other)
-
-    def __iadd__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
-        self._int_value = self._int_value ^ other._int_value
-        return self
+        return GaloisFieldElement(self._int_value ^ other._int_value)
 
     def __sub__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
         return self + other

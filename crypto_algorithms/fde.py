@@ -1,5 +1,3 @@
-from typing import Callable
-
 from crypto_algorithms.sea128 import sea_encrypt, sea_decrypt
 from block_poly.poly import Poly
 from galoisfield.galoisfieldelement import GaloisFieldElement

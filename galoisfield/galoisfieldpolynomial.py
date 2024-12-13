@@ -94,7 +94,7 @@ class GaloisFieldPolynomial:
         for i in range(len(self)):
             for j in range(len(other)):
                 prod = self[i] * other[j]
-                result[i + j] += prod
+                result[i + j] = result[i + j] + prod
 
         self._gfe_list = result
         return self.remove_leading_zero()

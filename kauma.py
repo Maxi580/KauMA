@@ -2,6 +2,9 @@ import json
 import sys
 from pathlib import Path
 
+# Loading Libraries in the action files costs a lot of performance (especially Glasskey imports)
+# For That Reason Fast actions like e.g. block2poly get a high factor
+# However we don't want to lazy import in action functions because it's ugly
 from actions.blockpoly_action import poly2block_action, block2poly_action
 from actions.gfmul_action import gfmul_action
 from actions.sea128_action import sea128_action

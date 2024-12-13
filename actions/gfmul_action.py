@@ -1,13 +1,12 @@
 from typing import Dict, Any
 
+from block_poly.b64 import B64
+from block_poly.poly import Poly
+from galoisfield.galoisfieldelement import GaloisFieldElement
+from constants import XEX_SEMANTIC
+
 
 def gfmul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from block_poly.b64 import B64
-    from block_poly.poly import Poly
-    from galoisfield.galoisfieldelement import GaloisFieldElement
-    from constants import XEX_SEMANTIC
-
     a = arguments["a"]
     b = arguments["b"]
     semantic = arguments["semantic"]

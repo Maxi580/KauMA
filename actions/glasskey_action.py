@@ -1,12 +1,13 @@
 from typing import Dict, Any
 
+from rsa_backdoor.glasskey import Glasskey
+from rsa_backdoor.rsa import generate_rsa_key, rsa_key_to_bytes
+from rsa_backdoor.glasskey_break import glasskey_break
+from block_poly.b64 import B64
+from block_poly.block import Block
+
 
 def gcm_glasskey_prng_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from block_poly.b64 import B64
-    from block_poly.block import Block
-    from rsa_backdoor.glasskey import Glasskey
-
     agency_key = B64(arguments["agency_key"]).block
     seed = B64(arguments["seed"]).block
     lengths = arguments["lengths"]
@@ -19,10 +20,6 @@ def gcm_glasskey_prng_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gcm_prng_int_bits_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from block_poly.b64 import B64
-    from rsa_backdoor.glasskey import Glasskey
-
     agency_key = B64(arguments["agency_key"]).block
     seed = B64(arguments["seed"]).block
     bit_lengths = arguments["bit_lengths"]
@@ -34,10 +31,6 @@ def gcm_prng_int_bits_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def glasskey_prng_int_min_max_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from block_poly.b64 import B64
-    from rsa_backdoor.glasskey import Glasskey
-
     agency_key = B64(arguments["agency_key"]).block
     seed = B64(arguments["seed"]).block
     specification = [(pair["min"], pair["max"]) for pair in arguments["specification"]]
@@ -49,12 +42,6 @@ def glasskey_prng_int_min_max_action(arguments: Dict[str, Any]) -> Dict[str, Any
 
 
 def glasskey_genkey_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from block_poly.b64 import B64
-    from block_poly.block import Block
-    from rsa_backdoor.glasskey import Glasskey
-    from rsa_backdoor.rsa import generate_rsa_key, rsa_key_to_bytes
-
     agency_key = B64(arguments["agency_key"]).block
     seed = B64(arguments["seed"]).block
     bit_length = arguments["bit_length"]
@@ -68,11 +55,6 @@ def glasskey_genkey_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def glasskey_break_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from block_poly.b64 import B64
-    from block_poly.block import Block
-    from rsa_backdoor.glasskey_break import glasskey_break
-
     x509_crt = B64(arguments["x509_crt"]).block
     agency_key = B64(arguments["agency_key"]).block
     cms_msg = B64(arguments["cms_msg"]).block

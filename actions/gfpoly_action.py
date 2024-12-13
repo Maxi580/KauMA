@@ -1,10 +1,13 @@
 from typing import Dict, Any
 
+from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
+from galoisfield.galoisfieldelement import GaloisFieldElement
+from gcm_crack.recover_h import sff, ddf, edf
+from block_poly.poly import Poly
+from block_poly.b64 import B64
+
 
 def gfpoly_add_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-
     A = GaloisFieldPolynomial.from_b64(arguments["A"])
     B = GaloisFieldPolynomial.from_b64(arguments["B"])
 
@@ -14,9 +17,6 @@ def gfpoly_add_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_mul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-
     A = GaloisFieldPolynomial.from_b64(arguments["A"])
     B = GaloisFieldPolynomial.from_b64(arguments["B"])
 
@@ -26,9 +26,6 @@ def gfpoly_mul_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_pow_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-
     k = arguments["k"]
     A = GaloisFieldPolynomial.from_b64(arguments["A"])
 
@@ -38,11 +35,6 @@ def gfpoly_pow_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfdiv_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from galoisfield.galoisfieldelement import GaloisFieldElement
-    from block_poly.poly import Poly
-    from block_poly.b64 import B64
-
     a = B64(arguments["a"]).gcm_poly
     b = B64(arguments["b"]).gcm_poly
 
@@ -52,9 +44,6 @@ def gfdiv_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_divmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-
     a = GaloisFieldPolynomial.from_b64(arguments["A"])
     b = GaloisFieldPolynomial.from_b64(arguments["B"])
 
@@ -64,9 +53,6 @@ def gfpoly_divmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_powmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-
     A = arguments["A"]
     M = arguments["M"]
     k = arguments["k"]
@@ -80,9 +66,6 @@ def gfpoly_powmod_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_sort_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-
     b64_polys = arguments["polys"]
     polys = [GaloisFieldPolynomial.from_b64(b64_poly) for b64_poly in b64_polys]
 
@@ -94,9 +77,6 @@ def gfpoly_sort_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_make_monic_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-
     A = GaloisFieldPolynomial.from_b64(arguments["A"])
     A.make_monic()
 
@@ -104,9 +84,6 @@ def gfpoly_make_monic_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_sqrt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-
     Q = GaloisFieldPolynomial.from_b64(arguments["Q"])
     sqrt_Q = Q.sqrt()
 
@@ -114,9 +91,6 @@ def gfpoly_sqrt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_diff_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-
     F = GaloisFieldPolynomial.from_b64(arguments["F"])
     derived_F = F.diff()
 
@@ -124,9 +98,6 @@ def gfpoly_diff_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_gcd_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-
     A = GaloisFieldPolynomial.from_b64(arguments["A"])
     B = GaloisFieldPolynomial.from_b64(arguments["B"])
 
@@ -136,10 +107,6 @@ def gfpoly_gcd_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_factor_sff_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-    from gcm_crack.recover_h import sff
-
     F = GaloisFieldPolynomial.from_b64(arguments["F"])
     result = sff(F)
 
@@ -147,10 +114,6 @@ def gfpoly_factor_sff_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_factor_ddf_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-    from gcm_crack.recover_h import ddf
-
     F = GaloisFieldPolynomial.from_b64(arguments["F"])
     result = ddf(F)
 
@@ -158,10 +121,6 @@ def gfpoly_factor_ddf_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gfpoly_factor_edf_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
-    from gcm_crack.recover_h import edf
-
     F = GaloisFieldPolynomial.from_b64(arguments["F"])
     d = arguments["d"]
 

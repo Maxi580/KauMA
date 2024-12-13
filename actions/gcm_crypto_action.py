@@ -1,15 +1,14 @@
 from typing import Dict, Any, Final
 
+from block_poly.b64 import B64
+from block_poly.block import Block
+from crypto_algorithms.sea128 import sea_encrypt, aes_encrypt
+from crypto_algorithms.gcm import gcm_encrypt, gcm_decrypt
+
 AES_128_ALGORITHM: Final[str] = "aes128"
 
 
 def gcm_encrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from block_poly.b64 import B64
-    from block_poly.block import Block
-    from crypto_algorithms.sea128 import sea_encrypt, aes_encrypt
-    from crypto_algorithms.gcm import gcm_encrypt
-
     algorithm = arguments["algorithm"]
     nonce = B64(arguments["nonce"]).block
     key = B64(arguments["key"]).block
@@ -25,12 +24,6 @@ def gcm_encrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def gcm_decrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from block_poly.b64 import B64
-    from block_poly.block import Block
-    from crypto_algorithms.sea128 import sea_encrypt, aes_encrypt
-    from crypto_algorithms.gcm import gcm_decrypt
-
     algorithm = arguments["algorithm"]
     nonce = B64(arguments["nonce"]).block
     key = B64(arguments["key"]).block

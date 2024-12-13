@@ -1,11 +1,11 @@
 from typing import Dict, Any
 
+from block_poly.b64 import B64
+from block_poly.coefficients import Coefficients
+from constants import XEX_SEMANTIC
+
 
 def block2poly_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from block_poly.b64 import B64
-    from constants import XEX_SEMANTIC
-
     block = arguments["block"]
     semantic = arguments["semantic"]
 
@@ -15,10 +15,6 @@ def block2poly_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def poly2block_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
-    # Using Shabby imports for 3x Performance Improvement. I'm sorry.
-    from block_poly.coefficients import Coefficients
-    from constants import XEX_SEMANTIC
-
     coefficients = arguments["coefficients"]
     semantic = arguments["semantic"]
 

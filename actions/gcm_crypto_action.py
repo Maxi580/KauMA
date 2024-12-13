@@ -1,4 +1,6 @@
-from typing import Dict, Any
+from typing import Dict, Any, Final
+
+AES_128_ALGORITHM: Final[str] = "aes128"
 
 
 def gcm_encrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
@@ -7,7 +9,6 @@ def gcm_encrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     from block_poly.block import Block
     from crypto_algorithms.sea128 import sea_encrypt, aes_encrypt
     from crypto_algorithms.gcm import gcm_encrypt
-    from constants import AES_128_ALGORITHM
 
     algorithm = arguments["algorithm"]
     nonce = B64(arguments["nonce"]).block
@@ -29,7 +30,6 @@ def gcm_decrypt_action(arguments: Dict[str, Any]) -> Dict[str, Any]:
     from block_poly.block import Block
     from crypto_algorithms.sea128 import sea_encrypt, aes_encrypt
     from crypto_algorithms.gcm import gcm_decrypt
-    from constants import AES_128_ALGORITHM
 
     algorithm = arguments["algorithm"]
     nonce = B64(arguments["nonce"]).block

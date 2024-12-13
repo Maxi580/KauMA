@@ -1,6 +1,10 @@
-from constants import BLOCK_SIZE, BRUTEFORCE_CHUNK_SIZE
+from typing import Final
+
+from constants import BLOCK_SIZE
 from paddingoracle.client import Client
 from utils import xor_bytes
+
+BRUTEFORCE_CHUNK_SIZE: Final[int] = 256
 
 
 def _invert_second_last_byte(successful_padding_messages: list[bytes]) -> list[bytes]:

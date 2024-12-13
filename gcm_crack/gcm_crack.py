@@ -23,7 +23,8 @@ def _get_zeroed_poly(message: GCMMessage) -> GaloisFieldPolynomial:
     return poly
 
 
-def gcm_crack(m1: GCMMessage, m2: GCMMessage, m3: GCMMessage, forgery: GCMMessage):
+def gcm_crack(m1: GCMMessage, m2: GCMMessage, m3: GCMMessage, forgery: GCMMessage) \
+        -> tuple[GaloisFieldElement, GaloisFieldElement, GaloisFieldElement]:
     f1 = _get_zeroed_poly(m1)
     f2 = _get_zeroed_poly(m2)
     F = f1 - f2

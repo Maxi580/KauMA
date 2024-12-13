@@ -1,5 +1,6 @@
 import subprocess
 from functools import lru_cache
+import time
 from ctypes import CDLL, c_uint64, Structure
 from pathlib import Path
 import platform

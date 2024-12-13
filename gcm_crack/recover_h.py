@@ -6,7 +6,7 @@ from crypto_algorithms.gcm import get_l, get_ghash
 from gcm_crack.gcm_types import GCMMessage
 
 
-def _generate_random_poly(max_degree: int):
+def _generate_random_poly(max_degree: int) -> GaloisFieldPolynomial:
     """Generates a random GaloisFieldPoly with degree in range [0, max_degree - 1]"""
     new_poly = GaloisFieldPolynomial([])
     new_len = random.randint(1, max_degree)
@@ -101,7 +101,8 @@ def edf(f: GaloisFieldPolynomial, d: int) -> list[GaloisFieldPolynomial]:
     return sorted(z)
 
 
-def recover_h(f: GaloisFieldPolynomial, m1, m3):
+def recover_h(f: GaloisFieldPolynomial, m1: GCMMessage, m3: GCMMessage) \
+        -> tuple[GaloisFieldElement, GaloisFieldElement]:
     """Combines Root finding and checking if they are a correct H
        We do this because we don't want to continue root searching, after we have found a correct H"""
     for factor_sff in sff(f):

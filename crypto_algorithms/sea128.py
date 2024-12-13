@@ -1,8 +1,11 @@
+from typing import Final
+
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
-from constants import SEA_CONSTANT_BYTES as CONSTANT_BYTES
 from utils import xor_bytes
+
+CONSTANT_BYTES: Final[bytes] = bytes.fromhex("c0ffeec0ffeec0ffeec0ffeec0ffee11")
 
 
 def aes_encrypt(key: bytes, plaintext: bytes) -> bytes:

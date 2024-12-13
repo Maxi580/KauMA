@@ -9,7 +9,7 @@ def split_key(key: bytes) -> (bytes, bytes):
     return key[:middle], key[middle:]
 
 
-def encrypt_fde(key: bytes, tweak: bytes, plaintext: bytes):
+def encrypt_fde(key: bytes, tweak: bytes, plaintext: bytes) -> bytes:
     key1, key2 = split_key(key)
 
     xor = sea_encrypt(key2, tweak)
@@ -27,7 +27,7 @@ def encrypt_fde(key: bytes, tweak: bytes, plaintext: bytes):
     return bytes(ciphertext)
 
 
-def decrypt_fde(key: bytes, tweak: bytes, ciphertext: bytes):
+def decrypt_fde(key: bytes, tweak: bytes, ciphertext: bytes) -> bytes:
     key1, key2 = split_key(key)
 
     xor = sea_encrypt(key2, tweak)

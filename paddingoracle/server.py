@@ -1,11 +1,14 @@
 import socket
+from typing import Final
+
 import cryptography.hazmat.primitives.padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
-from constants import BLOCK_SIZE, DEFAULT_TIMEOUT
+from constants import BLOCK_SIZE
 from utils import xor_bytes
 
+DEFAULT_TIMEOUT: Final[float] = 10.0
 
 def check_pkcs7_padding(pt):
     padder = cryptography.hazmat.primitives.padding.PKCS7(128).unpadder()

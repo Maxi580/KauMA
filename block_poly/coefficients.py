@@ -15,11 +15,11 @@ class Coefficients(Base):
         self._xex_coefficients: list[int] = xex_coefficients
 
     @classmethod
-    def from_xex_semantic(cls, coefficients: list[int]):
+    def from_xex_semantic(cls, coefficients: list[int]) -> 'Coefficients':
         return cls(xex_coefficients=coefficients)
 
     @classmethod
-    def from_gcm_semantic(cls, coefficients: list[int]):
+    def from_gcm_semantic(cls, coefficients: list[int]) -> 'Coefficients':
         return cls(gcm_coefficients=coefficients)
 
     @property

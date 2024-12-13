@@ -14,11 +14,11 @@ class Poly(Base):
         self._gcm_poly: Optional[int] = gcm_poly
 
     @classmethod
-    def from_xex_semantic(cls, xex_poly: int):
+    def from_xex_semantic(cls, xex_poly: int) -> 'Poly':
         return cls(xex_poly=xex_poly)
 
     @classmethod
-    def from_gcm_semantic(cls, gcm_poly: int):
+    def from_gcm_semantic(cls, gcm_poly: int) -> 'Poly':
         return cls(gcm_poly=gcm_poly)
 
     @property

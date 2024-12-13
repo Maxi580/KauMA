@@ -15,10 +15,10 @@
     "sea128-decrypt": {
       "output": "yv66vvrO263eyviIiDNEVQ=="
     },
-    "xex-encrypt": {
+    "fde-encrypt": {
       "output": "mHAVhRCKPAPx0BcufG5BZ4+/CbneMV/gRvqK5rtLe0OJgpDU5iT7z2P0R7gEeRDO"
     },
-    "xex-decrypt": {
+    "fde-decrypt": {
       "output": "SGV5IHdpZSBrcmFzcyBkYXMgZnVua3Rpb25pZXJ0IGphIG9mZmVuYmFyIGVjaHQu"
     }
   }

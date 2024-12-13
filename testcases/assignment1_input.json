@@ -38,7 +38,7 @@
         "input": "D5FDo3iVBoBN9gVi9/MSKQ=="
       }
     },
-    "xex-encrypt": {
+    "fde-encrypt": {
       "action": "xex",
       "arguments": {
         "mode": "encrypt",
@@ -47,7 +47,7 @@
         "input": "/aOg4jMocLkBLkDLgkHYtFKc2L9jjyd2WXSSyxXQikpMY9ZRnsJE76e9dW9olZIW"
       }
     },
-    "xex-decrypt": {
+    "fde-decrypt": {
       "action": "xex",
       "arguments": {
         "mode": "decrypt",

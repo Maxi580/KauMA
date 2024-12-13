@@ -6,6 +6,8 @@ import uuid
 from block_poly.block import Block
 from utils import save_test_cases
 
+PO_TESTCASE_KEY = b'\xeeH\xe0\xf4\xd0c\xeb\xd8\xb87\x16\xd3\t\xfe\x87\xce'
+
 
 def pkcs7_pad(data: bytes, block_size: int = 16) -> bytes:
     padding_length = block_size - (len(data) % block_size)
@@ -17,11 +19,10 @@ def generate_test_case():
     plaintext_len = random.randint(1, 70)
     plaintext = pkcs7_pad(secrets.token_bytes(plaintext_len))
 
-    key = b'\xeeH\xe0\xf4\xd0c\xeb\xd8\xb87\x16\xd3\t\xfe\x87\xce'
     iv = secrets.token_bytes(16)
 
     cipher = Cipher(
-        algorithms.AES(key),
+        algorithms.AES(PO_TESTCASE_KEY),
         modes.CBC(iv),
         backend=default_backend()
     )

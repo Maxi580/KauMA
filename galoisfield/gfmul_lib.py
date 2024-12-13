@@ -15,12 +15,19 @@ class Uint128(Structure):
                 ("high", c_uint64)]
 
 
-def _compile_library():
-    """Compile the gfmul library if it doesn't exist."""
+def _resolve_library_location():
+    """Calculates the defined name of library based on OS"""
     current_dir = Path(__file__).parent.absolute()
     output_name = WINDOWS_LIBRARY_NAME if platform.system() == "Windows" else LINUX_LIBRARY_NAME
-
     lib_path = current_dir / output_name
+
+    return current_dir, output_name, lib_path
+
+
+def compile_library():
+    """Compile the gfmul library if it doesn't exist."""
+    current_dir, output_name, lib_path = _resolve_library_location()
+
     if not lib_path.exists():
         try:
             if output_name == WINDOWS_LIBRARY_NAME:
@@ -77,16 +84,16 @@ def _compile_library():
 
 
 @lru_cache(maxsize=1)
-def _load_library():
+def load_library():
     """Load the appropriate library file based on platform.
        The Library only gets loaded once (lru_cache) and gets cached for further calls.
        also it doesn't get loaded on the GaloisfieldElement import
        (maxsize: remembers the result of one function call => perfect since we return same thing everytime"""
-    lib_path = _compile_library()
+    _, _, lib_path = _resolve_library_location()
 
     try:
-        if not lib_path.exists():
-            raise FileNotFoundError(f"Library not found at {lib_path}")
+        assert lib_path.exists(), f"Library not found at {lib_path}"
+
         lib = CDLL(str(lib_path))
 
         lib.gfmul.argtypes = [
@@ -102,20 +109,3 @@ def _load_library():
         print(f"Error loading gfmul library: {e}")
         print(f"Tried to load from: {lib_path}")
         return None
-
-
-def c_multiply(a: int, b: int) -> int:
-    """Used intel algorithm from:
-       https://www.intel.com/content/dam/develop/external/us/en/documents/clmul-wp-rev-2-02-2014-04-20.pdf
-       needs __m128i, which can be seen as two 64bit values (cant pass __m128i directly)"""
-    library = _load_library()  # Library is cached
-
-    a_low = a & ((1 << 64) - 1)
-    a_high = a >> 64
-    b_low = b & ((1 << 64) - 1)
-    b_high = b >> 64
-    m128i_result = library.gfmul(a_low, a_high, b_low, b_high)
-
-    result = (m128i_result.high << 64) + m128i_result.low
-    assert result < (1 << 128), "Gfmul result is bigger than field size"
-    return result

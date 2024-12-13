@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json
+import subprocess
 import sys
 import threading
 import time
@@ -8,7 +9,9 @@ from pathlib import Path
 from typing import Dict, Any, Tuple
 from datetime import datetime
 from contextlib import contextmanager
+from build import main as build_main
 
+from testcase_generator.padding_oracle_generator import PO_TESTCASE_KEY
 from kauma import process_testcases
 from paddingoracle.server import Server
 
@@ -30,6 +33,20 @@ def timing_context(operation_name: str):
         end_time = time.time()
         duration = end_time - start_time
         print(f"{operation_name} took {duration:.2f} seconds")
+
+
+def build_library():
+    with timing_context("Library build"):
+        try:
+            build_main()
+            return True
+        except subprocess.CalledProcessError as e:
+            print(f"Build failed with error code {e.returncode}")
+            print(f"Output: {e.output}")
+            return False
+        except Exception as e:
+            print(f"Build failed with unexpected error: {e}")
+            return False
 
 
 def load_output_json(file_path: Path) -> Tuple[Dict[str, Any], bool]:
@@ -197,13 +214,16 @@ def run_server(server):
 
 
 def main():
+    # Build dependencies (gfmul lib)
+    if not build_library():
+        sys.exit(1)
+
     # Server for Padding Oracle
-    host = 'localhost'
+    host = 'localhost'  # Same Server definition as in Testcases
     port = 9999
-    key = b'\xeeH\xe0\xf4\xd0c\xeb\xd8\xb87\x16\xd3\t\xfe\x87\xce'
 
     print(f"Initializing server on {host}:{port}")
-    server = Server(host, port, key)
+    server = Server(host, port, PO_TESTCASE_KEY)
 
     server_thread = threading.Thread(target=run_server, args=(server,))
     server_thread.daemon = True

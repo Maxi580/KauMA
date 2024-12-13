@@ -3,7 +3,7 @@ from copy import copy
 
 from block_poly.block import Block
 from block_poly.poly import Poly
-from galoisfield.gfmul_lib import c_multiply
+from galoisfield.gfmul_lib import load_library
 
 
 class GaloisFieldElement:
@@ -59,10 +59,21 @@ class GaloisFieldElement:
         return copy(self).__imul__(other)
 
     def __imul__(self, other: 'GaloisFieldElement') -> 'GaloisFieldElement':
-        """For efficiency, we don't want to create a new instance on every mul"""
+        """ Used intel algorithm from:
+            https://www.intel.com/content/dam/develop/external/us/en/documents/clmul-wp-rev-2-02-2014-04-20.pdf
+            needs __m128i, which can be seen as two 64bit values (cant pass __m128i directly)
+            For efficiency, we don't want to create a new instance on every mul"""
+        library = load_library()  # Library is cached
         a, b = int(self), int(other)
 
-        result = c_multiply(a, b)
+        a_low = a & ((1 << 64) - 1)
+        a_high = a >> 64
+        b_low = b & ((1 << 64) - 1)
+        b_high = b >> 64
+        m128i_result = library.gfmul(a_low, a_high, b_low, b_high)
+        result = (m128i_result.high << 64) + m128i_result.low
+
+        assert result < (1 << 128), "Gfmul result is bigger than field size"
 
         self._int_value = result
         return self

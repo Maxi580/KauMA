@@ -94,10 +94,10 @@ def edf(f: GaloisFieldPolynomial, d: int) -> list[GaloisFieldPolynomial]:
         # with degree 2: 39,48 sec, with degree 1: 31.08 sec
         # So since the algorithm only says, smaller than f.degree - 1 we want to start
         # with small random polys, as multiplication etc. with them is way faster
-        new_len = DEGREE_ONE_POLY_LEN if len_cntr < 10 else random.randint(1, f.degree)
+        new_len = DEGREE_ONE_POLY_LEN if len_cntr < 2 else random.randint(1, f.degree)
         h = _generate_random_poly(new_len)
         len_cntr += 1
-        # An average random poly generation max is 10 times
+        # An average random poly generation max is 2 times
         # For the first 4 times we want to optimize by using degree 1
         # As a fallback after 4 times we use the full len range defined int the algorithm
 

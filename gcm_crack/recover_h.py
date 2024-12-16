@@ -5,13 +5,14 @@ from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from crypto_algorithms.gcm import get_l, get_ghash
 from gcm_crack.gcm_types import GCMMessage
 
+DEGREE_ONE_POLY_LEN = 2  # Len of a poly with degree 1
 
-def _generate_random_poly(max_degree: int) -> GaloisFieldPolynomial:
-    """Generates a random GaloisFieldPoly with degree in range [0, max_degree - 1]"""
+
+def _generate_random_poly(degree: int) -> GaloisFieldPolynomial:
+    """Generates a random GaloisFieldPoly of given degree"""
     new_poly = GaloisFieldPolynomial([])
-    new_len = random.randint(1, max_degree)
 
-    for i in range(new_len):
+    for i in range(degree):
         new_poly.add_elements(GaloisFieldElement(random.randint(1, (1 << 128) - 1)))
 
     return new_poly
@@ -86,10 +87,18 @@ def edf(f: GaloisFieldPolynomial, d: int) -> list[GaloisFieldPolynomial]:
     n = f.degree // d
     z = [f]
 
+    i = 0
     while len(z) < n:
-        h = _generate_random_poly(f.degree)
-        g = (pow(h, (q ** d - 1) // 3, f) - GaloisFieldPolynomial.one())
+        # Gcm Crack testcases with max degree: (f.degree - 1) took 53.88 sec,
+        # with degree 2: 39,48 sec, with degree 1: 31.08 sec
+        new_len = DEGREE_ONE_POLY_LEN if i <= 4 else random.randint(1, f.degree)
+        h = _generate_random_poly(new_len)
+        i += 1
+        # An average random poly generation max is 4 times
+        # For the first 4 times we want to optimize by using degree 1
+        # As a fallback after 4 times we use the len defined int the algorithm
 
+        g = (pow(h, (q ** d - 1) // 3, f) - GaloisFieldPolynomial.one())
         for u in z:
             if u.degree > d:
                 j = u.gcd(g)

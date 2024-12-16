@@ -91,12 +91,14 @@ def edf(f: GaloisFieldPolynomial, d: int) -> list[GaloisFieldPolynomial]:
     while len(z) < n:
         # Gcm Crack testcases with max degree: (f.degree - 1) took 53.88 sec,
         # with degree 2: 39,48 sec, with degree 1: 31.08 sec
-        new_len = DEGREE_ONE_POLY_LEN if i <= 4 else random.randint(1, f.degree)
+        # So since the algorithm only says, smaller than f.degree - 1 we want to start
+        # with small random polys, as multiplication etc. with them is way faster
+        new_len = DEGREE_ONE_POLY_LEN if i < 4 else random.randint(1, f.degree)
         h = _generate_random_poly(new_len)
         i += 1
         # An average random poly generation max is 4 times
         # For the first 4 times we want to optimize by using degree 1
-        # As a fallback after 4 times we use the len defined int the algorithm
+        # As a fallback after 4 times we use the full len range defined int the algorithm
 
         g = (pow(h, (q ** d - 1) // 3, f) - GaloisFieldPolynomial.one())
         for u in z:

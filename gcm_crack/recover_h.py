@@ -5,8 +5,6 @@ from galoisfield.galoisfieldpolynomial import GaloisFieldPolynomial
 from crypto_algorithms.gcm import get_l, get_ghash
 from gcm_crack.gcm_types import GCMMessage
 
-random.seed(42)
-
 
 def _generate_random_poly(max_degree: int) -> GaloisFieldPolynomial:
     """Generates a random GaloisFieldPoly with degree in range [0, max_degree - 1]"""

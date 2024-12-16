@@ -6,6 +6,7 @@ from crypto_algorithms.gcm import get_l, get_ghash
 from gcm_crack.gcm_types import GCMMessage
 
 DEGREE_ONE_POLY_LEN = 2  # Len of a poly with degree 1
+random.seed(42)
 
 
 def _generate_random_poly(degree: int) -> GaloisFieldPolynomial:
@@ -87,16 +88,16 @@ def edf(f: GaloisFieldPolynomial, d: int) -> list[GaloisFieldPolynomial]:
     n = f.degree // d
     z = [f]
 
-    i = 0
+    len_cntr = 0
     while len(z) < n:
         # Gcm Crack testcases with max degree: (f.degree - 1) took 53.88 sec,
         # with degree 2: 39,48 sec, with degree 1: 31.08 sec
         # So since the algorithm only says, smaller than f.degree - 1 we want to start
         # with small random polys, as multiplication etc. with them is way faster
-        new_len = DEGREE_ONE_POLY_LEN if i < 4 else random.randint(1, f.degree)
+        new_len = DEGREE_ONE_POLY_LEN if len_cntr < 10 else random.randint(1, f.degree)
         h = _generate_random_poly(new_len)
-        i += 1
-        # An average random poly generation max is 4 times
+        len_cntr += 1
+        # An average random poly generation max is 10 times
         # For the first 4 times we want to optimize by using degree 1
         # As a fallback after 4 times we use the full len range defined int the algorithm
 
